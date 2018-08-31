@@ -1,0 +1,26 @@
+{
+  "name": "@wangweiqi/hybridge",
+  "version": "1.0.0",
+  "description": "A bridge for hybrid development.",
+  "main": "./es6/mount.js",
+  "scripts": {
+    "build": "tsc -p ./ts/ && babel -d js/ es6/",
+    "dev": "tsc -p ./ts/ && babel -d js/ es6/ && node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wangweiqi <me@wangweiqi.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sipingqiqi/hybridge.git"
+  },
+  "types": "./es6/mount.d.ts",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0"
+  }
+}
