@@ -113,7 +113,7 @@ export const mount = function (services: any, vue: any): Global {
 
     return global;
 }
-
+export enum MenuPosition = bridge.MenuPosition;
 export const openSearch = bridge.openSearch;
 export const toggleSearch = bridge.toggleSearch;
 export const leftMenu = bridge.leftMenu;
