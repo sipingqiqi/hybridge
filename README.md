@@ -1,5 +1,14 @@
 # w-js-bridge
 
+import HyBridge from '@wangweiqi/hybridge';
+
+// first execute
+HyBridge.mount(new HyBridge.Native());
+
+// every vue script
+HyBridge.leftMenu({...});
+
+
 # W-JS-BRIDGE 使用指南
 > 该项目要和 Native 相配合，实现混合模式开发，调用 App 的原生功能，并且在纯 H5 环境下，兼容部份功能
 
