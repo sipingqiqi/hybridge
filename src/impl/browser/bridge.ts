@@ -49,12 +49,14 @@ export default class BrowserBridge implements Bridge {
     })
   }
 
-  openSearch(type: string, hint: string, message: string): SearchResult {
-    return {
-      status: true,
-      value: '',
-      callback() { }
-    }
+  openSearch(type: string, hint: string, message: string): Promise<SearchResult> {
+    return new Promise<SearchResult>(resolve => {
+      resolve({
+        status: true,
+        value: '',
+        callback() { }
+      });
+    });
   }
 
   toggleSearch(isHide: boolean): void { }
@@ -123,7 +125,7 @@ export default class BrowserBridge implements Bridge {
     })
   }
 
-  tailorCamera(n: number, bool: boolean, width: number, height: number): Promise<string> {
+  tailorCamera(bool: boolean, width: number, height: number): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       resolve('success');
     })
@@ -155,7 +157,7 @@ export default class BrowserBridge implements Bridge {
     })
   }
 
-  caSign(name: string, type: string, keyWord: string): Promise<string> {
+  caSign(name: string, type: number, keyWord: string): Promise<string> {
     let __this = this;
 
     __this.clearTimer()
@@ -178,14 +180,14 @@ export default class BrowserBridge implements Bridge {
   }
 
   getJob(): Promise<string> {
-    clearTimer()
+    this.clearTimer()
     app.vue.$router.push('/jobList')
 
     let getJob = function (): Promise<string> {
       return new Promise((res, rej) => {
         __tid = window.setInterval(_ => {
           if (app.vue.$store.state.jsBridge.item) {
-            clearTimer()
+            this.clearTimer()
             res(app.vue.$store.state.jsBridge.item)
             app.vue.$store.commit('clearItem')
           } else {
@@ -253,7 +255,7 @@ export default class BrowserBridge implements Bridge {
     return this.takeUserImageMultiple(count);
   }
 
-  shareShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string> {
+  showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       resolve('success');
     })
@@ -271,7 +273,7 @@ export default class BrowserBridge implements Bridge {
 
   showPosterDetail(param: Array<PosterDetail>, index: number): void { }
 
-  sendSms(telNum: string, content: string): void { }
+  sendSms(telNum: Array<string>, content: string): void { }
 
   shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void { }
 

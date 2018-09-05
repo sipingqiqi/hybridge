@@ -91,6 +91,10 @@ export const mount = function (services, vue) {
     attach(bridge, callback);
     return global;
 };
+export var MenuPosition;
+(function (MenuPosition) {
+})(MenuPosition || (MenuPosition = {}));
+bridge.MenuPosition;
 export const openSearch = bridge.openSearch;
 export const toggleSearch = bridge.toggleSearch;
 export const leftMenu = bridge.leftMenu;

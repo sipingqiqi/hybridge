@@ -1,5 +1,7 @@
 import { Global } from './data/global';
 export declare const mount: (services: any, vue: any) => Global;
+export declare enum MenuPosition {
+}
 export declare const openSearch: (type: string, hint: string, message: string) => import("./bridge/interface/bridge").SearchResult;
 export declare const toggleSearch: (isHide: boolean) => void;
 export declare const leftMenu: (n: import("./bridge/interface/bridge").MenuOption) => void;

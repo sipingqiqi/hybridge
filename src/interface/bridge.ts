@@ -15,6 +15,14 @@ export interface MenuOption {
   javascript: string
 }
 
+export interface MenuExOption {
+  type: string,
+  title: string,
+  url: string,
+  javascript: string,
+  params: any,
+}
+
 /**
 * 海报详情
 */
@@ -62,7 +70,7 @@ export interface Bridge {
    * @param hint - 键盘上方的提示文字
    * @param message - 输入框中的提示文字，相当于 placeholder 的东西
    */
-  openSearch(type: string, hint: string, message: string): SearchResult,
+  openSearch(type: string, hint: string, message: string): Promise<SearchResult>,
 
   /**
    * ### 关闭搜索框
@@ -93,34 +101,34 @@ export interface Bridge {
    * 左边标题
    * @param n - 按钮选项
    */
-  rightMenu(n: MenuOption): void,
+  rightMenu(n: MenuExOption): void,
 
   /**
    * 查看 PDF 文档，同 viewPdf 方法
    * @param url - 打开的地址
    * @param title - 数据的标题
-   * @param btnTxt - 按钮上的文字
+   * @param buttonText - 按钮上的文字
    */
-  articleDetail(url: string, title: string, btnTxt: string): Promise<string>,
+  articleDetail(url: string, title: string, buttonText: string): void,
 
   /**
    * 查看 PDF 文档
    * @param url - 打开的地址,主要有图片、PDF、视频三类数据
    * @param title - 数据的标题
-   * @param btnTxt - 按钮上的文字
+   * @param buttonText - 按钮上的文字
    */
-  viewPdf(url: string, title: string, btnTxt: string): Promise<string>,
+  viewPdf(url: string, title: string, buttonText: string): Promise<any>,
 
   /**
    * 启动录音功能
-   * @param isShow - 显示隐藏, true:显示; false:隐藏 
+   * @param show - 显示隐藏, true:显示; false:隐藏 
    */
-  startAudioRec(isShow: boolean): Promise<string>,
+  startAudioRec(show: boolean): Promise<any>,
 
   /**
    * 拍照
    */
-  callCamera(): Promise<string>,
+  callCamera(): Promise<any>,
 
   /**
    * 拍照并裁剪
@@ -129,28 +137,28 @@ export interface Bridge {
    * @param width 
    * @param height 
    */
-  tailorCamera(n: number, bool: boolean, width: number, height: number): Promise<string>,
+  tailorCamera(isCut: boolean, width: number, height: number): Promise<any>,
 
   /**
    * 打开地址选择窗口
    */
-  callAddress(): Promise<string>,
+  callAddress(): Promise<any>,
 
   /**
    * 打开身份证件扫描窗口
    */
-  idCardScan(): Promise<string>,
+  idCardScan(): Promise<any>,
 
-  /**
-   * 将图片保存到用户相册
-   * @param base64String - 照片的 base64 流
-   */
-  saveImage(base64String: string): void,
+  // /**
+  //  * 将图片保存到用户相册
+  //  * @param base64String - 照片的 base64 流
+  //  */
+  // saveImage(base64String: string): void,
 
   /**
    * 打开银行卡扫描窗口
    */
-  getBank(): Promise<string>
+  getBank(): Promise<any>
 
   /**
    * 打开 CA 手写签名窗口
@@ -158,17 +166,17 @@ export interface Bridge {
    * @param type 
    * @param keyWord 
    */
-  caSign(name: string, type: string, keyWord: string): Promise<string>,
+  caSign(name: string, type: number, keyword: string): Promise<any>,
 
   /**
    * 选择并导入职业信息
    */
-  getJob(): Promise<string>,
+  getJob(): Promise<any>,
 
   /**
    * 选择并导入客户信息
    */
-  getCustomer(): Promise<string>,
+  getCustomer(): Promise<any>,
 
   /**
    * 关闭当前 WebView 窗口
@@ -180,13 +188,13 @@ export interface Bridge {
    * 拍照（多张照片）
    * @param count - 照片数量
    */
-  takeUserImageMultiple(count: number): Promise<Array<string>>,
+  takeUserImageMultiple(count: number): Promise<any>,
 
   /**
    * 拍照（多张照片）
    * @param count - 照片数量
    */
-  callCameraMultiple(count: number): Promise<Array<string>>,
+  callCameraMultiple(count: number): Promise<any>,
 
   /**
    * 指定显示右上角的分享按钮 无法实现
@@ -197,18 +205,18 @@ export interface Bridge {
    * @param desc - 分享描述
    * @param callback - 分享后的回调方法名
    */
-  shareShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string>,
+  showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<any>,
 
-  /**
-   * 微信小程序分享
-   * @param webPageUrl - 兼容低版本的网页链接
-   * @param path - 小程序页面路径
-   * @param imageUrl - 图片地址
-   * @param title - 标题
-   * @param desc - 描述
-   * @param callback - 分享后的回调方法名
-   */
-  wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void,
+  // /**
+  //  * 微信小程序分享
+  //  * @param webPageUrl - 兼容低版本的网页链接
+  //  * @param path - 小程序页面路径
+  //  * @param imageUrl - 图片地址
+  //  * @param title - 标题
+  //  * @param desc - 描述
+  //  * @param callback - 分享后的回调方法名
+  //  */
+  // wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void,
 
   /**
    * 右上角显示分享图标，并完成分享操作
@@ -233,16 +241,16 @@ export interface Bridge {
    */
   showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void,
 
-  /**
-   * 右上角设置两个图标
-   * 类型为base64，大小限定50*50
-   * @param baseImg 图1
-   * @param fun1 
-   * @param baseImg2 图2
-   * @param fun2 
-   * 执行函数，无返回值无mock有回调
-   */
-  showRiskArr(baseImg: string, fun1: string, baseImg2: string, fun2: string): void,
+  // /**
+  //  * 右上角设置两个图标
+  //  * 类型为base64，大小限定50*50
+  //  * @param baseImg 图1
+  //  * @param fun1 
+  //  * @param baseImg2 图2
+  //  * @param fun2 
+  //  * 执行函数，无返回值无mock有回调
+  //  */
+  // showRiskArr(baseImg: string, fun1: string, baseImg2: string, fun2: string): void,
 
   /**
    * 原生ajax请求
@@ -266,7 +274,7 @@ export interface Bridge {
    * @param telNum - 电话号码
    * @param content - 发送的内容
    */
-  sendSms(telNum: string, content: string): void,
+  sendSms(telephones: Array<string>, content: string): void,
 
   /**
    * 设置分享数据，内部调用,设置分享数据的
@@ -278,7 +286,7 @@ export interface Bridge {
    */
   shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void,
 
-  goBack(pathName: string): void,
+  // goBack(pathName: string): void,
 
   onReady(): void,
   onDataResult(type: string, data: string): void,
