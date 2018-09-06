@@ -152,8 +152,8 @@ export default class IOSBridge implements Bridge {
     return call<any>('requestImportCustomerItem', '', 'customer', false);
   }
 
-  closeWebview(n: CloseType): void {
-    call<any>('closeWebview', n);
+  closeWebview(n: CloseType = CloseType.CLOSE): void {
+    call<any>('closeWebview', n.toString());
   }
 
   showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string> {
