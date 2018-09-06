@@ -8,6 +8,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _bridge = require('../../interface/bridge');
+
 var _data = require('../../data/data');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -251,8 +253,10 @@ var IOSBridge = function () {
         }
     }, {
         key: 'closeWebview',
-        value: function closeWebview(n) {
-            call('closeWebview', n);
+        value: function closeWebview() {
+            var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _bridge.CloseType.CLOSE;
+
+            call('closeWebview', n.toString());
         }
     }, {
         key: 'showShare',
