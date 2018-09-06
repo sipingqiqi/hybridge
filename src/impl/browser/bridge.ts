@@ -49,14 +49,12 @@ export default class BrowserBridge implements Bridge {
     })
   }
 
-  openSearch(type: string, hint: string, message: string): Promise<SearchResult> {
-    return new Promise<SearchResult>(resolve => {
-      resolve({
-        status: true,
-        value: '',
-        callback() { }
-      });
-    });
+  openSearch(type: string, hint: string, message: string): SearchResult {
+    return {
+      status: true,
+      value: '',
+      callback: function () {}
+    };
   }
 
   toggleSearch(isHide: boolean): void { }
@@ -212,7 +210,7 @@ export default class BrowserBridge implements Bridge {
 
   closeWebview(n: CloseType): void { }
 
-  takeUserImageMultiple(count: number): Promise<Array<string>> {
+  takeUserImageMultiple(count: number): Promise<string> {
     this.clearTimer()
     let __this = this;
     let imgs = []
@@ -239,19 +237,19 @@ export default class BrowserBridge implements Bridge {
     imgArr.then(res => {
       console.log(res)
     })
-    return new Promise<Array<string>>((res, rej) => {
+    return new Promise<string>((res, rej) => {
       this.clearTimer()
       __tid = setInterval(_ => {
         console.log(imgs);
         if (imgs.length == count) {
           this.clearTimer()
-          res(imgs)
+          res(JSON.stringify(imgs))
         }
       }, 30)
     })
   }
 
-  callCameraMultiple(count: number): Promise<Array<string>> {
+  callCameraMultiple(count: number): Promise<string> {
     return this.takeUserImageMultiple(count);
   }
 

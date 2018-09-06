@@ -42,14 +42,12 @@ async function ready(): Promise<string> {
   });
 }
 
-async function execute<T>(method: string, params: string | number | boolean, name: string, noReturned: boolean): Promise<T> {
+async function execute<T>(method: string, params: Array<any>, name: string, noReturned: boolean): Promise<T> {
   console.log(`HyBridge Execute: ${method}, ${params}, ${name}, ${noReturned}`);
   return new Promise<T>(resolve => {
     if (noReturned) {
-      //window.HQAppJSInterface[method](...params);
-      if (window.webkit && window.webkit.messageHandlers) {
-        const handler = window.webkit.messageHandlers[method];
-        handler && handler.postMessage && handler.postMessage(params);
+      if (window.HQAppJSInterface && window.HQAppJSInterface[method]) {
+        window.HQAppJSInterface[method](...params);
       }
       resolve(null);
       return;
@@ -60,10 +58,8 @@ async function execute<T>(method: string, params: string | number | boolean, nam
     d.value = '';
     d.status = false;
 
-    //window.HQAppJSInterface[method](...params);
-    if (window.webkit && window.webkit.messageHandlers) {
-      const handler = window.webkit.messageHandlers[method];
-      handler && handler.postMessage && handler.postMessage(params);
+    if (window.HQAppJSInterface && window.HQAppJSInterface[method]) {
+      window.HQAppJSInterface[method](...params);
     }
 
     tid = setInterval(() => {
@@ -75,7 +71,7 @@ async function execute<T>(method: string, params: string | number | boolean, nam
   });
 }
 
-async function call<T>(method: string, params: string | number | boolean, name: string = '', noReturned: boolean = true): Promise<T> {
+async function call<T>(method: string, params: Array<any>, name: string = '', noReturned: boolean = true): Promise<T> {
   console.log(`HyBridge Call: ${method}, ${params}, ${name}, ${noReturned}`);
   await ready();
   return await execute<T>(method, params, name, noReturned);
@@ -83,56 +79,56 @@ async function call<T>(method: string, params: string | number | boolean, name: 
 
 export default class IOSBridge implements Bridge {
   openSearch(type: string, hint: string, message: string): SearchResult {
-    call<any>('openSearch', JSON.stringify({ type, hint, message }));
+    call<any>('openSearch', [type, hint, message]);
     return data.status.search;
   }
 
   toggleSearch(isHide: boolean): void {
-    call<any>('hideSearchBox', isHide);
+    call<any>('hideSearchBox', [isHide]);
   }
 
   SetH5Header(title: string): void {
-    call<any>('onJSInvokeResult', JSON.stringify({ type: '1', title }));
+    call<any>('onJSInvokeResult', [1, title]);
   }
 
   leftMenu(option: MenuOption): void {
-    call<any>('setActionBarBackItem', JSON.stringify(option));
+    call<any>('setActionBarBackItem', [JSON.stringify(option)]);
   }
 
   toggleMenu(position: MenuPosition, show: boolean): void {
-    call<any>('showActionBarPanel', JSON.stringify({ type: position.toString(), show}));
+    call<any>('showActionBarPanel', [JSON.stringify({ type: position.toString(), show})]);
   }
 
   rightMenu(option: MenuExOption): void {
     if (typeof option.params === 'object') {
       option.params = JSON.stringify(option.params);
     }
-    call<any>('setWebViewMenu', JSON.stringify(option));
+    call<any>('setWebViewMenu', [JSON.stringify(option)]);
   }
 
   articleDetail(url: string, title: string = '', buttonTitle: string = ''): void {
-    call<any>('studyArticleDetail', JSON.stringify({url, title, buttonTitle}));
+    call<any>('studyArticleDetail', [url, title, buttonTitle]);
   }
 
   viewPdf(url: string, title: string = '', buttonTitle: string = ''): Promise<string> {
     return call<any>('studyArticleDetail', 
-      JSON.stringify({url, title, buttonTitle}), 'viewPdf', false);
+      [url, title, buttonTitle], 'viewPdf', false);
   }
 
   startAudioRec(show: boolean): Promise<string> {
-    return call<any>('requestAudioRecording', show, 'audio', false);
+    return call<any>('requestAudioRecording', [show], 'audio', false);
   }
 
   callAddress(): Promise<string> {
-    return call<any>('popUpAddressChooseView', '', 'address', false);
+    return call<any>('popUpAddressChooseView', [], 'address', false);
   }
 
   idCardScan(): Promise<string> {
-    return call<any>('requestScanCertificateCard', '', 'idCard', false);
+    return call<any>('requestScanCertificateCard', [], 'idCard', false);
   }
 
   getBank(): Promise<string> {
-    return call<any>('requestScanBankCard', '', 'bank', false);
+    return call<any>('requestScanBankCard', [], 'bank', false);
   }
 
   caSign(name: string, type: number, keyword: string): Promise<string> {
@@ -141,24 +137,24 @@ export default class IOSBridge implements Bridge {
     }
 
     return call<any>('requestCAGestureSignData', 
-      JSON.stringify(obj), 'sign', false);
+      [JSON.stringify(obj)], 'sign', false);
   }
 
   getJob(): Promise<string> {
-    return call<any>('requestOccupationDicItem', '', 'job', false);
+    return call<any>('requestOccupationDicItem', [], 'job', false);
   }
 
   getCustomer(): Promise<string> {
-    return call<any>('requestImportCustomerItem', '', 'customer', false);
+    return call<any>('requestImportCustomerItem', [], 'customer', false);
   }
 
   closeWebview(n: CloseType): void {
-    call<any>('closeWebview', n);
+    call<any>('closeWebview', [n]);
   }
 
   showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string> {
     return call<any>('appLocalShare', 
-      JSON.stringify({ type, url, imageUrl, title, desc, callback }), 
+      [type, url, imageUrl, title, desc, callback], 
       'shareInvoke', false);
   }
 
@@ -167,8 +163,7 @@ export default class IOSBridge implements Bridge {
   // }
 
   showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void {
-    call<any>('setAppLocalShareData', 
-      JSON.stringify({ type, url, imageUrl, title, desc, callback }))
+    call<any>('setAppLocalShareData', [type, url, imageUrl, title, desc, callback])
   }
 
   showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void {
@@ -187,7 +182,7 @@ export default class IOSBridge implements Bridge {
       }
     }];
 
-    call<any>('setWebViewMenus', JSON.stringify(obj));
+    call<any>('setWebViewMenus', [JSON.stringify(obj)]);
   }
 
   // /**
@@ -204,21 +199,19 @@ export default class IOSBridge implements Bridge {
   // }
 
   callCamera(): Promise<string> {
-    return call<any>('takeUserImage', 
-      JSON.stringify({ isCut: false }), 'camera', false);
+    return call<any>('takeUserImage', [], 'camera', false);
   }
 
   tailorCamera(isCut: boolean, width: number, height: number): Promise<string> {
-    return call<any>('takeUserImage', 
-      JSON.stringify({ isCut, width, height }), 'camera', false);
+    return call<any>('takeUserImage', [isCut, width, height], 'camera', false);
   }
 
   takeUserImageMultiple(count: number = 1): Promise<string> {
-    return call<any>('takeUserImageMultiple', count, 'images', false);
+    return call<any>('takeUserImageMultiple', [count], 'images', false);
   }
 
   callCameraMultiple(count: number = 1): Promise<string> {
-    return call<any>('takeUserImageMultiple', count, 'images', false);
+    return call<any>('takeUserImageMultiple', [count], 'images', false);
   }
 
   nativeAjax(url: string, data: any, method: string): void {
@@ -265,20 +258,16 @@ export default class IOSBridge implements Bridge {
   }
 
   showPosterDetail(param: Array<PosterDetail>, index: number): void {
-    call<any>('showPosterDetail', 
-      JSON.stringify({ posterListStr: param, position: index }));
+    call<any>('showPosterDetail', [JSON.stringify(param), index]);
   }
 
   sendSms(telephones: Array<string>, content: string): void {
-    call<any>('sendSms', JSON.stringify({ mobiles: telephones, message: content }));
+    call<any>('sendSms', [JSON.stringify(telephones), content]);
   }
 
   shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void {
-    call<any>('setAppLocalShareData', 
-      JSON.stringify({ type, url, title, desc, callback }));
+    call<any>('setAppLocalShareData', [type, url, title, desc, callback]);
   }
-
-
 
   onReady(): void {
     data.status.loadstatus = true;

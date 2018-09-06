@@ -70,7 +70,7 @@ export interface Bridge {
    * @param hint - 键盘上方的提示文字
    * @param message - 输入框中的提示文字，相当于 placeholder 的东西
    */
-  openSearch(type: string, hint: string, message: string): Promise<SearchResult>,
+  openSearch(type: string, hint: string, message: string): SearchResult,
 
   /**
    * ### 关闭搜索框
@@ -117,18 +117,18 @@ export interface Bridge {
    * @param title - 数据的标题
    * @param buttonText - 按钮上的文字
    */
-  viewPdf(url: string, title: string, buttonText: string): Promise<any>,
+  viewPdf(url: string, title: string, buttonText: string): Promise<string>,
 
   /**
    * 启动录音功能
    * @param show - 显示隐藏, true:显示; false:隐藏 
    */
-  startAudioRec(show: boolean): Promise<any>,
+  startAudioRec(show: boolean): Promise<string>,
 
   /**
    * 拍照
    */
-  callCamera(): Promise<any>,
+  callCamera(): Promise<string>,
 
   /**
    * 拍照并裁剪
@@ -137,17 +137,17 @@ export interface Bridge {
    * @param width 
    * @param height 
    */
-  tailorCamera(isCut: boolean, width: number, height: number): Promise<any>,
+  tailorCamera(isCut: boolean, width: number, height: number): Promise<string>,
 
   /**
    * 打开地址选择窗口
    */
-  callAddress(): Promise<any>,
+  callAddress(): Promise<string>,
 
   /**
    * 打开身份证件扫描窗口
    */
-  idCardScan(): Promise<any>,
+  idCardScan(): Promise<string>,
 
   // /**
   //  * 将图片保存到用户相册
@@ -158,7 +158,7 @@ export interface Bridge {
   /**
    * 打开银行卡扫描窗口
    */
-  getBank(): Promise<any>
+  getBank(): Promise<string>
 
   /**
    * 打开 CA 手写签名窗口
@@ -166,17 +166,17 @@ export interface Bridge {
    * @param type 
    * @param keyWord 
    */
-  caSign(name: string, type: number, keyword: string): Promise<any>,
+  caSign(name: string, type: number, keyword: string): Promise<string>,
 
   /**
    * 选择并导入职业信息
    */
-  getJob(): Promise<any>,
+  getJob(): Promise<string>,
 
   /**
    * 选择并导入客户信息
    */
-  getCustomer(): Promise<any>,
+  getCustomer(): Promise<string>,
 
   /**
    * 关闭当前 WebView 窗口
@@ -188,13 +188,13 @@ export interface Bridge {
    * 拍照（多张照片）
    * @param count - 照片数量
    */
-  takeUserImageMultiple(count: number): Promise<any>,
+  takeUserImageMultiple(count: number): Promise<string>,
 
   /**
    * 拍照（多张照片）
    * @param count - 照片数量
    */
-  callCameraMultiple(count: number): Promise<any>,
+  callCameraMultiple(count: number): Promise<string>,
 
   /**
    * 指定显示右上角的分享按钮 无法实现
@@ -205,7 +205,7 @@ export interface Bridge {
    * @param desc - 分享描述
    * @param callback - 分享后的回调方法名
    */
-  showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<any>,
+  showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string>,
 
   // /**
   //  * 微信小程序分享
