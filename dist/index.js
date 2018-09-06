@@ -1,67 +1,60 @@
-import { MenuPosition, CloseType, ShareType, } from './interface/bridge';
-import Browser from './impl/browser/bridge';
-import iOS from './impl/ios/bridge';
-import Android from './impl/android/bridge';
-import { getCookie, setCookie, deleteCookie, ostype, token, gobackbtn } from './utils/cookie';
-import { data } from './data/data';
-let instance = null;
-const aliasNames = {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ShareType = exports.CloseType = exports.MenuPosition = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.nativeAjax = exports.showShareArr = exports.showShareBtn = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
+
+var _bridge = require('./interface/bridge');
+
+var _bridge2 = require('./impl/browser/bridge');
+
+var _bridge3 = _interopRequireDefault(_bridge2);
+
+var _bridge4 = require('./impl/ios/bridge');
+
+var _bridge5 = _interopRequireDefault(_bridge4);
+
+var _bridge6 = require('./impl/android/bridge');
+
+var _bridge7 = _interopRequireDefault(_bridge6);
+
+var _cookie = require('./utils/cookie');
+
+var _data = require('./data/data');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var instance = null;
+var aliasNames = {
     onReady: 'HQAppGetH5Header',
     onDataResult: 'app2js_onDataResult',
-    notifyCommandFromNative: 'notifyCommandFromNative',
+    notifyCommandFromNative: 'notifyCommandFromNative'
 };
-const methods = [
-    'openSearch',
-    'toggleSearch',
-    'SetH5Header',
-    'leftMenu',
-    'toggleMenu',
-    'rightMenu',
-    'articleDetail',
-    'viewPdf',
-    'startAudioRec',
-    'callCamera',
-    'tailorCamera',
-    'callAddress',
-    'idCardScan',
-    //saveImage,
-    'getBank',
-    'caSign',
-    'getJob',
-    'getCustomer',
-    'closeWebview',
-    'takeUserImageMultiple',
-    'callCameraMultiple',
-    'showShare',
-    //wechatShare,
-    'showShareBtn',
-    'showShareArr',
-    //showRiskArr,
-    'nativeAjax',
-    'showPosterDetail',
-    'sendSms',
-    'shareShareEntry',
-    'onReady',
-    'onDataResult',
-    'notifyCommandFromNative'
-];
+var methods = ['openSearch', 'toggleSearch', 'SetH5Header', 'leftMenu', 'toggleMenu', 'rightMenu', 'articleDetail', 'viewPdf', 'startAudioRec', 'callCamera', 'tailorCamera', 'callAddress', 'idCardScan',
+//saveImage,
+'getBank', 'caSign', 'getJob', 'getCustomer', 'closeWebview', 'takeUserImageMultiple', 'callCameraMultiple', 'showShare',
+//wechatShare,
+'showShareBtn', 'showShareArr',
+//showRiskArr,
+'nativeAjax', 'showPosterDetail', 'sendSms', 'shareShareEntry', 'onReady', 'onDataResult', 'notifyCommandFromNative'];
 /**
  * 挂载 bridge 对象
  * @param bridge - 实现 Bridge 接口的类型实例
  */
-const mount = function (bridge) {
+var mount = function mount(bridge) {
     instance = bridge;
-    window.ostype = ostype;
-    window.token = token;
+    window.ostype = _cookie.ostype;
+    window.token = _cookie.token;
     window.cookie = {
-        set: setCookie,
-        get: getCookie,
-        delete: deleteCookie,
+        set: _cookie.setCookie,
+        get: _cookie.getCookie,
+        delete: _cookie.deleteCookie
     };
-    window.gobackbtn = gobackbtn;
-    window.jsBridge = data;
-    methods.forEach(key => {
-        const alias = aliasNames[key];
+    window.gobackbtn = _cookie.gobackbtn;
+    window.jsBridge = _data.data;
+    methods.forEach(function (key) {
+        var alias = aliasNames[key];
         window[alias || key] = instance[key].bind(instance);
     });
 };
@@ -75,28 +68,28 @@ const mount = function (bridge) {
  * @param hint - 键盘上方的提示文字
  * @param message - 输入框中的提示文字，相当于 placeholder 的东西
  */
-const openSearch = function (type, hint, message) {
+var openSearch = function openSearch(type, hint, message) {
     return instance.openSearch(type, hint, message);
 };
 /**
  * ### 关闭搜索框
  * @param isHide - 是否关闭搜索框, true:隐藏 ; false: 显示
  */
-const toggleSearch = function (isHide) {
+var toggleSearch = function toggleSearch(isHide) {
     instance.toggleSearch(isHide);
 };
 /**
  * 设置app标题
  * @param n - 标题文字
  */
-const SetH5Header = function (n) {
+var SetH5Header = function SetH5Header(n) {
     instance.SetH5Header(n);
 };
 /**
  * 设置标题栏左按钮
  * @param option - 按钮选项，MenuOption.javascript 全局方法名，MenuOption.title 设置文字
  */
-const leftMenu = function (option) {
+var leftMenu = function leftMenu(option) {
     return instance.leftMenu(option);
 };
 /**
@@ -104,14 +97,14 @@ const leftMenu = function (option) {
  * @param option - 指定要操作的按钮，MenuPosition.LEFT / MenuPosition.RIGHT / MenuPosition.BOTH
  * @param show - 指定是否显示
  */
-const toggleMenu = function (option, show) {
+var toggleMenu = function toggleMenu(option, show) {
     return instance.toggleMenu(option, show);
 };
 /**
  * 设置标题栏右按钮
  * @param option - 按钮选项
  */
-const rightMenu = function (option) {
+var rightMenu = function rightMenu(option) {
     return instance.rightMenu(option);
 };
 /**
@@ -120,7 +113,7 @@ const rightMenu = function (option) {
  * @param title - 数据的标题
  * @param btnTxt - 按钮上的文字
  */
-const articleDetail = function (url, title, btnTxt) {
+var articleDetail = function articleDetail(url, title, btnTxt) {
     return instance.articleDetail(url, title, btnTxt);
 };
 /**
@@ -129,20 +122,20 @@ const articleDetail = function (url, title, btnTxt) {
  * @param title - 数据的标题
  * @param btnTxt - 按钮上的文字
  */
-const viewPdf = function (url, title, btnTxt) {
+var viewPdf = function viewPdf(url, title, btnTxt) {
     return instance.viewPdf(url, title, btnTxt);
 };
 /**
  * 启动录音功能
  * @param isShow - 显示隐藏, true:显示; false:隐藏
  */
-const startAudioRec = function (isShow) {
+var startAudioRec = function startAudioRec(isShow) {
     return instance.startAudioRec(isShow);
 };
 /**
  * 拍照
  */
-const callCamera = function () {
+var callCamera = function callCamera() {
     return instance.callCamera();
 };
 /**
@@ -152,19 +145,19 @@ const callCamera = function () {
  * @param width
  * @param height
  */
-const tailorCamera = function (isCut, width, height) {
+var tailorCamera = function tailorCamera(isCut, width, height) {
     return instance.tailorCamera(isCut, width, height);
 };
 /**
  * 打开地址选择窗口
  */
-const callAddress = function () {
+var callAddress = function callAddress() {
     return instance.callAddress();
 };
 /**
  * 打开身份证件扫描窗口
  */
-const idCardScan = function () {
+var idCardScan = function idCardScan() {
     return instance.idCardScan();
 };
 // /**
@@ -177,7 +170,7 @@ const idCardScan = function () {
 /**
  * 打开银行卡扫描窗口
  */
-const getBank = function () {
+var getBank = function getBank() {
     return instance.getBank();
 };
 /**
@@ -186,40 +179,40 @@ const getBank = function () {
  * @param type
  * @param keyWord
  */
-const caSign = function (name, type, keyword) {
+var caSign = function caSign(name, type, keyword) {
     return instance.caSign(name, type, keyword);
 };
 /**
  * 选择并导入职业信息
  */
-const getJob = function () {
+var getJob = function getJob() {
     return instance.getJob();
 };
 /**
  * 选择并导入客户信息
  */
-const getCustomer = function () {
+var getCustomer = function getCustomer() {
     return instance.getCustomer();
 };
 /**
  * 关闭当前 WebView 窗口
  * @param n - 直接关闭，或者关闭并返回首页
  */
-const closeWebview = function (n) {
+var closeWebview = function closeWebview(n) {
     return instance.closeWebview(n);
 };
 /**
  * 拍照（多张照片）
  * @param count - 照片数量
  */
-const takeUserImageMultiple = function (count) {
+var takeUserImageMultiple = function takeUserImageMultiple(count) {
     return instance.takeUserImageMultiple(count);
 };
 /**
  * 拍照（多张照片）
  * @param count - 照片数量
  */
-const callCameraMultiple = function (count) {
+var callCameraMultiple = function callCameraMultiple(count) {
     return instance.callCameraMultiple(count);
 };
 /**
@@ -231,7 +224,7 @@ const callCameraMultiple = function (count) {
  * @param desc - 分享描述
  * @param callback - 分享后的回调方法名
  */
-const showShare = function (type, url, imageUrl, title, desc, callback) {
+var showShare = function showShare(type, url, imageUrl, title, desc, callback) {
     return instance.showShare(type, url, imageUrl, title, desc, callback);
 };
 // /**
@@ -255,7 +248,7 @@ const showShare = function (type, url, imageUrl, title, desc, callback) {
  * @param desc - 分享描述
  * @param callback - 分享后的回调方法名
  */
-const showShareBtn = function (type, url, imageUrl, title, desc, callback) {
+var showShareBtn = function showShareBtn(type, url, imageUrl, title, desc, callback) {
     return instance.showShareBtn(type, url, imageUrl, title, desc, callback);
 };
 /**
@@ -268,7 +261,7 @@ const showShareBtn = function (type, url, imageUrl, title, desc, callback) {
  * @param title - 对应图标的文字
  * @param desc - 分享描述文字
  */
-const showShareArr = function (javascript, url, imageUrl, title, desc) {
+var showShareArr = function showShareArr(javascript, url, imageUrl, title, desc) {
     return instance.showShareArr(javascript, url, imageUrl, title, desc);
 };
 // /**
@@ -289,7 +282,7 @@ const showShareArr = function (javascript, url, imageUrl, title, desc) {
  * @param data - 参数
  * @param method - 请求方式
  */
-const nativeAjax = function (url, data, method) {
+var nativeAjax = function nativeAjax(url, data, method) {
     return instance.nativeAjax(url, data, method);
 };
 /**
@@ -299,7 +292,7 @@ const nativeAjax = function (url, data, method) {
  * @param param - 海报 url 列表, type、subType、adId 均为 “1”
  * @param index - 海报索引
  */
-const showPosterDetail = function (param, index) {
+var showPosterDetail = function showPosterDetail(param, index) {
     return instance.showPosterDetail(param, index);
 };
 /**
@@ -307,7 +300,7 @@ const showPosterDetail = function (param, index) {
  * @param telNum - 电话号码
  * @param content - 发送的内容
  */
-const sendSms = function (telephones, content) {
+var sendSms = function sendSms(telephones, content) {
     return instance.sendSms(telephones, content);
 };
 /**
@@ -318,68 +311,98 @@ const sendSms = function (telephones, content) {
  * @param desc - 分享描述
  * @param callback - 分享完成后的回调方法名
  */
-const shareShareEntry = function (type, url, title, desc, callback) {
+var shareShareEntry = function shareShareEntry(type, url, title, desc, callback) {
     return instance.shareShareEntry(type, url, title, desc, callback);
 };
 // const goBack = function(pathName: string): void {
 //   return instance.goBack(pathName);
 // }
-const install = function (Vue, options) {
+var install = function install(Vue, options) {
     console.log('Mount hybridge to vue');
-    switch (ostype()) {
+    switch ((0, _cookie.ostype)()) {
         case OS.IOS:
-            mount(new iOS());
+            mount(new _bridge5.default());
             break;
         case OS.ANDROID:
-            mount(new Android());
+            mount(new _bridge7.default());
             break;
         default:
-            mount(new Browser());
+            mount(new _bridge3.default());
             break;
     }
     Vue.prototype.$bridge = {
-        gobackbtn,
-        openSearch,
-        toggleSearch,
-        SetH5Header,
-        leftMenu,
-        toggleMenu,
-        rightMenu,
-        articleDetail,
-        viewPdf,
-        startAudioRec,
-        callCamera,
-        tailorCamera,
-        callAddress,
-        idCardScan,
+        gobackbtn: _cookie.gobackbtn,
+        openSearch: openSearch,
+        toggleSearch: toggleSearch,
+        SetH5Header: SetH5Header,
+        leftMenu: leftMenu,
+        toggleMenu: toggleMenu,
+        rightMenu: rightMenu,
+        articleDetail: articleDetail,
+        viewPdf: viewPdf,
+        startAudioRec: startAudioRec,
+        callCamera: callCamera,
+        tailorCamera: tailorCamera,
+        callAddress: callAddress,
+        idCardScan: idCardScan,
         //saveImage,
-        getBank,
-        caSign,
-        getJob,
-        getCustomer,
-        closeWebview,
-        takeUserImageMultiple,
-        callCameraMultiple,
-        showShare,
+        getBank: getBank,
+        caSign: caSign,
+        getJob: getJob,
+        getCustomer: getCustomer,
+        closeWebview: closeWebview,
+        takeUserImageMultiple: takeUserImageMultiple,
+        callCameraMultiple: callCameraMultiple,
+        showShare: showShare,
         //wechatShare,
-        showShareBtn,
-        showShareArr,
+        showShareBtn: showShareBtn,
+        showShareArr: showShareArr,
         //showRiskArr,
-        nativeAjax,
-        showPosterDetail,
-        sendSms,
-        shareShareEntry,
+        nativeAjax: nativeAjax,
+        showPosterDetail: showPosterDetail,
+        sendSms: sendSms,
+        shareShareEntry: shareShareEntry
     };
 };
 var OS;
 (function (OS) {
     OS["IOS"] = "ios";
     OS["ANDROID"] = "android";
-})(OS || (OS = {}));
-export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, 
-//saveImage,
-getBank, caSign, getJob, getCustomer, closeWebview, takeUserImageMultiple, callCameraMultiple, showShare, 
-//wechatShare,
-showShareBtn, showShareArr, 
-//showRiskArr,
-nativeAjax, showPosterDetail, sendSms, shareShareEntry, MenuPosition, CloseType, ShareType, };
+})(OS || (exports.OS = OS = {}));
+exports.BROWSER = _bridge3.default;
+exports.IOS = _bridge5.default;
+exports.ANDROID = _bridge7.default;
+exports.OS = OS;
+exports.install = install;
+exports.mount = mount;
+exports.gobackbtn = _cookie.gobackbtn;
+exports.openSearch = openSearch;
+exports.toggleSearch = toggleSearch;
+exports.SetH5Header = SetH5Header;
+exports.leftMenu = leftMenu;
+exports.toggleMenu = toggleMenu;
+exports.rightMenu = rightMenu;
+exports.articleDetail = articleDetail;
+exports.viewPdf = viewPdf;
+exports.startAudioRec = startAudioRec;
+exports.callCamera = callCamera;
+exports.tailorCamera = tailorCamera;
+exports.callAddress = callAddress;
+exports.idCardScan = idCardScan;
+exports.getBank = getBank;
+exports.caSign = caSign;
+exports.getJob = getJob;
+exports.getCustomer = getCustomer;
+exports.closeWebview = closeWebview;
+exports.takeUserImageMultiple = takeUserImageMultiple;
+exports.callCameraMultiple = callCameraMultiple;
+exports.showShare = showShare;
+exports.showShareBtn = showShareBtn;
+exports.showShareArr = showShareArr;
+exports.nativeAjax = nativeAjax;
+exports.showPosterDetail = showPosterDetail;
+exports.sendSms = sendSms;
+exports.shareShareEntry = shareShareEntry;
+exports.MenuPosition = _bridge.MenuPosition;
+exports.CloseType = _bridge.CloseType;
+exports.ShareType = _bridge.ShareType;

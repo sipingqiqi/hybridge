@@ -12,7 +12,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": true,
-    "outDir": "../dist"
+    "outDir": "../es6"
   },
   "exclude": [
     "node_modules"

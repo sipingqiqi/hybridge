@@ -1,5 +1,10 @@
-const empty = '';
-export const data = {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var empty = '';
+var data = exports.data = {
     status: {
         loadstatus: false,
         idCard: {
@@ -50,7 +55,7 @@ export const data = {
         search: {
             status: false,
             value: empty,
-            callback: (data) => { }
+            callback: function callback(data) {}
         }
     }
 };

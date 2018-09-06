@@ -1,39 +1,96 @@
-# w-js-bridge
-
-import HyBridge from '@wangweiqi/hybridge';
-
-// first execute
-HyBridge.mount(new HyBridge.Native());
-
-// every vue script
-HyBridge.leftMenu({...});
+# HyBridge 使用指南
 
 
-# W-JS-BRIDGE 使用指南
-> 该项目要和 Native 相配合，实现混合模式开发，调用 App 的原生功能，并且在纯 H5 环境下，兼容部份功能
 
-## 安装 NPM 包
-> npm install w-js-bridge --save
+## 如何安装
 
-## 在 main.js 中添加引用
-> import JsBridge from 'w-js-bridge'
-
-## 将对象挂载到 window 对象
-> JsBridge.mount()
-
-## 环境感知
-* 如果 window.HQAppJsInterface 对象存在，则认为是 APP 环境，提供全部功能支持；
-* 如果 User Agent 含有 MicroMessenger 字符串，则认为是微信环境，提供 JS SDK 功能支持（暂无）；
-* 若上述条件均不符合，则认为是纯 H5 环境，提供部份功能支持，其它功能返回空，不报错。
-
-## 测试
 ```bash
-npm pack
-cd demo页面
-npm i ../w-js-bridge/w-js-bridge-1.0.6.tgz
-
+npm install @wangweiqi/hybridge --save
 ```
-## h5实现
+
+
+
+## 如何使用
+
+### Vue.js 项目
+
+在 main.js 文件中，添加如下代码：
+```javascript
+import * as HyBridge from '@wangweiqi/hybridge'
+......
+Vue.use(HyBridge)
+```
+
+在组件文件中，使用 this.$bridge 属性来调用方法：
+```html
+<script>
+export default {
+  name: "recognizee-info",
+  methods: {
+    onClick() {
+      this.$bridge.SetH5Header('标题文字');
+    }
+  }
+}
+</script>
+```
+
+### 普通 web 项目
+
+在初始化阶段，添加如下代码：
+```javascript
+import * as HyBridge from '@wangweiqi/hybridge'
+......
+switch(HyBridge.os()) {
+  case 'ios':
+    HyBridge.mount(new HyBridge.IOS());
+    break;
+  case 'android':
+    HyBridge.mount(new HyBridge.ANDROID());
+    break;
+  default:
+    HyBridge.mount(new HyBridge.BROWSER());
+    break;
+}
+```
+
+在需要调用方法的代码中，添加如下引用即可：
+```javascript
+import { SetH5Header } from '@wangweiqi/hybridge';
+......
+document.addEventListener('click', function(e) {
+  SetH5Header('标题文字');
+}, false);
+```
+
+
+
+## 方法说明
+
+### 一、标题栏
+#### 设置标题文字
+```typescript
+SetH5Header(title: string): void
+```
+* `title` - 标题文字
+
+
+
+#### 设置标题栏左侧按钮
+```typescript
+leftMenu(option: MenuOption): void
+```
+* `option` - 按钮选项
+* `option` - `javascript` - 全局方法名称
+* `option` - `title` - 按钮文字
+
+
+
+### 二、 以下说明暂未完成 TODO
+
+
+
+## H5 方法实现对照表
 
 >  H5实现->(y/n无法实现或无需实现)
 
