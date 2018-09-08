@@ -4,17 +4,31 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
 
 var _app = require('../../data/app');
 
 var _api = require('../../data/api');
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var zip = {
     run: function run(obj) {
-        return new Promise(function (resolve, reject) {
+        return new _promise2.default(function (resolve, reject) {
             resolve({
                 base64: ''
             });
@@ -25,10 +39,10 @@ var __tid = 0;
 
 var BrowserBridge = function () {
     function BrowserBridge() {
-        _classCallCheck(this, BrowserBridge);
+        (0, _classCallCheck3.default)(this, BrowserBridge);
     }
 
-    _createClass(BrowserBridge, [{
+    (0, _createClass3.default)(BrowserBridge, [{
         key: 'clearTimer',
         value: function clearTimer() {
             if (__tid) {
@@ -101,28 +115,28 @@ var BrowserBridge = function () {
     }, {
         key: 'articleDetail',
         value: function articleDetail(url, title, btnTxt) {
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 resolve('success');
             });
         }
     }, {
         key: 'viewPdf',
         value: function viewPdf(url, title, btnTxt) {
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 resolve('success');
             });
         }
     }, {
         key: 'startAudioRec',
         value: function startAudioRec(isShow) {
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 resolve('success');
             });
         }
     }, {
         key: 'callCamera',
         value: function callCamera() {
-            return new Promise(function (res, rej) {
+            return new _promise2.default(function (res, rej) {
                 var fileObj = null;
                 var fileInput = document.createElement('input');
                 fileInput.setAttribute('type', 'file');
@@ -144,14 +158,14 @@ var BrowserBridge = function () {
     }, {
         key: 'tailorCamera',
         value: function tailorCamera(bool, width, height) {
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 resolve('success');
             });
         }
     }, {
         key: 'callAddress',
         value: function callAddress() {
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 resolve('success');
             });
         }
@@ -162,7 +176,7 @@ var BrowserBridge = function () {
             function getIdCard() {
                 var _this = this;
 
-                return new Promise(function (res, rej) {
+                return new _promise2.default(function (res, rej) {
                     _this.callCamera().then(function (base64) {
                         res(_app.app.vue.axios.post(_api.api['IDCARD'], { base64: base64 }));
                     });
@@ -176,7 +190,7 @@ var BrowserBridge = function () {
     }, {
         key: 'getBank',
         value: function getBank() {
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 resolve('success');
             });
         }
@@ -187,7 +201,7 @@ var BrowserBridge = function () {
             __this.clearTimer();
             _app.app.vue.$router.push('/h5SignIn');
             function sign() {
-                return new Promise(function (resolve, reject) {
+                return new _promise2.default(function (resolve, reject) {
                     __tid = window.setInterval(function (success) {
                         if (_app.app.vue.$store.state.jsBridge.caSign.includes('base64')) {
                             __this.clearTimer();
@@ -209,7 +223,7 @@ var BrowserBridge = function () {
             var getJob = function getJob() {
                 var _this2 = this;
 
-                return new Promise(function (res, rej) {
+                return new _promise2.default(function (res, rej) {
                     __tid = window.setInterval(function (_) {
                         if (_app.app.vue.$store.state.jsBridge.item) {
                             _this2.clearTimer();
@@ -230,7 +244,7 @@ var BrowserBridge = function () {
     }, {
         key: 'getCustomer',
         value: function getCustomer() {
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 resolve('success');
             });
         }
@@ -246,7 +260,7 @@ var BrowserBridge = function () {
             var __this = this;
             var imgs = [];
             function getImg() {
-                return new Promise(function (res, rej) {
+                return new _promise2.default(function (res, rej) {
                     var fileInput = __this.getFile();
                     fileInput.onchange = function () {
                         if (fileInput.files.length > 0) {
@@ -263,17 +277,17 @@ var BrowserBridge = function () {
             for (var i = 0; i < count; i++) {
                 countArr.push(getImg());
             }
-            var imgArr = Promise.all(countArr);
+            var imgArr = _promise2.default.all(countArr);
             imgArr.then(function (res) {
                 console.log(res);
             });
-            return new Promise(function (res, rej) {
+            return new _promise2.default(function (res, rej) {
                 _this3.clearTimer();
                 __tid = setInterval(function (_) {
                     console.log(imgs);
                     if (imgs.length == count) {
                         _this3.clearTimer();
-                        res(JSON.stringify(imgs));
+                        res((0, _stringify2.default)(imgs));
                     }
                 }, 30);
             });
@@ -286,7 +300,7 @@ var BrowserBridge = function () {
     }, {
         key: 'showShare',
         value: function showShare(type, url, imageUrl, title, desc, callback) {
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 resolve('success');
             });
         }
@@ -360,7 +374,6 @@ var BrowserBridge = function () {
         key: 'notifyCommandFromNative',
         value: function notifyCommandFromNative() {}
     }]);
-
     return BrowserBridge;
 }();
 

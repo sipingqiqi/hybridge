@@ -4,18 +4,40 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = require('babel-runtime/helpers/typeof');
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
 
 var _data = require('../../data/data');
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
+    return new (P || (P = _promise2.default))(function (resolve, reject) {
         function fulfilled(value) {
             try {
                 step(generator.next(value));
@@ -54,15 +76,15 @@ var events = {
     'takeUserImageMultiple': 'images'
 };
 function ready() {
-    return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    return __awaiter(this, void 0, void 0, /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var tid;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
                         console.log('HyBridge Ready: Checking bridge if it\'s ready ...');
                         tid = 0;
-                        return _context.abrupt('return', new Promise(function (resolve) {
+                        return _context.abrupt('return', new _promise2.default(function (resolve) {
                             if (_data.data.status.loadstatus) {
                                 setTimeout(function () {
                                     console.log('HyBridge Ready: Checked.');
@@ -88,18 +110,18 @@ function ready() {
     }));
 }
 function execute(method, params, name, noReturned) {
-    return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    return __awaiter(this, void 0, void 0, /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
                         console.log('HyBridge Execute: ' + method + ', ' + params + ', ' + name + ', ' + noReturned);
-                        return _context2.abrupt('return', new Promise(function (resolve) {
+                        return _context2.abrupt('return', new _promise2.default(function (resolve) {
                             if (noReturned) {
                                 if (window.HQAppJSInterface && window.HQAppJSInterface[method]) {
                                     var _window$HQAppJSInterf;
 
-                                    (_window$HQAppJSInterf = window.HQAppJSInterface)[method].apply(_window$HQAppJSInterf, _toConsumableArray(params));
+                                    (_window$HQAppJSInterf = window.HQAppJSInterface)[method].apply(_window$HQAppJSInterf, (0, _toConsumableArray3.default)(params));
                                 }
                                 resolve(null);
                                 return;
@@ -111,7 +133,7 @@ function execute(method, params, name, noReturned) {
                             if (window.HQAppJSInterface && window.HQAppJSInterface[method]) {
                                 var _window$HQAppJSInterf2;
 
-                                (_window$HQAppJSInterf2 = window.HQAppJSInterface)[method].apply(_window$HQAppJSInterf2, _toConsumableArray(params));
+                                (_window$HQAppJSInterf2 = window.HQAppJSInterface)[method].apply(_window$HQAppJSInterf2, (0, _toConsumableArray3.default)(params));
                             }
                             tid = setInterval(function () {
                                 if (d.status) {
@@ -133,8 +155,8 @@ function call(method, params) {
     var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
     var noReturned = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
 
-    return __awaiter(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return __awaiter(this, void 0, void 0, /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
@@ -160,10 +182,10 @@ function call(method, params) {
 
 var IOSBridge = function () {
     function IOSBridge() {
-        _classCallCheck(this, IOSBridge);
+        (0, _classCallCheck3.default)(this, IOSBridge);
     }
 
-    _createClass(IOSBridge, [{
+    (0, _createClass3.default)(IOSBridge, [{
         key: 'openSearch',
         value: function openSearch(type, hint, message) {
             call('openSearch', [type, hint, message]);
@@ -182,20 +204,20 @@ var IOSBridge = function () {
     }, {
         key: 'leftMenu',
         value: function leftMenu(option) {
-            call('setActionBarBackItem', [JSON.stringify(option)]);
+            call('setActionBarBackItem', [(0, _stringify2.default)(option)]);
         }
     }, {
         key: 'toggleMenu',
         value: function toggleMenu(position, show) {
-            call('showActionBarPanel', [JSON.stringify({ type: position.toString(), show: show })]);
+            call('showActionBarPanel', [(0, _stringify2.default)({ type: position.toString(), show: show })]);
         }
     }, {
         key: 'rightMenu',
         value: function rightMenu(option) {
-            if (_typeof(option.params) === 'object') {
-                option.params = JSON.stringify(option.params);
+            if ((0, _typeof3.default)(option.params) === 'object') {
+                option.params = (0, _stringify2.default)(option.params);
             }
-            call('setWebViewMenu', [JSON.stringify(option)]);
+            call('setWebViewMenu', [(0, _stringify2.default)(option)]);
         }
     }, {
         key: 'articleDetail',
@@ -239,7 +261,7 @@ var IOSBridge = function () {
             var obj = {
                 name: name, type: type, params: { keyword: keyword }
             };
-            return call('requestCAGestureSignData', [JSON.stringify(obj)], 'sign', false);
+            return call('requestCAGestureSignData', [(0, _stringify2.default)(obj)], 'sign', false);
         }
     }, {
         key: 'getJob',
@@ -287,7 +309,7 @@ var IOSBridge = function () {
                     callback: 'shareCallback'
                 }
             }];
-            call('setWebViewMenus', [JSON.stringify(obj)]);
+            call('setWebViewMenus', [(0, _stringify2.default)(obj)]);
         }
         // /**
         //  * 右上角设置两个图标
@@ -369,12 +391,12 @@ var IOSBridge = function () {
     }, {
         key: 'showPosterDetail',
         value: function showPosterDetail(param, index) {
-            call('showPosterDetail', [JSON.stringify(param), index]);
+            call('showPosterDetail', [(0, _stringify2.default)(param), index]);
         }
     }, {
         key: 'sendSms',
         value: function sendSms(telephones, content) {
-            call('sendSms', [JSON.stringify(telephones), content]);
+            call('sendSms', [(0, _stringify2.default)(telephones), content]);
         }
     }, {
         key: 'shareShareEntry',
@@ -410,7 +432,6 @@ var IOSBridge = function () {
         key: 'notifyCommandFromNative',
         value: function notifyCommandFromNative() {}
     }]);
-
     return IOSBridge;
 }();
 
