@@ -162,7 +162,7 @@ export default class IOSBridge implements Bridge {
   //   return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
   // }
 
-  showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void {
+  showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string = '', callback: string = ''): void {
     call<any>('setAppLocalShareData', [type, url, imageUrl, title, desc, callback])
   }
 

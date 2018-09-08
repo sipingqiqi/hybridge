@@ -81,12 +81,58 @@ SetH5Header(title: string): void
 leftMenu(option: MenuOption): void
 ```
 * `option` - 按钮选项
-* `option` - `javascript` - 全局方法名称
-* `option` - `title` - 按钮文字
+* `MenuOption` - `javascript` - 全局方法名称
+* `MenuOption` - `title` - 按钮文字
 
 
 
-### 二、 以下说明暂未完成 TODO
+### 二、分享
+#### 显示分享按钮，用户点击弹出分享提示
+```typescript
+showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void
+```
+* `type` - 分享类型，本接口固定使用 ShareType.DEFAULT
+* `ShareType` - `DEFAULT` - 弹出提示，由用户选择分享类型
+* `url` - 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+* `imageUrl` - 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+* `title` - 分享预览标题
+* `desc` - 分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+* `callback` - 分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+
+
+
+#### 显示搜索和分享两个按钮，用户点击弹出分享提示
+```typescript
+showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void
+```
+* `javascript` - 回调函数名，用户点击搜索将调用此全局函数
+* `url` - 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+* `imageUrl` - 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+* `title` - 分享预览标题
+* `desc` - 分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+
+
+
+#### 代码直接调用分享功能，不弹出提示
+```typescript
+showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void
+```
+* `type` - 分享类型
+* `ShareType` - `DEFAULT` - 仍然弹出提示，由用户选择分享类型
+* `ShareType` - `WX_FRIEND` - 分享到微信好友
+* `ShareType` - `WX_TIMELINE` - 分享到微信朋友圈
+* `ShareType` - `QQ_FRIEND` - 分享到 QQ 好友
+* `ShareType` - `QQ_ZONE` - 分享到 QQ 空间
+* `ShareType` - `WEIBO` - 分享到微博
+* `url` - 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+* `imageUrl` - 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+* `title` - 分享预览标题
+* `desc` - 分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+* `callback` - 分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+
+
+
+### N、 以下说明暂未完成 TODO
 
 
 

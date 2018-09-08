@@ -166,12 +166,12 @@ export default class IOSBridge implements Bridge {
   //   return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
   // }
 
-  showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void {
+  showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string = '', callback: string = ''): void {
     call<any>('setAppLocalShareData', 
-      JSON.stringify({ type, url, imageUrl, title, desc, callback }))
+      JSON.stringify({ type: type.toString(), url, imageUrl, title, desc, callback }))
   }
 
-  showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void {
+  showShareArr(javascript: string = '', url: string, imageUrl: string, title: string, desc: string): void {
     const obj = [{
       title: '搜索',
       javascript
