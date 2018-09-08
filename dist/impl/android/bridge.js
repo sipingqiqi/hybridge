@@ -257,11 +257,8 @@ var IOSBridge = function () {
         }
     }, {
         key: 'caSign',
-        value: function caSign(name, type, keyword) {
-            var obj = {
-                name: name, type: type, params: { keyword: keyword }
-            };
-            return call('requestCAGestureSignData', [(0, _stringify2.default)(obj)], 'sign', false);
+        value: function caSign(name, type, serialized) {
+            return call('requestCAGestureSignData', [name, type, serialized], 'sign', false);
         }
     }, {
         key: 'getJob',

@@ -56,6 +56,13 @@ export enum ShareType {
   WEIBO = 6
 }
 
+export enum SignType {
+  WRITTEN = 1,
+  PHOTO = 2,
+  FACE = 3,
+  COMMENT = 4
+}
+
 /**
 * 用于 JsBridge 交互的接口
 */
@@ -164,9 +171,9 @@ export interface Bridge {
    * 打开 CA 手写签名窗口
    * @param name 
    * @param type 
-   * @param keyWord 
+   * @param serialized 
    */
-  caSign(name: string, type: number, keyword: string): Promise<string>,
+  caSign(name: string, type: SignType, serialized: string): Promise<string>,
 
   /**
    * 选择并导入职业信息

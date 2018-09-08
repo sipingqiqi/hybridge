@@ -1,10 +1,10 @@
 {
   "name": "@wangweiqi/hybridge",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "A bridge for hybrid development.",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc -p ./src/ && babel -d dist/ es6/ && rm -rf es6/"
+    "build": "tsc -p ./src/ && mkdir -p dist && cp -rf ./es6/* ./dist && babel -d dist/ es6/ && rm -rf es6"
   },
   "author": "wangweiqi <me@wangweiqi.com>",
   "license": "ISC",

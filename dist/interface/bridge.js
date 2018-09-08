@@ -26,3 +26,10 @@ var ShareType = exports.ShareType = undefined;
     ShareType[ShareType["QQ_ZONE"] = 5] = "QQ_ZONE";
     ShareType[ShareType["WEIBO"] = 6] = "WEIBO";
 })(ShareType || (exports.ShareType = ShareType = {}));
+var SignType = exports.SignType = undefined;
+(function (SignType) {
+    SignType[SignType["WRITTEN"] = 1] = "WRITTEN";
+    SignType[SignType["PHOTO"] = 2] = "PHOTO";
+    SignType[SignType["FACE"] = 3] = "FACE";
+    SignType[SignType["COMMENT"] = 4] = "COMMENT";
+})(SignType || (exports.SignType = SignType = {}));

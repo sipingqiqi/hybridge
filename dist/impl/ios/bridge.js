@@ -255,9 +255,9 @@ var IOSBridge = function () {
         }
     }, {
         key: 'caSign',
-        value: function caSign(name, type, keyword) {
+        value: function caSign(name, type, serialized) {
             var obj = {
-                name: name, type: type, params: { keyword: keyword }
+                name: name, type: type.toString(), params: serialized
             };
             return call('requestCAGestureSignData', (0, _stringify2.default)(obj), 'sign', false);
         }

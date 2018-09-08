@@ -1,4 +1,4 @@
-import { Bridge, SearchResult, MenuOption, MenuExOption, MenuPosition, CloseType, ShareType, PosterDetail } from '../../interface/bridge';
+import { Bridge, SearchResult, MenuOption, MenuExOption, MenuPosition, CloseType, ShareType, PosterDetail, SignType } from '../../interface/bridge';
 import { data } from '../../data/data';
 
 const sleep = 100;
@@ -135,9 +135,9 @@ export default class IOSBridge implements Bridge {
     return call<any>('requestScanBankCard', '', 'bank', false);
   }
 
-  caSign(name: string, type: number, keyword: string): Promise<string> {
+  caSign(name: string, type: SignType, serialized: string): Promise<string> {
     const obj = {
-      name, type, params: { keyword }
+      name, type: type.toString(), params: serialized
     }
 
     return call<any>('requestCAGestureSignData', 
