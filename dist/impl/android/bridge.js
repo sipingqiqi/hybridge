@@ -289,7 +289,10 @@ var IOSBridge = function () {
 
     }, {
         key: 'showShareBtn',
-        value: function showShareBtn(type, url, imageUrl, title, desc, callback) {
+        value: function showShareBtn(type, url, imageUrl, title) {
+            var desc = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+            var callback = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '';
+
             call('setAppLocalShareData', [type, url, imageUrl, title, desc, callback]);
         }
     }, {

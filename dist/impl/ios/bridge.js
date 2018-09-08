@@ -289,12 +289,21 @@ var IOSBridge = function () {
 
     }, {
         key: 'showShareBtn',
-        value: function showShareBtn(type, url, imageUrl, title, desc, callback) {
-            call('setAppLocalShareData', (0, _stringify2.default)({ type: type, url: url, imageUrl: imageUrl, title: title, desc: desc, callback: callback }));
+        value: function showShareBtn(type, url, imageUrl, title) {
+            var desc = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+            var callback = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '';
+
+            call('setAppLocalShareData', (0, _stringify2.default)({ type: type.toString(), url: url, imageUrl: imageUrl, title: title, desc: desc, callback: callback }));
         }
     }, {
         key: 'showShareArr',
-        value: function showShareArr(javascript, url, imageUrl, title, desc) {
+        value: function showShareArr() {
+            var javascript = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+            var url = arguments[1];
+            var imageUrl = arguments[2];
+            var title = arguments[3];
+            var desc = arguments[4];
+
             var obj = [{
                 title: '搜索',
                 javascript: javascript
