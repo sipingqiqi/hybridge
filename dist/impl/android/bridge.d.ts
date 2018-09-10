@@ -15,7 +15,7 @@ export default class IOSBridge implements Bridge {
     caSign(name: string, type: SignType, serialized: string): Promise<string>;
     getJob(): Promise<string>;
     getCustomer(): Promise<string>;
-    closeWebview(n: CloseType): void;
+    closeWebview(n?: CloseType): void;
     showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string>;
     showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc?: string, callback?: string): void;
     showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void;

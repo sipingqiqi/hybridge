@@ -144,7 +144,7 @@ export default class IOSBridge implements Bridge {
     return call<any>('requestImportCustomerItem', [], 'customer', false);
   }
 
-  closeWebview(n: CloseType): void {
+  closeWebview(n: CloseType = CloseType.CLOSE): void {
     call<any>('closeWebview', [n]);
   }
 
@@ -162,7 +162,7 @@ export default class IOSBridge implements Bridge {
     call<any>('setAppLocalShareData', [type, url, imageUrl, title, desc, callback])
   }
 
-  showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void {
+  showShareArr(javascript: string = '', url: string, imageUrl: string, title: string, desc: string): void {
     const obj = [{
       title: '搜索',
       javascript

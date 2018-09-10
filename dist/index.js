@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ShareType = exports.CloseType = exports.MenuPosition = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.nativeAjax = exports.showShareArr = exports.showShareBtn = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
+exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.nativeAjax = exports.showShareArr = exports.showShareBtn = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
 
 var _bridge = require('./interface/bridge');
 
@@ -177,10 +177,10 @@ var getBank = function getBank() {
  * 打开 CA 手写签名窗口
  * @param name
  * @param type
- * @param keyWord
+ * @param serialized
  */
-var caSign = function caSign(name, type, keyword) {
-    return instance.caSign(name, type, keyword);
+var caSign = function caSign(name, type, serialized) {
+    return instance.caSign(name, type, serialized);
 };
 /**
  * 选择并导入职业信息
@@ -406,3 +406,4 @@ exports.shareShareEntry = shareShareEntry;
 exports.MenuPosition = _bridge.MenuPosition;
 exports.CloseType = _bridge.CloseType;
 exports.ShareType = _bridge.ShareType;
+exports.SignType = _bridge.SignType;

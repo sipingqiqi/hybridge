@@ -1,4 +1,4 @@
-import { SearchResult, MenuOption, MenuExOption, PosterDetail, MenuPosition, CloseType, ShareType, Bridge } from './interface/bridge';
+import { SearchResult, MenuOption, MenuExOption, PosterDetail, MenuPosition, CloseType, ShareType, Bridge, SignType } from './interface/bridge';
 import Browser from './impl/browser/bridge';
 import iOS from './impl/ios/bridge';
 import Android from './impl/android/bridge';
@@ -92,9 +92,9 @@ declare const getBank: () => Promise<string>;
  * 打开 CA 手写签名窗口
  * @param name
  * @param type
- * @param keyWord
+ * @param serialized
  */
-declare const caSign: (name: string, type: number, keyword: string) => Promise<string>;
+declare const caSign: (name: string, type: SignType, serialized: string) => Promise<string>;
 /**
  * 选择并导入职业信息
  */
@@ -184,4 +184,4 @@ declare enum OS {
     IOS = "ios",
     ANDROID = "android"
 }
-export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, getBank, caSign, getJob, getCustomer, closeWebview, takeUserImageMultiple, callCameraMultiple, showShare, showShareBtn, showShareArr, nativeAjax, showPosterDetail, sendSms, shareShareEntry, SearchResult, MenuOption, PosterDetail, MenuPosition, CloseType, ShareType, };
+export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, getBank, caSign, getJob, getCustomer, closeWebview, takeUserImageMultiple, callCameraMultiple, showShare, showShareBtn, showShareArr, nativeAjax, showPosterDetail, sendSms, shareShareEntry, SearchResult, MenuOption, PosterDetail, MenuPosition, CloseType, ShareType, SignType, };

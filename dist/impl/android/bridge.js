@@ -32,6 +32,8 @@ var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
 
+var _bridge = require('../../interface/bridge');
+
 var _data = require('../../data/data');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -272,7 +274,9 @@ var IOSBridge = function () {
         }
     }, {
         key: 'closeWebview',
-        value: function closeWebview(n) {
+        value: function closeWebview() {
+            var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _bridge.CloseType.CLOSE;
+
             call('closeWebview', [n]);
         }
     }, {
@@ -294,7 +298,13 @@ var IOSBridge = function () {
         }
     }, {
         key: 'showShareArr',
-        value: function showShareArr(javascript, url, imageUrl, title, desc) {
+        value: function showShareArr() {
+            var javascript = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+            var url = arguments[1];
+            var imageUrl = arguments[2];
+            var title = arguments[3];
+            var desc = arguments[4];
+
             var obj = [{
                 title: '搜索',
                 javascript: javascript

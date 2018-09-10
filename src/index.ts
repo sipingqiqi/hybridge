@@ -7,6 +7,7 @@ import {
   CloseType,
   ShareType,
   Bridge,
+  SignType,
 } from './interface/bridge';
 
 import Browser from './impl/browser/bridge';
@@ -223,10 +224,10 @@ const getBank = function (): Promise<string> {
  * 打开 CA 手写签名窗口
  * @param name 
  * @param type 
- * @param keyWord 
+ * @param serialized 
  */
-const caSign = function (name: string, type: number, keyword: string): Promise<string> {
-  return instance.caSign(name, type, keyword);
+const caSign = function (name: string, type: SignType, serialized: string): Promise<string> {
+  return instance.caSign(name, type, serialized);
 }
 
 /**
@@ -480,4 +481,5 @@ export {
   MenuPosition,
   CloseType,
   ShareType,
+  SignType,
 }
