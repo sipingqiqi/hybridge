@@ -280,14 +280,20 @@ var IOSBridge = function () {
             call('closeWebview', [n]);
         }
     }, {
+        key: 'goNativeHome',
+        value: function goNativeHome() {
+            this.closeWebview(_bridge.CloseType.CLOSE_AND_HOME);
+        }
+    }, {
         key: 'showShare',
         value: function showShare(type, url, imageUrl, title, desc, callback) {
             return call('appLocalShare', [type, url, imageUrl, title, desc, callback], 'shareInvoke', false);
         }
-        // wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void {
-        //   return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
-        // }
-
+    }, {
+        key: 'wechatShare',
+        value: function wechatShare(webPageUrl, path, imageUrl, title, desc, callback) {
+            call('setAppMinProgramShareData', [webPageUrl, path, imageUrl, title, desc, callback]);
+        }
     }, {
         key: 'showShareBtn',
         value: function showShareBtn(type, url, imageUrl, title) {
@@ -306,34 +312,27 @@ var IOSBridge = function () {
             var desc = arguments[4];
 
             var obj = [{
-                title: '搜索',
-                javascript: javascript
+                title: '搜索', javascript: javascript
             }, {
-                title: '分享',
-                attachData: {
-                    typeSet: ['1'],
-                    url: url,
-                    imageUrl: imageUrl,
-                    title: title,
-                    desc: desc,
-                    callback: 'shareCallback'
-                }
+                title: '分享', attachData: { typeSet: ['1'], url: url, imageUrl: imageUrl, title: title, desc: desc, callback: 'shareCallback' }
             }];
             call('setWebViewMenus', [(0, _stringify2.default)(obj)]);
         }
-        // /**
-        //  * 右上角设置两个图标
-        //  * 类型为base64，大小限定50*50
-        //  * @param baseImg 图1
-        //  * @param fun1 
-        //  * @param baseImg2 图2
-        //  * @param fun2 
-        //  * 执行函数，无返回值无mock有回调
-        //  */
-        // const showRiskArr = function(baseImg: string, fun1: string, baseImg2: string, fun2: string): void {
-        //   return instance.showRiskArr(baseImg, fun1, baseImg2, fun2);
-        // }
-
+    }, {
+        key: 'showRiskArr',
+        value: function showRiskArr(icon1, callback1, icon2, callback2) {
+            var icons = [{
+                type: 'image', title: icon1, javascript: callback1
+            }, {
+                type: 'image', title: icon2, javascript: callback2
+            }];
+            call('setWebViewMenus', [(0, _stringify2.default)(icons)]);
+        }
+    }, {
+        key: 'clearRiskArr',
+        value: function clearRiskArr() {
+            call('setWebViewMenus', [(0, _stringify2.default)([])]);
+        }
     }, {
         key: 'callCamera',
         value: function callCamera() {
@@ -357,46 +356,6 @@ var IOSBridge = function () {
             var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             return call('takeUserImageMultiple', [count], 'images', false);
-        }
-    }, {
-        key: 'nativeAjax',
-        value: function nativeAjax(url, data, method) {
-            // 异步对象
-            var ajax = new XMLHttpRequest();
-            // get 跟post  需要分别写不同的代码
-            if (method == 'get') {
-                // get请求
-                if (data) {
-                    // 如果有值
-                    url += '?';
-                    url += data;
-                } else {}
-                // 设置 方法 以及 url
-                ajax.open(method, url);
-                // send即可
-                ajax.send();
-            } else {
-                // post请求
-                // post请求 url 是不需要改变
-                ajax.open(method, url);
-                // 需要设置请求报文
-                ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                // 判断data send发送数据
-                if (data) {
-                    // 如果有值 从send发送
-                    ajax.send(data);
-                } else {
-                    // 木有值 直接发送即可
-                    ajax.send();
-                }
-            }
-            // 注册事件
-            ajax.onreadystatechange = function () {
-                // 在事件中 获取数据 并修改界面显示
-                if (ajax.readyState == 4 && ajax.status == 200) {
-                    alert('bbbb');
-                }
-            };
         }
     }, {
         key: 'showPosterDetail',

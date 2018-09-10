@@ -16,14 +16,17 @@ export default class IOSBridge implements Bridge {
     getJob(): Promise<string>;
     getCustomer(): Promise<string>;
     closeWebview(n?: CloseType): void;
+    goNativeHome(): void;
     showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string>;
+    wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void;
     showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc?: string, callback?: string): void;
     showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void;
+    showRiskArr(icon1: string, callback1: string, icon2: string, callback2: string): void;
+    clearRiskArr(): void;
     callCamera(): Promise<string>;
     tailorCamera(isCut: boolean, width: number, height: number): Promise<string>;
     takeUserImageMultiple(count?: number): Promise<string>;
     callCameraMultiple(count?: number): Promise<string>;
-    nativeAjax(url: string, data: any, method: string): void;
     showPosterDetail(param: Array<PosterDetail>, index: number): void;
     sendSms(telephones: Array<string>, content: string): void;
     shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void;

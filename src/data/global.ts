@@ -23,6 +23,7 @@ declare global {
         gobackbtn(pathName: string): void,
         ostype(): string,
         token(): string,
+        nativeAjax(): void,
 
         cookie: any,
         HQAppJSInterface?: any,

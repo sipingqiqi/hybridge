@@ -252,6 +252,9 @@ var BrowserBridge = function () {
         key: 'closeWebview',
         value: function closeWebview(n) {}
     }, {
+        key: 'goNativeHome',
+        value: function goNativeHome() {}
+    }, {
         key: 'takeUserImageMultiple',
         value: function takeUserImageMultiple(count) {
             var _this3 = this;
@@ -316,6 +319,9 @@ var BrowserBridge = function () {
     }, {
         key: 'showRiskArr',
         value: function showRiskArr(baseImg, fun1, baseImg2, fun2) {}
+    }, {
+        key: 'clearRiskArr',
+        value: function clearRiskArr() {}
     }, {
         key: 'nativeAjax',
         value: function nativeAjax(url, data, method) {}

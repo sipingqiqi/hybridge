@@ -100,7 +100,7 @@ export default class IOSBridge implements Bridge {
   }
 
   toggleMenu(position: MenuPosition, show: boolean): void {
-    call<any>('showActionBarPanel', JSON.stringify({ type: position.toString(), show}));
+    call<any>('showActionBarPanel', JSON.stringify({ type: position.toString(), show }));
   }
 
   rightMenu(option: MenuExOption): void {
@@ -111,12 +111,12 @@ export default class IOSBridge implements Bridge {
   }
 
   articleDetail(url: string, title: string = '', buttonTitle: string = ''): void {
-    call<any>('studyArticleDetail', JSON.stringify({url, title, buttonTitle}));
+    call<any>('studyArticleDetail', JSON.stringify({ url, title, buttonTitle }));
   }
 
   viewPdf(url: string, title: string = '', buttonTitle: string = ''): Promise<string> {
-    return call<any>('studyArticleDetail', 
-      JSON.stringify({url, title, buttonTitle}), 'viewPdf', false);
+    return call<any>('studyArticleDetail',
+      JSON.stringify({ url, title, buttonTitle }), 'viewPdf', false);
   }
 
   startAudioRec(show: boolean): Promise<string> {
@@ -140,7 +140,7 @@ export default class IOSBridge implements Bridge {
       name, type: type.toString(), params: serialized
     }
 
-    return call<any>('requestCAGestureSignData', 
+    return call<any>('requestCAGestureSignData',
       JSON.stringify(obj), 'sign', false);
   }
 
@@ -156,18 +156,24 @@ export default class IOSBridge implements Bridge {
     call<any>('closeWebview', n.toString());
   }
 
+  goNativeHome(): void {
+    this.closeWebview(CloseType.CLOSE_AND_HOME);
+  }
+
   showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string> {
-    return call<any>('appLocalShare', 
-      JSON.stringify({ type, url, imageUrl, title, desc, callback }), 
+    return call<any>('appLocalShare',
+      JSON.stringify({ type, url, imageUrl, title, desc, callback }),
       'shareInvoke', false);
   }
 
-  // wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void {
-  //   return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
-  // }
+  wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void {
+    call<any>('setAppMinProgramShareData', JSON.stringify({
+      webPageUrl, path, imageUrl, title, desc, callback
+    }));
+  }
 
   showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string = '', callback: string = ''): void {
-    call<any>('setAppLocalShareData', 
+    call<any>('setAppLocalShareData',
       JSON.stringify({ type: type.toString(), url, imageUrl, title, desc, callback }))
   }
 
@@ -190,26 +196,27 @@ export default class IOSBridge implements Bridge {
     call<any>('setWebViewMenus', JSON.stringify(obj));
   }
 
-  // /**
-  //  * 右上角设置两个图标
-  //  * 类型为base64，大小限定50*50
-  //  * @param baseImg 图1
-  //  * @param fun1 
-  //  * @param baseImg2 图2
-  //  * @param fun2 
-  //  * 执行函数，无返回值无mock有回调
-  //  */
-  // const showRiskArr = function(baseImg: string, fun1: string, baseImg2: string, fun2: string): void {
-  //   return instance.showRiskArr(baseImg, fun1, baseImg2, fun2);
-  // }
+  showRiskArr(icon1: string, callback1: string, icon2: string, callback2: string): void {
+    const icons = [{
+      type: 'image', title: icon1, javascript: callback1
+    }, {
+      type: 'image', title: icon2, javascript: callback2
+    }];
+
+    call<any>('setWebViewMenus', JSON.stringify(icons));
+  }
+
+  clearRiskArr(): void {
+    call<any>('setWebViewMenus', JSON.stringify([]));
+  }
 
   callCamera(): Promise<string> {
-    return call<any>('takeUserImage', 
+    return call<any>('takeUserImage',
       JSON.stringify({ isCut: false }), 'camera', false);
   }
 
   tailorCamera(isCut: boolean, width: number, height: number): Promise<string> {
-    return call<any>('takeUserImage', 
+    return call<any>('takeUserImage',
       JSON.stringify({ isCut, width, height }), 'camera', false);
   }
 
@@ -221,51 +228,8 @@ export default class IOSBridge implements Bridge {
     return call<any>('takeUserImageMultiple', count, 'images', false);
   }
 
-  nativeAjax(url: string, data: any, method: string): void {
-    // 异步对象
-    var ajax = new XMLHttpRequest()
-    // get 跟post  需要分别写不同的代码
-    if (method == 'get') {
-      // get请求
-      if (data) {
-        // 如果有值
-        url += '?'
-        url += data
-      } else {
-
-      }
-      // 设置 方法 以及 url
-      ajax.open(method, url)
-      // send即可
-      ajax.send()
-    } else {
-      // post请求
-      // post请求 url 是不需要改变
-      ajax.open(method, url)
-
-      // 需要设置请求报文
-      ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-
-      // 判断data send发送数据
-      if (data) {
-        // 如果有值 从send发送
-        ajax.send(data)
-      } else {
-        // 木有值 直接发送即可
-        ajax.send()
-      }
-    }
-    // 注册事件
-    ajax.onreadystatechange = function () {
-      // 在事件中 获取数据 并修改界面显示
-      if (ajax.readyState == 4 && ajax.status == 200) {
-        alert('bbbb')
-      }
-    }
-  }
-
   showPosterDetail(param: Array<PosterDetail>, index: number): void {
-    call<any>('showPosterDetail', 
+    call<any>('showPosterDetail',
       JSON.stringify({ posterListStr: param, position: index }));
   }
 
@@ -274,7 +238,7 @@ export default class IOSBridge implements Bridge {
   }
 
   shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void {
-    call<any>('setAppLocalShareData', 
+    call<any>('setAppLocalShareData',
       JSON.stringify({ type, url, title, desc, callback }));
   }
 

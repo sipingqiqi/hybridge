@@ -22,6 +22,7 @@ export default class BrowserBridge implements Bridge {
     getJob(): Promise<string>;
     getCustomer(): Promise<string>;
     closeWebview(n: CloseType): void;
+    goNativeHome(): void;
     takeUserImageMultiple(count: number): Promise<string>;
     callCameraMultiple(count: number): Promise<string>;
     showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string>;
@@ -29,6 +30,7 @@ export default class BrowserBridge implements Bridge {
     showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void;
     showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void;
     showRiskArr(baseImg: string, fun1: string, baseImg2: string, fun2: string): void;
+    clearRiskArr(): void;
     nativeAjax(url: string, data: any, method: string): void;
     showPosterDetail(param: Array<PosterDetail>, index: number): void;
     sendSms(telNum: Array<string>, content: string): void;

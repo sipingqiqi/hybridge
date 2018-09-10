@@ -159,6 +159,7 @@ export interface Bridge {
      * @param n - 直接关闭，或者关闭并返回首页
      */
     closeWebview(n: CloseType): void;
+    goNativeHome(): void;
     /**
      * 拍照（多张照片）
      * @param count - 照片数量
@@ -179,6 +180,16 @@ export interface Bridge {
      * @param callback - 分享后的回调方法名
      */
     showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string>;
+    /**
+     * 微信小程序分享
+     * @param webPageUrl - 兼容低版本的网页链接
+     * @param path - 小程序页面路径
+     * @param imageUrl - 图片地址
+     * @param title - 标题
+     * @param desc - 描述
+     * @param callback - 分享后的回调方法名
+     */
+    wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void;
     /**
      * 右上角显示分享图标，并完成分享操作
      * @param type - 分享类型，详情参见 ShareType 枚举类型
@@ -201,12 +212,16 @@ export interface Bridge {
      */
     showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void;
     /**
-     * 原生ajax请求
-     * @param url - url
-     * @param data - 参数
-     * @param method - 请求方式
+     * 右上角设置两个图标
+     * 类型为base64，大小限定50*50
+     * @param baseImg 图1
+     * @param fun1
+     * @param baseImg2 图2
+     * @param fun2
+     * 执行函数，无返回值无mock有回调
      */
-    nativeAjax(url: string, data: any, method: string): void;
+    showRiskArr(icon1: string, callback1: string, icon2: string, callback2: string): void;
+    clearRiskArr(): void;
     /**
      * 打开海报详情界面,点击显示大图数组可分享
      * 调用该方法,将海报url列表和要展示的海报的索引作为参数传入；

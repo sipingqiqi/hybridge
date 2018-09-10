@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.nativeAjax = exports.showShareArr = exports.showShareBtn = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
+exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.clearRiskArr = exports.showRiskArr = exports.showShareArr = exports.showShareBtn = exports.wechatShare = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.goNativeHome = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
 
 var _bridge = require('./interface/bridge');
 
@@ -21,8 +21,6 @@ var _bridge7 = _interopRequireDefault(_bridge6);
 
 var _cookie = require('./utils/cookie');
 
-var _data = require('./data/data');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var instance = null;
@@ -33,26 +31,25 @@ var aliasNames = {
 };
 var methods = ['openSearch', 'toggleSearch', 'SetH5Header', 'leftMenu', 'toggleMenu', 'rightMenu', 'articleDetail', 'viewPdf', 'startAudioRec', 'callCamera', 'tailorCamera', 'callAddress', 'idCardScan',
 //saveImage,
-'getBank', 'caSign', 'getJob', 'getCustomer', 'closeWebview', 'takeUserImageMultiple', 'callCameraMultiple', 'showShare',
-//wechatShare,
-'showShareBtn', 'showShareArr',
-//showRiskArr,
-'nativeAjax', 'showPosterDetail', 'sendSms', 'shareShareEntry', 'onReady', 'onDataResult', 'notifyCommandFromNative'];
+'getBank', 'caSign', 'getJob', 'getCustomer', 'closeWebview', 'goNativeHome', 'takeUserImageMultiple', 'callCameraMultiple', 'showShare', 'wechatShare', 'showShareBtn', 'showShareArr', 'showRiskArr', 'clearRiskArr', 'showPosterDetail', 'sendSms', 'shareShareEntry', 'onReady', 'onDataResult', 'notifyCommandFromNative'];
 /**
  * 挂载 bridge 对象
  * @param bridge - 实现 Bridge 接口的类型实例
  */
 var mount = function mount(bridge) {
     instance = bridge;
-    window.ostype = _cookie.ostype;
-    window.token = _cookie.token;
+    var _window = window,
+        ostype = _window.ostype,
+        token = _window.token,
+        gobackbtn = _window.gobackbtn,
+        nativeAjax = _window.nativeAjax,
+        data = _window.jsBridge;
+
     window.cookie = {
         set: _cookie.setCookie,
         get: _cookie.getCookie,
         delete: _cookie.deleteCookie
     };
-    window.gobackbtn = _cookie.gobackbtn;
-    window.jsBridge = _data.data;
     methods.forEach(function (key) {
         var alias = aliasNames[key];
         window[alias || key] = instance[key].bind(instance);
@@ -201,6 +198,9 @@ var getCustomer = function getCustomer() {
 var closeWebview = function closeWebview(n) {
     return instance.closeWebview(n);
 };
+var goNativeHome = function goNativeHome() {
+    return instance.goNativeHome();
+};
 /**
  * 拍照（多张照片）
  * @param count - 照片数量
@@ -227,18 +227,18 @@ var callCameraMultiple = function callCameraMultiple(count) {
 var showShare = function showShare(type, url, imageUrl, title, desc, callback) {
     return instance.showShare(type, url, imageUrl, title, desc, callback);
 };
-// /**
-//  * 微信小程序分享
-//  * @param webPageUrl - 兼容低版本的网页链接
-//  * @param path - 小程序页面路径
-//  * @param imageUrl - 图片地址
-//  * @param title - 标题
-//  * @param desc - 描述
-//  * @param callback - 分享后的回调方法名
-//  */
-// const wechatShare = function(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void {
-//   return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
-// }
+/**
+ * 微信小程序分享
+ * @param webPageUrl - 兼容低版本的网页链接
+ * @param path - 小程序页面路径
+ * @param imageUrl - 图片地址
+ * @param title - 标题
+ * @param desc - 描述
+ * @param callback - 分享后的回调方法名
+ */
+var wechatShare = function wechatShare(webPageUrl, path, imageUrl, title, desc, callback) {
+    return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
+};
 /**
  * 右上角显示分享图标，并完成分享操作
  * @param type - 分享类型，详情参见 ShareType 枚举类型
@@ -264,26 +264,20 @@ var showShareBtn = function showShareBtn(type, url, imageUrl, title, desc, callb
 var showShareArr = function showShareArr(javascript, url, imageUrl, title, desc) {
     return instance.showShareArr(javascript, url, imageUrl, title, desc);
 };
-// /**
-//  * 右上角设置两个图标
-//  * 类型为base64，大小限定50*50
-//  * @param baseImg 图1
-//  * @param fun1 
-//  * @param baseImg2 图2
-//  * @param fun2 
-//  * 执行函数，无返回值无mock有回调
-//  */
-// const showRiskArr = function(baseImg: string, fun1: string, baseImg2: string, fun2: string): void {
-//   return instance.showRiskArr(baseImg, fun1, baseImg2, fun2);
-// }
 /**
- * 原生ajax请求
- * @param url - url
- * @param data - 参数
- * @param method - 请求方式
+ * 右上角设置两个图标
+ * 类型为base64，大小限定50*50
+ * @param baseImg 图1
+ * @param fun1
+ * @param baseImg2 图2
+ * @param fun2
+ * 执行函数，无返回值无mock有回调
  */
-var nativeAjax = function nativeAjax(url, data, method) {
-    return instance.nativeAjax(url, data, method);
+var showRiskArr = function showRiskArr(icon1, callback1, icon2, callback2) {
+    return instance.showRiskArr(icon1, callback1, icon2, callback2);
+};
+var clearRiskArr = function clearRiskArr() {
+    return instance.clearRiskArr();
 };
 /**
  * 打开海报详情界面,点击显示大图数组可分享
@@ -351,14 +345,15 @@ var install = function install(Vue, options) {
         getJob: getJob,
         getCustomer: getCustomer,
         closeWebview: closeWebview,
+        goNativeHome: goNativeHome,
         takeUserImageMultiple: takeUserImageMultiple,
         callCameraMultiple: callCameraMultiple,
         showShare: showShare,
-        //wechatShare,
+        wechatShare: wechatShare,
         showShareBtn: showShareBtn,
         showShareArr: showShareArr,
-        //showRiskArr,
-        nativeAjax: nativeAjax,
+        showRiskArr: showRiskArr,
+        clearRiskArr: clearRiskArr,
         showPosterDetail: showPosterDetail,
         sendSms: sendSms,
         shareShareEntry: shareShareEntry
@@ -394,12 +389,15 @@ exports.caSign = caSign;
 exports.getJob = getJob;
 exports.getCustomer = getCustomer;
 exports.closeWebview = closeWebview;
+exports.goNativeHome = goNativeHome;
 exports.takeUserImageMultiple = takeUserImageMultiple;
 exports.callCameraMultiple = callCameraMultiple;
 exports.showShare = showShare;
+exports.wechatShare = wechatShare;
 exports.showShareBtn = showShareBtn;
 exports.showShareArr = showShareArr;
-exports.nativeAjax = nativeAjax;
+exports.showRiskArr = showRiskArr;
+exports.clearRiskArr = clearRiskArr;
 exports.showPosterDetail = showPosterDetail;
 exports.sendSms = sendSms;
 exports.shareShareEntry = shareShareEntry;

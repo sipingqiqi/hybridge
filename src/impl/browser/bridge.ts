@@ -210,6 +210,8 @@ export default class BrowserBridge implements Bridge {
 
   closeWebview(n: CloseType): void { }
 
+  goNativeHome(): void { }
+
   takeUserImageMultiple(count: number): Promise<string> {
     this.clearTimer()
     let __this = this;
@@ -266,6 +268,8 @@ export default class BrowserBridge implements Bridge {
   showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void { }
 
   showRiskArr(baseImg: string, fun1: string, baseImg2: string, fun2: string): void { }
+
+  clearRiskArr(): void {}
 
   nativeAjax(url: string, data: any, method: string): void { }
 

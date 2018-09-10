@@ -14,7 +14,7 @@ import Browser from './impl/browser/bridge';
 import iOS from './impl/ios/bridge';
 import Android from './impl/android/bridge';
 
-import { getCookie, setCookie, deleteCookie, ostype, token, gobackbtn } from './utils/cookie';
+import { getCookie, setCookie, deleteCookie, ostype, token, gobackbtn, nativeAjax } from './utils/cookie';
 import { data } from './data/data';
 
 let instance: Bridge = null;
@@ -45,14 +45,15 @@ const methods = [
   'getJob',
   'getCustomer',
   'closeWebview',
+  'goNativeHome',
   'takeUserImageMultiple',
   'callCameraMultiple',
   'showShare',
-  //wechatShare,
+  'wechatShare',
   'showShareBtn',
   'showShareArr',
-  //showRiskArr,
-  'nativeAjax',
+  'showRiskArr',
+  'clearRiskArr',
   'showPosterDetail',
   'sendSms',
   'shareShareEntry',
@@ -68,18 +69,19 @@ const methods = [
 const mount = function (bridge: Bridge) {
   instance = bridge;
 
-  window.ostype = ostype;
-  window.token = token;
+  const {
+    ostype,
+    token,
+    gobackbtn,
+    nativeAjax,
+    jsBridge: data,
+  } = window;
 
   window.cookie = {
     set: setCookie,
     get: getCookie,
     delete: deleteCookie,
   }
-
-  window.gobackbtn = gobackbtn;
-
-  window.jsBridge = data;
 
   methods.forEach(key => {
     const alias = aliasNames[key];
@@ -252,6 +254,10 @@ const closeWebview = function (n: CloseType): void {
   return instance.closeWebview(n);
 }
 
+const goNativeHome = function(): void {
+  return instance.goNativeHome();
+}
+
 /**
  * 拍照（多张照片）
  * @param count - 照片数量
@@ -281,18 +287,18 @@ const showShare = function (type: ShareType, url: string, imageUrl: string, titl
   return instance.showShare(type, url, imageUrl, title, desc, callback);
 }
 
-// /**
-//  * 微信小程序分享
-//  * @param webPageUrl - 兼容低版本的网页链接
-//  * @param path - 小程序页面路径
-//  * @param imageUrl - 图片地址
-//  * @param title - 标题
-//  * @param desc - 描述
-//  * @param callback - 分享后的回调方法名
-//  */
-// const wechatShare = function(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void {
-//   return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
-// }
+/**
+ * 微信小程序分享
+ * @param webPageUrl - 兼容低版本的网页链接
+ * @param path - 小程序页面路径
+ * @param imageUrl - 图片地址
+ * @param title - 标题
+ * @param desc - 描述
+ * @param callback - 分享后的回调方法名
+ */
+const wechatShare = function(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void {
+  return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
+}
 
 /**
  * 右上角显示分享图标，并完成分享操作
@@ -321,27 +327,21 @@ const showShareArr = function (javascript: string, url: string, imageUrl: string
   return instance.showShareArr(javascript, url, imageUrl, title, desc);
 }
 
-// /**
-//  * 右上角设置两个图标
-//  * 类型为base64，大小限定50*50
-//  * @param baseImg 图1
-//  * @param fun1 
-//  * @param baseImg2 图2
-//  * @param fun2 
-//  * 执行函数，无返回值无mock有回调
-//  */
-// const showRiskArr = function(baseImg: string, fun1: string, baseImg2: string, fun2: string): void {
-//   return instance.showRiskArr(baseImg, fun1, baseImg2, fun2);
-// }
-
 /**
- * 原生ajax请求
- * @param url - url
- * @param data - 参数
- * @param method - 请求方式
+ * 右上角设置两个图标
+ * 类型为base64，大小限定50*50
+ * @param baseImg 图1
+ * @param fun1 
+ * @param baseImg2 图2
+ * @param fun2 
+ * 执行函数，无返回值无mock有回调
  */
-const nativeAjax = function (url: string, data: any, method: string): void {
-  return instance.nativeAjax(url, data, method);
+const showRiskArr = function(icon1: string, callback1: string, icon2: string, callback2: string): void {
+  return instance.showRiskArr(icon1, callback1, icon2, callback2);
+}
+
+const clearRiskArr = function(): void {
+  return instance.clearRiskArr();
 }
 
 /**
@@ -416,14 +416,15 @@ const install = function (Vue, options) {
     getJob,
     getCustomer,
     closeWebview,
+    goNativeHome,
     takeUserImageMultiple,
     callCameraMultiple,
     showShare,
-    //wechatShare,
+    wechatShare,
     showShareBtn,
     showShareArr,
-    //showRiskArr,
-    nativeAjax,
+    showRiskArr,
+    clearRiskArr,
     showPosterDetail,
     sendSms,
     shareShareEntry,
@@ -462,14 +463,15 @@ export {
   getJob,
   getCustomer,
   closeWebview,
+  goNativeHome,
   takeUserImageMultiple,
   callCameraMultiple,
   showShare,
-  //wechatShare,
+  wechatShare,
   showShareBtn,
   showShareArr,
-  //showRiskArr,
-  nativeAjax,
+  showRiskArr,
+  clearRiskArr,
   showPosterDetail,
   sendSms,
   shareShareEntry,
