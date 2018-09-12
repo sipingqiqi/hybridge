@@ -383,6 +383,13 @@ var IOSBridge = function () {
             call('setAppLocalShareData', (0, _stringify2.default)({ type: type, url: url, title: title, desc: desc, callback: callback }));
         }
     }, {
+        key: 'findDictTable',
+        value: function findDictTable(type) {
+            return new _promise2.default(function (resolve) {
+                resolve('{}');
+            });
+        }
+    }, {
         key: 'onReady',
         value: function onReady() {
             _data.data.status.loadstatus = true;

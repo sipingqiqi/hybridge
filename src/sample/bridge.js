@@ -703,6 +703,176 @@ function clearTimer() {
     }
 }
 
+
+// 获取数据字典内容
+window.dictionary = {}
+let dictionary = [
+  // "occupation",        // 职业列表
+  // "area",              // 全国地址字典数据类型
+  "post_type",         // 保单寄送类型
+  "preserve",          // 保全类型
+  "sales_channel",      // 销售渠道
+  "relation",         // 家庭关系
+  "bankcode",          // 银行卡列表
+  "benefit_type",      // 受益人类型
+  "card_type",         // 证件类型
+  "citizenship",       // 国家列表
+  "cover",             // 封面类型
+  "degree",            // 学历列表
+  "coverage_state",    // coverage_state
+  "gender",            // 性别
+  "insure_state",      // 保单状态
+  "marriage",          // 婚姻情况列表
+  "nation",            // 民族
+  "payment",           // 支付类型
+  "policy_channel",    // 保险渠道
+  "occupation_level"  // 职业等级列表
+]
+
+function KVtoNV (n) {
+  // let newObj = {}
+  if (typeof n == 'object') {
+    if (Array.isArray(n)) {
+      return n.map(function (v, i, arr) {
+        return KVtoNV(v)
+      })
+    } else {
+      let newN = {}
+      Object.keys(n).map(function (v, i, arr) {
+        if (v == "key") {
+          newN.value = KVtoNV(n[v])
+        } else if (v == "value") {
+          newN.name = KVtoNV(n[v])
+        } else {
+          newN[v] = KVtoNV(n[v])
+        }
+      })
+      return newN
+    }
+  } else {
+    return n
+  }
+}
+window.KVtoNV = KVtoNV
+window.setDictionary = function (n) { // 获取字典
+  let setDic = function () {
+    return new Promise((resolve, reject) => {
+      if (window.HQAppJSInterface) {
+        let stringJson = JSON.parse(window.HQAppJSInterface.getDicDataByType(n))
+        window.dictionary[stringJson.name] = KVtoNV(stringJson.item)
+        resolve(stringJson)
+      } else {
+        reject('fail')
+      }
+    })
+  }
+  return window.checkload().then(function (data) {
+    return setDic()
+  })
+}
+window.setAllDictionary = function () {
+  window.checkload().then(success => {
+    if (window.HQAppJSInterface) {
+      dictionary.map(function (v, i, arr) { // 如果localStorage 无
+        let stringJson = JSON.parse(window.HQAppJSInterface.getDicDataByType(v))
+        window.dictionary[stringJson.name] = KVtoNV(stringJson.item)
+      })
+    }
+  }, fail => {
+    console.log(fail)
+  }).catch(e => {
+    console.log(e)
+    throw new Error(e)
+  })
+}
+window.setAllDictionary()
+
+// 查询字典后返回数据
+window.getDictionary = function (n) {
+  var dir = function () {
+    return new Promise((resolve, reject) => {
+      if (window.dictionary[n]) {
+        resolve(window.dictionary[n])
+      } else {
+        reject('fail')
+      }
+    })
+  }
+
+  return window.setDictionary(n).then(function (data) {
+    return dir()
+  })
+}
+// 查询字典后返回数据
+// window.getDictionary('payment').then(success => {
+//   let a = window.findDictionary(success, {value: '01'})  // {name: '男'}
+//   console.log(a)
+// }, fail => {
+//   console.log(fail)
+// }).catch(e => console.log(e))
+window.findDictionary = function (target, n) { // 查字典  n.name || n.value
+  let k = Object.keys(n)[0]
+  let va = n[k]
+  let seled = null
+  function findObject (o) {
+    if (typeof o == 'object') {
+      if (Array.isArray(o)) {
+        o.find(function (v, i, arr) {
+          return findObject(v)
+        })
+      } else {
+        if (o[k] == va) {
+          seled = o
+        }
+      }
+    }
+  }
+  findObject(target)
+  return seled
+}
+
+// 模糊匹配 (这代码有bug， o[k].indexOf可能是不存在的)
+window._findDictionary = function (target, n) { // 查字典  n.name || n.value
+  let k = Object.keys(n)[0]
+  let va = n[k]
+  let seled = null
+  function findObject (o) {
+    if (typeof o == 'object') {
+      if (Array.isArray(o)) {
+        o.find(function (v, i, arr) {
+          return findObject(v)
+        })
+      } else {
+        if (o[k].indexOf(va) != -1) {
+          seled = o
+        }
+      }
+    }
+  }
+  findObject(target)
+  return seled
+}
+
+/**
+ * 查找函数，让对象类型的list也可以像数组类型的list一样查找
+ * @param list {array|object}
+ * @param invoke {function} 查找的判定函数
+ * @returns {any} 查找结果
+ */
+const find = function (list, invoke) {
+  return Array.isArray(list) ? list.find(invoke) : Object.keys(list).find(key => invoke(list[key], key, list))
+}
+
+/**
+ * 在一个列表中查找一个项。如果它的键值对包含和<@param by>中指定的键值对，则认为查找成功
+ * @param list 查找的列表
+ * @param by 查找的限定
+ * @returns {any} 查找的结果
+ */
+const findDict = (list, by) => {
+  return find(list, item => Object.keys(by).every(key => item[key] === by[key]))
+}
+
 module.exports = {
     openSearch, toggleSearch,
     SetH5Header, leftMenu, toggleMenu, rightMenu,

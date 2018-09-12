@@ -14,7 +14,10 @@ import Browser from './impl/browser/bridge';
 import iOS from './impl/ios/bridge';
 import Android from './impl/android/bridge';
 
-import { getCookie, setCookie, deleteCookie, ostype, token, gobackbtn, nativeAjax } from './utils/cookie';
+import { getCookie, setCookie, deleteCookie, ostype, token } from './utils/cookie';
+import { gobackbtn } from './utils/navigator';
+import { nativeAjax } from './utils/ajax';
+import { dictionary, KVtoNV, setDictionary, setAllDictionary, getDictionary, findDictionary, _findDictionary } from './utils/dictionary';
 import { data } from './data/data';
 
 let instance: Bridge = null;
@@ -25,42 +28,27 @@ const aliasNames = {
   notifyCommandFromNative: 'notifyCommandFromNative',
 }
 
-const methods = [
-  'openSearch',
-  'toggleSearch',
-  'SetH5Header',
-  'leftMenu',
-  'toggleMenu',
-  'rightMenu',
-  'articleDetail',
-  'viewPdf',
-  'startAudioRec',
-  'callCamera',
-  'tailorCamera',
-  'callAddress',
-  'idCardScan',
-  //saveImage,
-  'getBank',
-  'caSign',
-  'getJob',
-  'getCustomer',
-  'closeWebview',
-  'goNativeHome',
-  'takeUserImageMultiple',
-  'callCameraMultiple',
-  'showShare',
-  'wechatShare',
-  'showShareBtn',
-  'showShareArr',
-  'showRiskArr',
-  'clearRiskArr',
-  'showPosterDetail',
-  'sendSms',
-  'shareShareEntry',
-  'onReady', 
-  'onDataResult', 
-  'notifyCommandFromNative'
-]
+declare var window: Window & {
+  HQAppGetH5Header(): void,
+  app2js_onDataResult(type: string, data: string): void,
+  notifyCommandFromNative(): void,
+
+  gobackbtn(pathName: string): void,
+  ostype(): string,
+  token(): string,
+  nativeAjax(): void,
+
+  dictionary: any,
+  KVtoNV: any,
+  setDictionary: any,
+  setAllDictionary: any,
+  getDictionary: any,
+  findDictionary: any,
+  _findDictionary: any,
+
+  cookie: any,
+  jsBridge: any,
+}
 
 /**
  * 挂载 bridge 对象
@@ -75,6 +63,14 @@ const mount = function (bridge: Bridge) {
     gobackbtn,
     nativeAjax,
     jsBridge: data,
+
+    dictionary,
+    KVtoNV,
+    setDictionary,
+    setAllDictionary,
+    getDictionary,
+    findDictionary,
+    _findDictionary,
   } = window;
 
   window.cookie = {
@@ -83,10 +79,12 @@ const mount = function (bridge: Bridge) {
     delete: deleteCookie,
   }
 
-  methods.forEach(key => {
+  Object.keys(functions).forEach(key => {
     const alias = aliasNames[key];
     window[alias || key] = instance[key].bind(instance);
   });
+
+  setAllDictionary();
 }
 
 /**
@@ -376,73 +374,20 @@ const shareShareEntry = function (type: ShareType, url: string, title: string, d
   return instance.shareShareEntry(type, url, title, desc, callback);
 }
 
+const findDictTable = function (type: string): Promise<string> {
+  return instance.findDictTable(type);
+}
+
 // const goBack = function(pathName: string): void {
 //   return instance.goBack(pathName);
 // }
 
-const install = function (Vue, options) {
-  console.log('Mount hybridge to vue');
+const functions = {
+  MenuPosition,
+  CloseType,
+  ShareType,
+  SignType,
 
-  switch (ostype()) {
-    case OS.IOS:
-      mount(new iOS());
-      break;
-    case OS.ANDROID:
-      mount(new Android());
-      break;
-    default:
-      mount(new Browser());
-      break;
-  }
-
-  Vue.prototype.$bridge = {
-    gobackbtn,
-    openSearch,
-    toggleSearch,
-    SetH5Header,
-    leftMenu,
-    toggleMenu,
-    rightMenu,
-    articleDetail,
-    viewPdf,
-    startAudioRec,
-    callCamera,
-    tailorCamera,
-    callAddress,
-    idCardScan,
-    //saveImage,
-    getBank,
-    caSign,
-    getJob,
-    getCustomer,
-    closeWebview,
-    goNativeHome,
-    takeUserImageMultiple,
-    callCameraMultiple,
-    showShare,
-    wechatShare,
-    showShareBtn,
-    showShareArr,
-    showRiskArr,
-    clearRiskArr,
-    showPosterDetail,
-    sendSms,
-    shareShareEntry,
-  };
-}
-
-enum OS {
-  IOS = 'ios',
-  ANDROID = 'android',
-}
-
-export {
-  Browser as BROWSER,
-  iOS as IOS,
-  Android as ANDROID,
-  OS,
-  install,
-  mount,
   gobackbtn,
   openSearch,
   toggleSearch,
@@ -475,13 +420,80 @@ export {
   showPosterDetail,
   sendSms,
   shareShareEntry,
-  //goBack,  
+  findDictTable,
+}
+
+const install = function (Vue, options) {
+  console.log('Mount hybridge to vue');
+
+  switch (ostype()) {
+    case OS.IOS:
+      mount(new iOS());
+      break;
+    case OS.ANDROID:
+      mount(new Android());
+      break;
+    default:
+      mount(new Browser());
+      break;
+  }
+
+  Vue.prototype.$bridge = functions;
+}
+
+enum OS {
+  IOS = 'ios',
+  ANDROID = 'android',
+}
+
+export {
+  Browser as BROWSER,
+  iOS as IOS,
+  Android as ANDROID,
+  OS,
+  install,
+  mount,
 
   SearchResult,
   MenuOption,
   PosterDetail,
+  
   MenuPosition,
   CloseType,
   ShareType,
   SignType,
+
+  gobackbtn,
+  openSearch,
+  toggleSearch,
+  SetH5Header,
+  leftMenu,
+  toggleMenu,
+  rightMenu,
+  articleDetail,
+  viewPdf,
+  startAudioRec,
+  callCamera,
+  tailorCamera,
+  callAddress,
+  idCardScan,
+  //saveImage,
+  getBank,
+  caSign,
+  getJob,
+  getCustomer,
+  closeWebview,
+  goNativeHome,
+  takeUserImageMultiple,
+  callCameraMultiple,
+  showShare,
+  wechatShare,
+  showShareBtn,
+  showShareArr,
+  showRiskArr,
+  clearRiskArr,
+  showPosterDetail,
+  sendSms,
+  shareShareEntry,
+  findDictTable,
 }

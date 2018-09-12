@@ -3,7 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.clearRiskArr = exports.showRiskArr = exports.showShareArr = exports.showShareBtn = exports.wechatShare = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.goNativeHome = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
+exports.findDictTable = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.clearRiskArr = exports.showRiskArr = exports.showShareArr = exports.showShareBtn = exports.wechatShare = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.goNativeHome = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
+
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
 
 var _bridge = require('./interface/bridge');
 
@@ -21,6 +25,8 @@ var _bridge7 = _interopRequireDefault(_bridge6);
 
 var _cookie = require('./utils/cookie');
 
+var _navigator = require('./utils/navigator');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var instance = null;
@@ -29,9 +35,6 @@ var aliasNames = {
     onDataResult: 'app2js_onDataResult',
     notifyCommandFromNative: 'notifyCommandFromNative'
 };
-var methods = ['openSearch', 'toggleSearch', 'SetH5Header', 'leftMenu', 'toggleMenu', 'rightMenu', 'articleDetail', 'viewPdf', 'startAudioRec', 'callCamera', 'tailorCamera', 'callAddress', 'idCardScan',
-//saveImage,
-'getBank', 'caSign', 'getJob', 'getCustomer', 'closeWebview', 'goNativeHome', 'takeUserImageMultiple', 'callCameraMultiple', 'showShare', 'wechatShare', 'showShareBtn', 'showShareArr', 'showRiskArr', 'clearRiskArr', 'showPosterDetail', 'sendSms', 'shareShareEntry', 'onReady', 'onDataResult', 'notifyCommandFromNative'];
 /**
  * 挂载 bridge 对象
  * @param bridge - 实现 Bridge 接口的类型实例
@@ -43,17 +46,25 @@ var mount = function mount(bridge) {
         token = _window.token,
         gobackbtn = _window.gobackbtn,
         nativeAjax = _window.nativeAjax,
-        data = _window.jsBridge;
+        data = _window.jsBridge,
+        dictionary = _window.dictionary,
+        KVtoNV = _window.KVtoNV,
+        setDictionary = _window.setDictionary,
+        setAllDictionary = _window.setAllDictionary,
+        getDictionary = _window.getDictionary,
+        findDictionary = _window.findDictionary,
+        _findDictionary = _window._findDictionary;
 
     window.cookie = {
         set: _cookie.setCookie,
         get: _cookie.getCookie,
         delete: _cookie.deleteCookie
     };
-    methods.forEach(function (key) {
+    (0, _keys2.default)(functions).forEach(function (key) {
         var alias = aliasNames[key];
         window[alias || key] = instance[key].bind(instance);
     });
+    setAllDictionary();
 };
 /**
  * 打开搜索框
@@ -308,9 +319,51 @@ var sendSms = function sendSms(telephones, content) {
 var shareShareEntry = function shareShareEntry(type, url, title, desc, callback) {
     return instance.shareShareEntry(type, url, title, desc, callback);
 };
+var findDictTable = function findDictTable(type) {
+    return instance.findDictTable(type);
+};
 // const goBack = function(pathName: string): void {
 //   return instance.goBack(pathName);
 // }
+var functions = {
+    MenuPosition: _bridge.MenuPosition,
+    CloseType: _bridge.CloseType,
+    ShareType: _bridge.ShareType,
+    SignType: _bridge.SignType,
+    gobackbtn: _navigator.gobackbtn,
+    openSearch: openSearch,
+    toggleSearch: toggleSearch,
+    SetH5Header: SetH5Header,
+    leftMenu: leftMenu,
+    toggleMenu: toggleMenu,
+    rightMenu: rightMenu,
+    articleDetail: articleDetail,
+    viewPdf: viewPdf,
+    startAudioRec: startAudioRec,
+    callCamera: callCamera,
+    tailorCamera: tailorCamera,
+    callAddress: callAddress,
+    idCardScan: idCardScan,
+    //saveImage,
+    getBank: getBank,
+    caSign: caSign,
+    getJob: getJob,
+    getCustomer: getCustomer,
+    closeWebview: closeWebview,
+    goNativeHome: goNativeHome,
+    takeUserImageMultiple: takeUserImageMultiple,
+    callCameraMultiple: callCameraMultiple,
+    showShare: showShare,
+    wechatShare: wechatShare,
+    showShareBtn: showShareBtn,
+    showShareArr: showShareArr,
+    showRiskArr: showRiskArr,
+    clearRiskArr: clearRiskArr,
+    showPosterDetail: showPosterDetail,
+    sendSms: sendSms,
+    shareShareEntry: shareShareEntry,
+    findDictTable: findDictTable
+};
 var install = function install(Vue, options) {
     console.log('Mount hybridge to vue');
     switch ((0, _cookie.ostype)()) {
@@ -324,40 +377,7 @@ var install = function install(Vue, options) {
             mount(new _bridge3.default());
             break;
     }
-    Vue.prototype.$bridge = {
-        gobackbtn: _cookie.gobackbtn,
-        openSearch: openSearch,
-        toggleSearch: toggleSearch,
-        SetH5Header: SetH5Header,
-        leftMenu: leftMenu,
-        toggleMenu: toggleMenu,
-        rightMenu: rightMenu,
-        articleDetail: articleDetail,
-        viewPdf: viewPdf,
-        startAudioRec: startAudioRec,
-        callCamera: callCamera,
-        tailorCamera: tailorCamera,
-        callAddress: callAddress,
-        idCardScan: idCardScan,
-        //saveImage,
-        getBank: getBank,
-        caSign: caSign,
-        getJob: getJob,
-        getCustomer: getCustomer,
-        closeWebview: closeWebview,
-        goNativeHome: goNativeHome,
-        takeUserImageMultiple: takeUserImageMultiple,
-        callCameraMultiple: callCameraMultiple,
-        showShare: showShare,
-        wechatShare: wechatShare,
-        showShareBtn: showShareBtn,
-        showShareArr: showShareArr,
-        showRiskArr: showRiskArr,
-        clearRiskArr: clearRiskArr,
-        showPosterDetail: showPosterDetail,
-        sendSms: sendSms,
-        shareShareEntry: shareShareEntry
-    };
+    Vue.prototype.$bridge = functions;
 };
 var OS;
 (function (OS) {
@@ -370,7 +390,11 @@ exports.ANDROID = _bridge7.default;
 exports.OS = OS;
 exports.install = install;
 exports.mount = mount;
-exports.gobackbtn = _cookie.gobackbtn;
+exports.MenuPosition = _bridge.MenuPosition;
+exports.CloseType = _bridge.CloseType;
+exports.ShareType = _bridge.ShareType;
+exports.SignType = _bridge.SignType;
+exports.gobackbtn = _navigator.gobackbtn;
 exports.openSearch = openSearch;
 exports.toggleSearch = toggleSearch;
 exports.SetH5Header = SetH5Header;
@@ -401,7 +425,4 @@ exports.clearRiskArr = clearRiskArr;
 exports.showPosterDetail = showPosterDetail;
 exports.sendSms = sendSms;
 exports.shareShareEntry = shareShareEntry;
-exports.MenuPosition = _bridge.MenuPosition;
-exports.CloseType = _bridge.CloseType;
-exports.ShareType = _bridge.ShareType;
-exports.SignType = _bridge.SignType;
+exports.findDictTable = findDictTable;

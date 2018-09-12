@@ -373,6 +373,19 @@ var IOSBridge = function () {
             call('setAppLocalShareData', [type, url, title, desc, callback]);
         }
     }, {
+        key: 'findDictTable',
+        value: function findDictTable(type) {
+            return new _promise2.default(function (resolve, reject) {
+                ready().then(function () {
+                    if (window.HQAppJSInterface && window.HQAppJSInterface.getDicDataByType) {
+                        resolve(window.HQAppJSInterface.getDicDataByType(type));
+                    } else {
+                        reject('Cannot find function: getDicDataByType');
+                    }
+                });
+            });
+        }
+    }, {
         key: 'onReady',
         value: function onReady() {
             _data.data.status.loadstatus = true;

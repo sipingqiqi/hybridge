@@ -18,7 +18,7 @@ const events = {
 };
 
 declare var window: Window & {
-  webkit: any
+  HQAppJSInterface: any
 }
 
 async function ready(): Promise<string> {
@@ -218,6 +218,18 @@ export default class IOSBridge implements Bridge {
 
   shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void {
     call<any>('setAppLocalShareData', [type, url, title, desc, callback]);
+  }
+
+  findDictTable(type: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      ready().then(() => {
+        if (window.HQAppJSInterface && window.HQAppJSInterface.getDicDataByType) {
+          resolve(window.HQAppJSInterface.getDicDataByType(type));
+        } else {
+          reject('Cannot find function: getDicDataByType');
+        }
+      });
+    });
   }
 
   onReady(): void {

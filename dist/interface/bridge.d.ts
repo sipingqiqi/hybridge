@@ -245,6 +245,7 @@ export interface Bridge {
      * @param callback - 分享完成后的回调方法名
      */
     shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void;
+    findDictTable(type: string): Promise<string>;
     onReady(): void;
     onDataResult(type: string, data: string): void;
     notifyCommandFromNative(): void;

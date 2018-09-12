@@ -289,6 +289,13 @@ export interface Bridge {
    */
   shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void,
 
+  findDictTable(type: string): Promise<string>,
+  
+
+
+  //window.setAllDictionary()
+
+
   // goBack(pathName: string): void,
 
   onReady(): void,

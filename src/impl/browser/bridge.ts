@@ -1,6 +1,37 @@
 import { Bridge, SearchResult, MenuOption, MenuPosition, CloseType, ShareType, PosterDetail } from '../../interface/bridge';
-import { app } from '../../data/app';
-import { api } from '../../data/api';
+
+const api = {};
+
+const app = {
+  vue: {
+    $route: {
+      meta: null,
+      query: null,
+      planType: null
+    },
+    $router: {
+      push(obj: any): void {},
+      go(step: number): void {},
+    },
+    axios: {
+      post(url: string, params: any): Promise<any> {
+        return new Promise<any>(resolve => {
+          resolve({});
+        });
+      }
+    },
+    $store: {
+      state: {
+        jsBridge: {
+          caSign: null,
+          item: null,
+          
+        }
+      },
+      commit(name: string) {},
+    }
+  }
+};
 
 interface FileToBase64Result {
   full: string,
@@ -278,6 +309,12 @@ export default class BrowserBridge implements Bridge {
   sendSms(telNum: Array<string>, content: string): void { }
 
   shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void { }
+
+  findDictTable(type: string): Promise<string> {
+    return new Promise<string>(resolve => {
+      resolve('{}');
+    })
+  }
 
   goBack(pathName: string): void {
     const __this = this;

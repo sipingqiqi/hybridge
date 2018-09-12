@@ -2,7 +2,7 @@ import { SearchResult, MenuOption, MenuExOption, PosterDetail, MenuPosition, Clo
 import Browser from './impl/browser/bridge';
 import iOS from './impl/ios/bridge';
 import Android from './impl/android/bridge';
-import { gobackbtn } from './utils/cookie';
+import { gobackbtn } from './utils/navigator';
 /**
  * 挂载 bridge 对象
  * @param bridge - 实现 Bridge 接口的类型实例
@@ -194,9 +194,10 @@ declare const sendSms: (telephones: string[], content: string) => void;
  * @param callback - 分享完成后的回调方法名
  */
 declare const shareShareEntry: (type: ShareType, url: string, title: string, desc: string, callback: string) => void;
+declare const findDictTable: (type: string) => Promise<string>;
 declare const install: (Vue: any, options: any) => void;
 declare enum OS {
     IOS = "ios",
     ANDROID = "android"
 }
-export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, getBank, caSign, getJob, getCustomer, closeWebview, goNativeHome, takeUserImageMultiple, callCameraMultiple, showShare, wechatShare, showShareBtn, showShareArr, showRiskArr, clearRiskArr, showPosterDetail, sendSms, shareShareEntry, SearchResult, MenuOption, PosterDetail, MenuPosition, CloseType, ShareType, SignType, };
+export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, SearchResult, MenuOption, PosterDetail, MenuPosition, CloseType, ShareType, SignType, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, getBank, caSign, getJob, getCustomer, closeWebview, goNativeHome, takeUserImageMultiple, callCameraMultiple, showShare, wechatShare, showShareBtn, showShareArr, showRiskArr, clearRiskArr, showPosterDetail, sendSms, shareShareEntry, findDictTable, };

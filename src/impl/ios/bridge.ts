@@ -242,7 +242,11 @@ export default class IOSBridge implements Bridge {
       JSON.stringify({ type, url, title, desc, callback }));
   }
 
-
+  findDictTable(type: string): Promise<string> {
+    return new Promise<string>(resolve => {
+      resolve('{}');
+    });
+  }
 
   onReady(): void {
     data.status.loadstatus = true;
@@ -271,3 +275,4 @@ export default class IOSBridge implements Bridge {
 
   notifyCommandFromNative(): void { }
 }
+

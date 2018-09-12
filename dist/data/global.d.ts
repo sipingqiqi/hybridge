@@ -20,6 +20,13 @@ declare global {
         ostype(): string;
         token(): string;
         nativeAjax(): void;
+        dictionary: any;
+        KVtoNV: any;
+        setDictionary: any;
+        setAllDictionary: any;
+        getDictionary: any;
+        findDictionary: any;
+        _findDictionary: any;
         cookie: any;
         HQAppJSInterface?: any;
         jsBridge: any;

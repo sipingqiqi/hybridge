@@ -20,12 +20,38 @@ var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _app = require('../../data/app');
-
-var _api = require('../../data/api');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var api = {};
+var app = {
+    vue: {
+        $route: {
+            meta: null,
+            query: null,
+            planType: null
+        },
+        $router: {
+            push: function push(obj) {},
+            go: function go(step) {}
+        },
+        axios: {
+            post: function post(url, params) {
+                return new _promise2.default(function (resolve) {
+                    resolve({});
+                });
+            }
+        },
+        $store: {
+            state: {
+                jsBridge: {
+                    caSign: null,
+                    item: null
+                }
+            },
+            commit: function commit(name) {}
+        }
+    }
+};
 var zip = {
     run: function run(obj) {
         return new _promise2.default(function (resolve, reject) {
@@ -178,7 +204,7 @@ var BrowserBridge = function () {
 
                 return new _promise2.default(function (res, rej) {
                     _this.callCamera().then(function (base64) {
-                        res(_app.app.vue.axios.post(_api.api['IDCARD'], { base64: base64 }));
+                        res(app.vue.axios.post(api['IDCARD'], { base64: base64 }));
                     });
                 });
             }
@@ -199,14 +225,14 @@ var BrowserBridge = function () {
         value: function caSign(name, type, keyWord) {
             var __this = this;
             __this.clearTimer();
-            _app.app.vue.$router.push('/h5SignIn');
+            app.vue.$router.push('/h5SignIn');
             function sign() {
                 return new _promise2.default(function (resolve, reject) {
                     __tid = window.setInterval(function (success) {
-                        if (_app.app.vue.$store.state.jsBridge.caSign.includes('base64')) {
+                        if (app.vue.$store.state.jsBridge.caSign.includes('base64')) {
                             __this.clearTimer();
-                            resolve(_app.app.vue.$store.state.jsBridge.caSign);
-                            _app.app.vue.$store.commit('clearCaSign');
+                            resolve(app.vue.$store.state.jsBridge.caSign);
+                            app.vue.$store.commit('clearCaSign');
                         } else {
                             // reject('fail')
                         }
@@ -219,16 +245,16 @@ var BrowserBridge = function () {
         key: 'getJob',
         value: function getJob() {
             this.clearTimer();
-            _app.app.vue.$router.push('/jobList');
+            app.vue.$router.push('/jobList');
             var getJob = function getJob() {
                 var _this2 = this;
 
                 return new _promise2.default(function (res, rej) {
                     __tid = window.setInterval(function (_) {
-                        if (_app.app.vue.$store.state.jsBridge.item) {
+                        if (app.vue.$store.state.jsBridge.item) {
                             _this2.clearTimer();
-                            res(_app.app.vue.$store.state.jsBridge.item);
-                            _app.app.vue.$store.commit('clearItem');
+                            res(app.vue.$store.state.jsBridge.item);
+                            app.vue.$store.commit('clearItem');
                         } else {}
                     }, 30);
                 });
@@ -335,6 +361,13 @@ var BrowserBridge = function () {
         key: 'shareShareEntry',
         value: function shareShareEntry(type, url, title, desc, callback) {}
     }, {
+        key: 'findDictTable',
+        value: function findDictTable(type) {
+            return new _promise2.default(function (resolve) {
+                resolve('{}');
+            });
+        }
+    }, {
         key: 'goBack',
         value: function goBack(pathName) {
             var __this = this;
@@ -345,20 +378,20 @@ var BrowserBridge = function () {
                 // - 有参，则直接跳转以参数为name的路由，不带query
                 // - 有参，则为"***|query"形式，跳转到目标路由***,把当前页面query带入
                 // - 默认行为 返回上一历史记录
-                var _app$vue$$route = _app.app.vue.$route,
+                var _app$vue$$route = app.vue.$route,
                     meta = _app$vue$$route.meta,
                     query = _app$vue$$route.query,
                     planType = _app$vue$$route.planType;
 
                 if (meta && typeof meta.prevent === 'function' && meta.prevent()) return;
                 if (/\|query/.test(pathName)) {
-                    _app.app.vue.$router.push({ name: pathName.split('|')[0], query: query });
+                    app.vue.$router.push({ name: pathName.split('|')[0], query: query });
                 } else if (pathName) {
-                    _app.app.vue.$router.push({ name: pathName });
+                    app.vue.$router.push({ name: pathName });
                 } else if (planType) {
-                    _app.app.vue.$router.go(-1);
+                    app.vue.$router.go(-1);
                 } else {
-                    _app.app.vue.$router.go(-1);
+                    app.vue.$router.go(-1);
                 }
             };
             // 如果有hook 则先执行hock
