@@ -57,7 +57,7 @@ declare var window: Window & {
 const mount = function (bridge: Bridge) {
   instance = bridge;
 
-  const {
+  Object.assign(window, {
     ostype,
     token,
     gobackbtn,
@@ -71,7 +71,7 @@ const mount = function (bridge: Bridge) {
     getDictionary,
     findDictionary,
     _findDictionary,
-  } = window;
+  });
 
   window.cookie = {
     set: setCookie,
@@ -81,46 +81,50 @@ const mount = function (bridge: Bridge) {
 
   Object.keys(functions).forEach(key => {
     const alias = aliasNames[key];
-    window[alias || key] = instance[key].bind(instance);
+    const func = instance[key];
+    if (func) {
+      window[alias || key] = func.bind(instance);
+    }
   });
 
-  setAllDictionary();
+  //setAllDictionary();
 }
 
 /**
  * 打开搜索框
- * 当用户输入并点击搜索按钮后，SearchResult 的 callback 被触发，并将输入的内容放入参数。
- * 用户点击取消按钮时，有两种情况：
- * 1. 未曾点击过搜索，则直接关闭搜索框；
- * 2. 已点击过搜索，触发 callback('') 方法。
- * @param type - 搜索历史的 ID 值
- * @param hint - 键盘上方的提示文字
- * @param message - 输入框中的提示文字，相当于 placeholder 的东西
+ * 
+ * * 用户未输入内容，点击取消按钮，会自动关闭搜索框，不回调任何方法；
+ * * 用户已输入内容，点击搜索按钮，会调用 callback(text: string) 回调方法；
+ * * 用户已输入内容，点击取消按钮，会调用 callback(text: string) 回调方法，参数为空字符串。
+ * 
+ * @param type 搜索历史的类型名称，相同类型的共享搜索历史；
+ * @param hint 相当于 placeholder 出现在输入框和键盘上方；
+ * @param message 在没有搜索历史的情况下，出现在搜索框背景正中位置；
+ * @returns {SearchResult} 其中的 callback 成员方法，是接收回调函数
  */
 const openSearch = function (type: string, hint: string, message: string): SearchResult {
   return instance.openSearch(type, hint, message);
 }
 
-
 /**
- * ### 关闭搜索框
- * @param isHide - 是否关闭搜索框, true:隐藏 ; false: 显示
+ * 隐藏搜索框
+ *
+ * @param isHide - 为 true 时，隐藏搜索框；为 false 时，显示搜索框
  */
-const toggleSearch = function (isHide: boolean): void {
+function toggleSearch(isHide: boolean): void {
   instance.toggleSearch(isHide);
 }
 
-
 /**
- * 设置app标题
- * @param n - 标题文字
+ * 设置标题文字
+ * @param title - 标题文字
  */
-const SetH5Header = function (n: string): void {
-  instance.SetH5Header(n);
+const SetH5Header = function (title: string): void {
+  instance.SetH5Header(title);
 }
 
 /**
- * 设置标题栏左按钮
+ * 设置标题栏左侧按钮
  * @param option - 按钮选项，MenuOption.javascript 全局方法名，MenuOption.title 设置文字
  */
 const leftMenu = function (option: MenuOption): void {
@@ -378,6 +382,18 @@ const findDictTable = function (type: string): Promise<string> {
   return instance.findDictTable(type);
 }
 
+function onReady(): void {
+  instance.onReady();
+}
+
+function onDataResult(eventType: string, eventData: string): void {
+  instance.onDataResult(eventType, eventData);
+}
+
+function notifyCommandFromNative(): void { 
+  instance.notifyCommandFromNative();
+}
+
 // const goBack = function(pathName: string): void {
 //   return instance.goBack(pathName);
 // }
@@ -421,6 +437,10 @@ const functions = {
   sendSms,
   shareShareEntry,
   findDictTable,
+
+  onReady,
+  onDataResult,
+  notifyCommandFromNative,
 }
 
 const install = function (Vue, options) {
@@ -496,4 +516,8 @@ export {
   sendSms,
   shareShareEntry,
   findDictTable,
+
+  onReady,
+  onDataResult,
+  notifyCommandFromNative,
 }

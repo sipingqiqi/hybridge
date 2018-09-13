@@ -25,11 +25,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var dictionary = {};
 function KVtoNV(item) {
-    var _this = this;
-
     if (Array.isArray(item)) {
         return item.map(function (node) {
-            return _this.KVtoNV(node);
+            return KVtoNV(node);
         });
     } else {
         return (0, _assign2.default)({}, item, { value: item.key, name: item.value });
@@ -40,7 +38,7 @@ function setDictionary(type) {
         if (window.findDictTable) {
             window.findDictTable(type).then(function (json) {
                 var dict = JSON.parse(json);
-                dictionary[dict.name] = KVtoNV(dict.item);
+                dictionary[dict.name] = dict.item ? KVtoNV(dict.item) : [];
                 resolve(dict);
             });
         } else {

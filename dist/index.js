@@ -3,11 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.findDictTable = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.clearRiskArr = exports.showRiskArr = exports.showShareArr = exports.showShareBtn = exports.wechatShare = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.goNativeHome = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
+exports.notifyCommandFromNative = exports.onDataResult = exports.onReady = exports.findDictTable = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.clearRiskArr = exports.showRiskArr = exports.showShareArr = exports.showShareBtn = exports.wechatShare = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.goNativeHome = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
+
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
 
 var _bridge = require('./interface/bridge');
 
@@ -27,6 +31,12 @@ var _cookie = require('./utils/cookie');
 
 var _navigator = require('./utils/navigator');
 
+var _ajax = require('./utils/ajax');
+
+var _dictionary = require('./utils/dictionary');
+
+var _data = require('./data/data');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var instance = null;
@@ -41,20 +51,20 @@ var aliasNames = {
  */
 var mount = function mount(bridge) {
     instance = bridge;
-    var _window = window,
-        ostype = _window.ostype,
-        token = _window.token,
-        gobackbtn = _window.gobackbtn,
-        nativeAjax = _window.nativeAjax,
-        data = _window.jsBridge,
-        dictionary = _window.dictionary,
-        KVtoNV = _window.KVtoNV,
-        setDictionary = _window.setDictionary,
-        setAllDictionary = _window.setAllDictionary,
-        getDictionary = _window.getDictionary,
-        findDictionary = _window.findDictionary,
-        _findDictionary = _window._findDictionary;
-
+    (0, _assign2.default)(window, {
+        ostype: _cookie.ostype,
+        token: _cookie.token,
+        gobackbtn: _navigator.gobackbtn,
+        nativeAjax: _ajax.nativeAjax,
+        jsBridge: _data.data,
+        dictionary: _dictionary.dictionary,
+        KVtoNV: _dictionary.KVtoNV,
+        setDictionary: _dictionary.setDictionary,
+        setAllDictionary: _dictionary.setAllDictionary,
+        getDictionary: _dictionary.getDictionary,
+        findDictionary: _dictionary.findDictionary,
+        _findDictionary: _dictionary._findDictionary
+    });
     window.cookie = {
         set: _cookie.setCookie,
         get: _cookie.getCookie,
@@ -62,39 +72,45 @@ var mount = function mount(bridge) {
     };
     (0, _keys2.default)(functions).forEach(function (key) {
         var alias = aliasNames[key];
-        window[alias || key] = instance[key].bind(instance);
+        var func = instance[key];
+        if (func) {
+            window[alias || key] = func.bind(instance);
+        }
     });
-    setAllDictionary();
+    //setAllDictionary();
 };
 /**
  * 打开搜索框
- * 当用户输入并点击搜索按钮后，SearchResult 的 callback 被触发，并将输入的内容放入参数。
- * 用户点击取消按钮时，有两种情况：
- * 1. 未曾点击过搜索，则直接关闭搜索框；
- * 2. 已点击过搜索，触发 callback('') 方法。
- * @param type - 搜索历史的 ID 值
- * @param hint - 键盘上方的提示文字
- * @param message - 输入框中的提示文字，相当于 placeholder 的东西
+ *
+ * * 用户未输入内容，点击取消按钮，会自动关闭搜索框，不回调任何方法；
+ * * 用户已输入内容，点击搜索按钮，会调用 callback(text: string) 回调方法；
+ * * 用户已输入内容，点击取消按钮，会调用 callback(text: string) 回调方法，参数为空字符串。
+ *
+ * @param type 搜索历史的类型名称，相同类型的共享搜索历史；
+ * @param hint 相当于 placeholder 出现在输入框和键盘上方；
+ * @param message 在没有搜索历史的情况下，出现在搜索框背景正中位置；
+ * @returns {SearchResult} 其中的 callback 成员方法，是接收回调函数
  */
 var openSearch = function openSearch(type, hint, message) {
     return instance.openSearch(type, hint, message);
 };
 /**
- * ### 关闭搜索框
- * @param isHide - 是否关闭搜索框, true:隐藏 ; false: 显示
+ * 隐藏搜索框
+ *
+ * @param isHide - 为 true 时，隐藏搜索框；为 false 时，显示搜索框
  */
-var toggleSearch = function toggleSearch(isHide) {
+function toggleSearch(isHide) {
     instance.toggleSearch(isHide);
-};
+}
 /**
- * 设置app标题
- * @param n - 标题文字
+ * 设置标题文字
+ * @param title - 标题文字
  */
-var SetH5Header = function SetH5Header(n) {
-    instance.SetH5Header(n);
+var SetH5Header = function SetH5Header(title) {
+    instance.SetH5Header(title);
 };
 /**
- * 设置标题栏左按钮
+ * 设置标题栏左侧按钮
  * @param option - 按钮选项，MenuOption.javascript 全局方法名，MenuOption.title 设置文字
  */
 var leftMenu = function leftMenu(option) {
@@ -322,6 +338,15 @@ var shareShareEntry = function shareShareEntry(type, url, title, desc, callback)
 var findDictTable = function findDictTable(type) {
     return instance.findDictTable(type);
 };
+function onReady() {
+    instance.onReady();
+}
+function onDataResult(eventType, eventData) {
+    instance.onDataResult(eventType, eventData);
+}
+function notifyCommandFromNative() {
+    instance.notifyCommandFromNative();
+}
 // const goBack = function(pathName: string): void {
 //   return instance.goBack(pathName);
 // }
@@ -362,7 +387,10 @@ var functions = {
     showPosterDetail: showPosterDetail,
     sendSms: sendSms,
     shareShareEntry: shareShareEntry,
-    findDictTable: findDictTable
+    findDictTable: findDictTable,
+    onReady: onReady,
+    onDataResult: onDataResult,
+    notifyCommandFromNative: notifyCommandFromNative
 };
 var install = function install(Vue, options) {
     console.log('Mount hybridge to vue');
@@ -426,3 +454,6 @@ exports.showPosterDetail = showPosterDetail;
 exports.sendSms = sendSms;
 exports.shareShareEntry = shareShareEntry;
 exports.findDictTable = findDictTable;
+exports.onReady = onReady;
+exports.onDataResult = onDataResult;
+exports.notifyCommandFromNative = notifyCommandFromNative;

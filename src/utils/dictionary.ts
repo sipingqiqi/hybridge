@@ -6,7 +6,7 @@ const dictionary = {}
 
 function KVtoNV(item: Array<any> | any): Array<any> | any {
   if (Array.isArray(item)) {
-    return item.map(node => this.KVtoNV(node));
+    return item.map(node => KVtoNV(node));
   } else {
     return Object.assign({}, item, { value: item.key, name: item.value });
   }
@@ -17,7 +17,7 @@ function setDictionary(type: string): Promise<any> {
     if (window.findDictTable) {
       window.findDictTable(type).then(json => {
         const dict = JSON.parse(json);
-        dictionary[dict.name] = KVtoNV(dict.item);
+        dictionary[dict.name] = dict.item ? KVtoNV(dict.item) : [];
         resolve(dict);
       })
     } else {

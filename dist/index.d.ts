@@ -10,27 +10,30 @@ import { gobackbtn } from './utils/navigator';
 declare const mount: (bridge: Bridge) => void;
 /**
  * 打开搜索框
- * 当用户输入并点击搜索按钮后，SearchResult 的 callback 被触发，并将输入的内容放入参数。
- * 用户点击取消按钮时，有两种情况：
- * 1. 未曾点击过搜索，则直接关闭搜索框；
- * 2. 已点击过搜索，触发 callback('') 方法。
- * @param type - 搜索历史的 ID 值
- * @param hint - 键盘上方的提示文字
- * @param message - 输入框中的提示文字，相当于 placeholder 的东西
+ *
+ * * 用户未输入内容，点击取消按钮，会自动关闭搜索框，不回调任何方法；
+ * * 用户已输入内容，点击搜索按钮，会调用 callback(text: string) 回调方法；
+ * * 用户已输入内容，点击取消按钮，会调用 callback(text: string) 回调方法，参数为空字符串。
+ *
+ * @param type 搜索历史的类型名称，相同类型的共享搜索历史；
+ * @param hint 相当于 placeholder 出现在输入框和键盘上方；
+ * @param message 在没有搜索历史的情况下，出现在搜索框背景正中位置；
+ * @returns {SearchResult} 其中的 callback 成员方法，是接收回调函数
  */
 declare const openSearch: (type: string, hint: string, message: string) => SearchResult;
 /**
- * ### 关闭搜索框
- * @param isHide - 是否关闭搜索框, true:隐藏 ; false: 显示
+ * 隐藏搜索框
+ *
+ * @param isHide - 为 true 时，隐藏搜索框；为 false 时，显示搜索框
  */
-declare const toggleSearch: (isHide: boolean) => void;
+declare function toggleSearch(isHide: boolean): void;
 /**
- * 设置app标题
- * @param n - 标题文字
+ * 设置标题文字
+ * @param title - 标题文字
  */
-declare const SetH5Header: (n: string) => void;
+declare const SetH5Header: (title: string) => void;
 /**
- * 设置标题栏左按钮
+ * 设置标题栏左侧按钮
  * @param option - 按钮选项，MenuOption.javascript 全局方法名，MenuOption.title 设置文字
  */
 declare const leftMenu: (option: MenuOption) => void;
@@ -195,9 +198,12 @@ declare const sendSms: (telephones: string[], content: string) => void;
  */
 declare const shareShareEntry: (type: ShareType, url: string, title: string, desc: string, callback: string) => void;
 declare const findDictTable: (type: string) => Promise<string>;
+declare function onReady(): void;
+declare function onDataResult(eventType: string, eventData: string): void;
+declare function notifyCommandFromNative(): void;
 declare const install: (Vue: any, options: any) => void;
 declare enum OS {
     IOS = "ios",
     ANDROID = "android"
 }
-export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, SearchResult, MenuOption, PosterDetail, MenuPosition, CloseType, ShareType, SignType, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, getBank, caSign, getJob, getCustomer, closeWebview, goNativeHome, takeUserImageMultiple, callCameraMultiple, showShare, wechatShare, showShareBtn, showShareArr, showRiskArr, clearRiskArr, showPosterDetail, sendSms, shareShareEntry, findDictTable, };
+export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, SearchResult, MenuOption, PosterDetail, MenuPosition, CloseType, ShareType, SignType, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, getBank, caSign, getJob, getCustomer, closeWebview, goNativeHome, takeUserImageMultiple, callCameraMultiple, showShare, wechatShare, showShareBtn, showShareArr, showRiskArr, clearRiskArr, showPosterDetail, sendSms, shareShareEntry, findDictTable, onReady, onDataResult, notifyCommandFromNative, };
