@@ -77,7 +77,7 @@ var mount = function mount(bridge) {
             window[alias || key] = func.bind(instance);
         }
     });
-    //setAllDictionary();
+    (0, _dictionary.setAllDictionary)();
 };
 /**
  * 打开搜索框
@@ -97,40 +97,53 @@ var openSearch = function openSearch(type, hint, message) {
 /**
  * 隐藏搜索框
  *
- * @param isHide - 为 true 时，隐藏搜索框；为 false 时，显示搜索框
+ * @param isHide 是否隐藏搜索框
+ * * 为 `true` 隐藏，为 `false` 显示
  */
 function toggleSearch(isHide) {
     instance.toggleSearch(isHide);
 }
 /**
  * 设置标题文字
- * @param title - 标题文字
+ * @param title 标题文字
  */
 var SetH5Header = function SetH5Header(title) {
     instance.SetH5Header(title);
 };
 /**
  * 设置标题栏左侧按钮
- * @param option - 按钮选项，MenuOption.javascript 全局方法名，MenuOption.title 设置文字
+ *
+ * @param option 按钮选项
+ * * `MenuOption`.`title` 按钮文字
+ * * `MenuOption`.`javascript` 回调方法的名称
  */
-var leftMenu = function leftMenu(option) {
+function leftMenu(option) {
     return instance.leftMenu(option);
-};
+}
 /**
- * 设置标题栏左、右按钮是否显示
- * @param option - 指定要操作的按钮，MenuPosition.LEFT / MenuPosition.RIGHT / MenuPosition.BOTH
- * @param show - 指定是否显示
+ * 控制标题栏上按钮的显示
+ * @param option 指定要操作的按钮
+ * * `MenuPosition`.`LEFT` 左按钮
+ * * `MenuPosition`.`RIGHT` 右按钮
+ * * `MenuPosition`.`BOTH` 两侧按钮
+ * @param show 指定显示或者隐藏
+ * * 为 `true` 显示，为 `false` 隐藏
  */
-var toggleMenu = function toggleMenu(option, show) {
+function toggleMenu(option, show) {
     return instance.toggleMenu(option, show);
-};
+}
 /**
  * 设置标题栏右按钮
- * @param option - 按钮选项
+ * @param option 按钮选项
+ * * `MenuExOption`.`title` 按钮文字
+ * * `MenuExOption`.`javascript` 回调方法的名称
+ * * `MenuExOption`.`type`
+ * * `MenuExOption`.`url`
+ * * `MenuExOption`.`params`
  */
-var rightMenu = function rightMenu(option) {
+function rightMenu(option) {
     return instance.rightMenu(option);
-};
+}
 /**
  * 查看 PDF 文档，同 viewPdf 方法
  * @param url - 打开的地址

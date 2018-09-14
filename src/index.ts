@@ -87,7 +87,7 @@ const mount = function (bridge: Bridge) {
     }
   });
 
-  //setAllDictionary();
+  setAllDictionary();
 }
 
 /**
@@ -109,7 +109,8 @@ const openSearch = function (type: string, hint: string, message: string): Searc
 /**
  * 隐藏搜索框
  *
- * @param isHide - 为 true 时，隐藏搜索框；为 false 时，显示搜索框
+ * @param isHide 是否隐藏搜索框
+ * * 为 `true` 隐藏，为 `false` 显示
  */
 function toggleSearch(isHide: boolean): void {
   instance.toggleSearch(isHide);
@@ -117,7 +118,7 @@ function toggleSearch(isHide: boolean): void {
 
 /**
  * 设置标题文字
- * @param title - 标题文字
+ * @param title 标题文字
  */
 const SetH5Header = function (title: string): void {
   instance.SetH5Header(title);
@@ -125,112 +126,127 @@ const SetH5Header = function (title: string): void {
 
 /**
  * 设置标题栏左侧按钮
- * @param option - 按钮选项，MenuOption.javascript 全局方法名，MenuOption.title 设置文字
+ * 
+ * @param option 按钮选项
+ * * `MenuOption`.`title` 按钮文字
+ * * `MenuOption`.`javascript` 回调方法的名称
  */
-const leftMenu = function (option: MenuOption): void {
+function leftMenu(option: MenuOption): void {
   return instance.leftMenu(option);
 }
 
 /**
- * 设置标题栏左、右按钮是否显示
- * @param option - 指定要操作的按钮，MenuPosition.LEFT / MenuPosition.RIGHT / MenuPosition.BOTH
- * @param show - 指定是否显示
+ * 控制标题栏上按钮的显示
+ * @param option 指定要操作的按钮
+ * * `MenuPosition`.`LEFT` 左按钮
+ * * `MenuPosition`.`RIGHT` 右按钮
+ * * `MenuPosition`.`BOTH` 两侧按钮
+ * @param show 指定显示或者隐藏
+ * * 为 `true` 显示，为 `false` 隐藏
  */
-const toggleMenu = function (option: MenuPosition, show: boolean): void {
+function toggleMenu(option: MenuPosition, show: boolean): void {
   return instance.toggleMenu(option, show);
 }
 
 /**
  * 设置标题栏右按钮
- * @param option - 按钮选项
+ * @param option 按钮选项
+ * * `MenuExOption`.`title` 按钮文字
+ * * `MenuExOption`.`javascript` 回调方法的名称
+ * * `MenuExOption`.`type`
+ * * `MenuExOption`.`url`
+ * * `MenuExOption`.`params`
  */
-const rightMenu = function (option: MenuExOption): void {
+function rightMenu(option: MenuExOption): void {
   return instance.rightMenu(option);
 }
 
 
 /**
- * 查看 PDF 文档，同 viewPdf 方法
- * @param url - 打开的地址
- * @param title - 数据的标题
- * @param btnTxt - 按钮上的文字
+ * 打开 PDF 文件
+ * @param url - PDF 文件的 URL 地址
+ * @param title - 阅读窗体的标题文字
+ * @param btnTxt - 按钮文字
  */
-const articleDetail = function (url: string, title: string, btnTxt: string): void {
+function articleDetail(url: string, title: string, btnTxt: string): void {
   return instance.articleDetail(url, title, btnTxt);
 }
 
 /**
  * 查看 PDF 文档
- * @param url - 打开的地址,主要有图片、PDF、视频三类数据
- * @param title - 数据的标题
- * @param btnTxt - 按钮上的文字
+ * @param url 打开的地址,主要有图片、PDF、视频三类数据
+ * @param title 数据的标题
+ * @param btnTxt 按钮上的文字
+ * @returns {Promise} JSON 字符串，标识文章的已读信息
  */
-const viewPdf = function (url: string, title: string, btnTxt: string): Promise<string> {
+function viewPdf(url: string, title: string, btnTxt: string): Promise<string> {
   return instance.viewPdf(url, title, btnTxt);
 }
 
 /**
- * 启动录音功能
- * @param isShow - 显示隐藏, true:显示; false:隐藏 
+ * 启动录音
+ * @param show 显示隐藏, true:显示; false:隐藏 
+ * @returns {Promise} JSON 字符串，音频文件信息
  */
-const startAudioRec = function (isShow: boolean): Promise<string> {
-  return instance.startAudioRec(isShow);
+function startAudioRec(show: boolean): Promise<string> {
+  return instance.startAudioRec(show);
 }
 
 /**
- * 拍照
+ * 调用原生拍照
+ * @returns {Promise} JSON 字符串，以 base64 编码的照片内容
  */
-const callCamera = function (): Promise<string> {
+function callCamera(): Promise<string> {
   return instance.callCamera();
 }
 
 /**
- * 拍照并裁剪
- * @param n 
- * @param bool 
- * @param width 
- * @param height 
+ * 调用原生拍照，并按固定大小裁剪
+ * @param isCut 是否需要裁剪
+ * @param width 宽度
+ * @param height 高度
+ * @returns {Promise} JSON 字符串，以 base64 编码的照片内容
  */
-const tailorCamera = function (isCut: boolean, width: number, height: number): Promise<string> {
+function tailorCamera(isCut: boolean, width: number, height: number): Promise<string> {
   return instance.tailorCamera(isCut, width, height);
 }
 
 /**
- * 打开地址选择窗口
+ * 打开地址选择弹窗，可以选择“省”、“市”、“区”等
+ * @returns {Promise} JSON 字符串，返回用户选择的省市区信息
  */
-const callAddress = function (): Promise<string> {
+function callAddress(): Promise<string> {
   return instance.callAddress();
 }
 
 /**
- * 打开身份证件扫描窗口
+ * 打开身份证扫描弹窗，可以获取姓名、证件号码等信息
+ * @returns {Promise} JSON 字符串，返回身份证上的所有文字信息
  */
-const idCardScan = function (): Promise<string> {
+function idCardScan(): Promise<string> {
   return instance.idCardScan();
 }
 
-// /**
-//  * 将图片保存到用户相册
-//  * @param base64String - 照片的 base64 流
-//  */
-// const saveImage = function(base64String: string): void {
-//   return instance.saveImage(base64String)
-// }
-
 /**
- * 打开银行卡扫描窗口
+ * 打开银行卡扫描弹窗，可以获得银行名称、卡号、卡片种类等信息
+ * @returns {Promise} JSON 字符串，返回银行卡面上的所有文字信息
  */
-const getBank = function (): Promise<string> {
+function getBank(): Promise<string> {
   return instance.getBank();
 }
 
 /**
- * 打开 CA 手写签名窗口
- * @param name 
- * @param type 
- * @param serialized 
+ * 打开手写签名或人脸识别弹窗
+ * @param name 签名人的姓名
+ * @param type 功能类型
+ * * `SignType`.`WRITTEN` 手写签名
+ * * `SignType`.`PHOTO` 拍照上传签名
+ * * `SignType`.`FACE` 人脸识别
+ * * `SignType`.`COMMENT` 批注
+ * @param serialized 其它信息，要求使用 JSON 字符串形式传入
+ * @returns {Promise} JSON 字符串，返回签名的保存状态
  */
-const caSign = function (name: string, type: SignType, serialized: string): Promise<string> {
+function caSign(name: string, type: SignType, serialized: string): Promise<string> {
   return instance.caSign(name, type, serialized);
 }
 
