@@ -160,7 +160,7 @@ export default class IOSBridge implements Bridge {
     this.closeWebview(CloseType.CLOSE_AND_HOME);
   }
 
-  showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string> {
+  showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string = '', callback: string = ''): Promise<string> {
     return call<any>('appLocalShare',
       JSON.stringify({ type, url, imageUrl, title, desc, callback }),
       'shareInvoke', false);

@@ -251,114 +251,131 @@ function caSign(name: string, type: SignType, serialized: string): Promise<strin
 }
 
 /**
- * 选择并导入职业信息
+ * 打开职业选择弹窗
+ * @returns {Promise} JSON 字符串，返回用户选择职业信息
  */
-const getJob = function (): Promise<string> {
+function getJob(): Promise<string> {
   return instance.getJob();
 }
 
 /**
- * 选择并导入客户信息
+ * 打开客户信息选择弹窗
+ * @returns {Promise} JSON 字符串，返回用户选择的客户信息
  */
-const getCustomer = function (): Promise<string> {
+function getCustomer(): Promise<string> {
   return instance.getCustomer();
 }
 
 /**
  * 关闭当前 WebView 窗口
- * @param n - 直接关闭，或者关闭并返回首页
+ * @param type 关闭类型（可选），默认为仅关闭 WebView 窗口
+ * * `CloseType`.`CLOSE_AND_HOME` 关闭 WebView 窗口，并回到 APP 首页
+ * * `CloseType`.`CLOSE` 关闭 WebView 窗口，停留在 APP 的当前页面
  */
-const closeWebview = function (n: CloseType): void {
-  return instance.closeWebview(n);
+function closeWebview(type: CloseType): void {
+  return instance.closeWebview(type);
 }
 
-const goNativeHome = function(): void {
+/**
+ * 关闭当前 WebView 窗口，并且回到 APP 首页
+ */
+function goNativeHome(): void {
   return instance.goNativeHome();
 }
 
 /**
- * 拍照（多张照片）
- * @param count - 照片数量
+ * 打开原生相机，拍摄多张照片
+ * @param count 照片数量
+ * @returns {Promise} JSON 字符串，返回拍摄的照片
  */
-const takeUserImageMultiple = function (count: number): Promise<string> {
+function takeUserImageMultiple(count: number): Promise<string> {
   return instance.takeUserImageMultiple(count);
 }
 
 /**
- * 拍照（多张照片）
- * @param count - 照片数量
+ * 打开原生相机，拍摄多张照片，与 takeUserImageMultiple(count: number) 方法相同
+ * @param count 照片数量
+ * @returns {Promise} JSON 字符串，返回拍摄的照片
  */
 const callCameraMultiple = function (count: number): Promise<string> {
   return instance.callCameraMultiple(count);
 }
 
 /**
- * 指定显示右上角的分享按钮 无法实现
- * @param type - 分享类型，详情参见 ShareType 枚举类型
- * @param url - 分享链接
- * @param imageUrl - 分享图片
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享后的回调方法名
+ * 代码直接调用分享功能，不弹出提示
+ * @param type 分享类型
+ * * `ShareType`.`DEFAULT` 仍然弹出提示，由用户选择分享类型
+ * * `ShareType`.`WX_FRIEND` 直接分享给微信好友
+ * * `ShareType`.`WX_TIMELINE` 直接分享到朋友
+ * * `ShareType`.`QQ_FRIEND` 直接分享到 QQ 好友
+ * * `ShareType`.`QQ_ZONE` 直接分享到 QQ 空间
+ * * `ShareType`.`WEIBO` 直接分享到微博
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+ * @param callback 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+ * @returns {Promise} JSON 字符串，返回用户分享结果，即：分享成功、分享失败、用户取消
  */
-const showShare = function (type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string> {
+function showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string> {
   return instance.showShare(type, url, imageUrl, title, desc, callback);
 }
 
 /**
  * 微信小程序分享
- * @param webPageUrl - 兼容低版本的网页链接
- * @param path - 小程序页面路径
- * @param imageUrl - 图片地址
- * @param title - 标题
- * @param desc - 描述
- * @param callback - 分享后的回调方法名
+ * @param webPageUrl 兼容低版本的网页链接
+ * @param path 小程序页面路径
+ * @param imageUrl 图片地址
+ * @param title 标题
+ * @param desc 描述
+ * @param callback 分享后的回调方法名
  */
-const wechatShare = function(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void {
+function wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void {
   return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
 }
 
 /**
- * 右上角显示分享图标，并完成分享操作
- * @param type - 分享类型，详情参见 ShareType 枚举类型
- * @param url - 分享链接
- * @param imageUrl - 分享图片
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享后的回调方法名
+ * 显示分享按钮，用户点击弹出分享提示
+ * @param type 分享类型，本接口固定使用 ShareType.DEFAULT
+ * * `ShareType`.`DEFAULT` 仍然弹出提示，由用户选择分享类型
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+ * @param callback 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+ * @returns {Promise} JSON 字符串，返回用户分享结果，即：分享成功、分享失败、用户取消
  */
-const showShareBtn = function (type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void {
+function showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void {
   return instance.showShareBtn(type, url, imageUrl, title, desc, callback);
 }
 
 /**
- * 在右上角显示分享和搜索两个图标；
- * 图标,是根据 title 上的文字对应显示的，
- * 如：搜索、分享
- * @param javascript - 搜索的回调传null则无搜索
- * @param url - 分享的地址 
- * @param imageUrl - 图标图片的地址
- * @param title - 对应图标的文字
- * @param desc - 分享描述文字
+ * 显示搜索和分享两个按钮，用户点击弹出分享提示
+ * @param javascript 回调函数名，用户点击搜索将调用此全局函数
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
  */
-const showShareArr = function (javascript: string, url: string, imageUrl: string, title: string, desc: string): void {
+function showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void {
   return instance.showShareArr(javascript, url, imageUrl, title, desc);
 }
 
 /**
- * 右上角设置两个图标
- * 类型为base64，大小限定50*50
- * @param baseImg 图1
- * @param fun1 
- * @param baseImg2 图2
- * @param fun2 
- * 执行函数，无返回值无mock有回调
+ * 在标题栏右侧，显示多个图标按钮，要求图标大小 50 X 50 
+ * @param icon 第一个图标，以 base64 编码
+ * @param callback 第一个图标的回调函数名称
+ * @param secondIcon 第二个图标，以 base64 编码
+ * @param secondCallback 第二个图标的回调函数名称
  */
-const showRiskArr = function(icon1: string, callback1: string, icon2: string, callback2: string): void {
-  return instance.showRiskArr(icon1, callback1, icon2, callback2);
+function showRiskArr(icon: string, callback: string, secondIcon: string, secondCallback: string): void {
+  return instance.showRiskArr(icon, callback, secondIcon, secondCallback);
 }
 
-const clearRiskArr = function(): void {
+/**
+ * 清空标题栏右侧的图标按钮
+ */
+function clearRiskArr(): void {
   return instance.clearRiskArr();
 }
 

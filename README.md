@@ -96,8 +96,9 @@ showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc
 * `url` - 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
 * `imageUrl` - 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
 * `title` - 分享预览标题
-* `desc` - 分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
-* `callback` - 分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+* `desc` - 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+* `callback` - 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+* `Promise<string>` - 返回 JSON 字符串，标识用户分享结果，即：分享成功、分享失败、用户取消
 
 
 
@@ -127,8 +128,9 @@ showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: s
 * `url` - 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
 * `imageUrl` - 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
 * `title` - 分享预览标题
-* `desc` - 分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
-* `callback` - 分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+* `desc` - 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+* `callback` - 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+* `Promise<string>` - 返回 JSON 字符串，标识用户分享结果，即：分享成功、分享失败、用户取消
 
 
 
