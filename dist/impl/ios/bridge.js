@@ -116,7 +116,6 @@ function execute(method, params, name, noReturned) {
                         console.log('HyBridge Execute: ' + method + ', ' + params + ', ' + name + ', ' + noReturned);
                         return _context2.abrupt('return', new _promise2.default(function (resolve) {
                             if (noReturned) {
-                                //window.HQAppJSInterface[method](...params);
                                 if (window.webkit && window.webkit.messageHandlers) {
                                     var handler = window.webkit.messageHandlers[method];
                                     handler && handler.postMessage && handler.postMessage(params);
@@ -128,7 +127,6 @@ function execute(method, params, name, noReturned) {
                             var d = _data.data.status[name];
                             d.value = '';
                             d.status = false;
-                            //window.HQAppJSInterface[method](...params);
                             if (window.webkit && window.webkit.messageHandlers) {
                                 var _handler = window.webkit.messageHandlers[method];
                                 _handler && _handler.postMessage && _handler.postMessage(params);
@@ -285,7 +283,10 @@ var IOSBridge = function () {
         }
     }, {
         key: 'showShare',
-        value: function showShare(type, url, imageUrl, title, desc, callback) {
+        value: function showShare(type, url, imageUrl, title) {
+            var desc = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+            var callback = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '';
+
             return call('appLocalShare', (0, _stringify2.default)({ type: type, url: url, imageUrl: imageUrl, title: title, desc: desc, callback: callback }), 'shareInvoke', false);
         }
     }, {
@@ -376,11 +377,6 @@ var IOSBridge = function () {
         key: 'sendSms',
         value: function sendSms(telephones, content) {
             call('sendSms', (0, _stringify2.default)({ mobiles: telephones, message: content }));
-        }
-    }, {
-        key: 'shareShareEntry',
-        value: function shareShareEntry(type, url, title, desc, callback) {
-            call('setAppLocalShareData', (0, _stringify2.default)({ type: type, url: url, title: title, desc: desc, callback: callback }));
         }
     }, {
         key: 'findDictTable',

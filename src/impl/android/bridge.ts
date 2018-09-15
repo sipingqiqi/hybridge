@@ -216,10 +216,6 @@ export default class IOSBridge implements Bridge {
     call<any>('sendSms', [JSON.stringify(telephones), content]);
   }
 
-  shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void {
-    call<any>('setAppLocalShareData', [type, url, title, desc, callback]);
-  }
-
   findDictTable(type: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       ready().then(() => {

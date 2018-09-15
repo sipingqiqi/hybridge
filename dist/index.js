@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.notifyCommandFromNative = exports.onDataResult = exports.onReady = exports.findDictTable = exports.shareShareEntry = exports.sendSms = exports.showPosterDetail = exports.clearRiskArr = exports.showRiskArr = exports.showShareArr = exports.showShareBtn = exports.wechatShare = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.goNativeHome = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
+exports.notifyCommandFromNative = exports.onDataResult = exports.onReady = exports.findDictTable = exports.sendSms = exports.showPosterDetail = exports.clearRiskArr = exports.showRiskArr = exports.showShareArr = exports.showShareBtn = exports.wechatShare = exports.showShare = exports.callCameraMultiple = exports.takeUserImageMultiple = exports.goNativeHome = exports.closeWebview = exports.getCustomer = exports.getJob = exports.caSign = exports.getBank = exports.idCardScan = exports.callAddress = exports.tailorCamera = exports.callCamera = exports.startAudioRec = exports.viewPdf = exports.articleDetail = exports.rightMenu = exports.toggleMenu = exports.leftMenu = exports.SetH5Header = exports.toggleSearch = exports.openSearch = exports.gobackbtn = exports.SignType = exports.ShareType = exports.CloseType = exports.MenuPosition = exports.mount = exports.install = exports.OS = exports.ANDROID = exports.IOS = exports.BROWSER = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -145,180 +145,201 @@ function rightMenu(option) {
     return instance.rightMenu(option);
 }
 /**
- * 查看 PDF 文档，同 viewPdf 方法
- * @param url - 打开的地址
- * @param title - 数据的标题
- * @param btnTxt - 按钮上的文字
+ * 打开 PDF 文件
+ * @param url - PDF 文件的 URL 地址
+ * @param title - 阅读窗体的标题文字
+ * @param btnTxt - 按钮文字
  */
-var articleDetail = function articleDetail(url, title, btnTxt) {
+function articleDetail(url, title, btnTxt) {
     return instance.articleDetail(url, title, btnTxt);
-};
+}
 /**
  * 查看 PDF 文档
- * @param url - 打开的地址,主要有图片、PDF、视频三类数据
- * @param title - 数据的标题
- * @param btnTxt - 按钮上的文字
+ * @param url 打开的地址,主要有图片、PDF、视频三类数据
+ * @param title 数据的标题
+ * @param btnTxt 按钮上的文字
+ * @returns {Promise} JSON 字符串，标识文章的已读信息
  */
-var viewPdf = function viewPdf(url, title, btnTxt) {
+function viewPdf(url, title, btnTxt) {
     return instance.viewPdf(url, title, btnTxt);
-};
+}
 /**
- * 启动录音功能
- * @param isShow - 显示隐藏, true:显示; false:隐藏
+ * 启动录音
+ * @param show 显示隐藏, true:显示; false:隐藏
+ * @returns {Promise} JSON 字符串，音频文件信息
  */
-var startAudioRec = function startAudioRec(isShow) {
-    return instance.startAudioRec(isShow);
-};
+function startAudioRec(show) {
+    return instance.startAudioRec(show);
+}
 /**
- * 拍照
+ * 调用原生拍照
+ * @returns {Promise} JSON 字符串，以 base64 编码的照片内容
  */
-var callCamera = function callCamera() {
+function callCamera() {
     return instance.callCamera();
-};
+}
 /**
- * 拍照并裁剪
- * @param n
- * @param bool
- * @param width
- * @param height
+ * 调用原生拍照，并按固定大小裁剪
+ * @param isCut 是否需要裁剪
+ * @param width 宽度
+ * @param height 高度
+ * @returns {Promise} JSON 字符串，以 base64 编码的照片内容
  */
-var tailorCamera = function tailorCamera(isCut, width, height) {
+function tailorCamera(isCut, width, height) {
     return instance.tailorCamera(isCut, width, height);
-};
+}
 /**
- * 打开地址选择窗口
+ * 打开地址选择弹窗，可以选择“省”、“市”、“区”等
+ * @returns {Promise} JSON 字符串，返回用户选择的省市区信息
  */
-var callAddress = function callAddress() {
+function callAddress() {
     return instance.callAddress();
-};
+}
 /**
- * 打开身份证件扫描窗口
+ * 打开身份证扫描弹窗，可以获取姓名、证件号码等信息
+ * @returns {Promise} JSON 字符串，返回身份证上的所有文字信息
  */
-var idCardScan = function idCardScan() {
+function idCardScan() {
     return instance.idCardScan();
-};
-// /**
-//  * 将图片保存到用户相册
-//  * @param base64String - 照片的 base64 流
-//  */
-// const saveImage = function(base64String: string): void {
-//   return instance.saveImage(base64String)
-// }
+}
 /**
- * 打开银行卡扫描窗口
+ * 打开银行卡扫描弹窗，可以获得银行名称、卡号、卡片种类等信息
+ * @returns {Promise} JSON 字符串，返回银行卡面上的所有文字信息
  */
-var getBank = function getBank() {
+function getBank() {
     return instance.getBank();
-};
+}
 /**
- * 打开 CA 手写签名窗口
- * @param name
- * @param type
- * @param serialized
+ * 打开手写签名或人脸识别弹窗
+ * @param name 签名人的姓名
+ * @param type 功能类型
+ * * `SignType`.`WRITTEN` 手写签名
+ * * `SignType`.`PHOTO` 拍照上传签名
+ * * `SignType`.`FACE` 人脸识别
+ * * `SignType`.`COMMENT` 批注
+ * @param serialized 其它信息，要求使用 JSON 字符串形式传入
+ * @returns {Promise} JSON 字符串，返回签名的保存状态
  */
-var caSign = function caSign(name, type, serialized) {
+function caSign(name, type, serialized) {
     return instance.caSign(name, type, serialized);
-};
+}
 /**
- * 选择并导入职业信息
+ * 打开职业选择弹窗
+ * @returns {Promise} JSON 字符串，返回用户选择职业信息
  */
-var getJob = function getJob() {
+function getJob() {
     return instance.getJob();
-};
+}
 /**
- * 选择并导入客户信息
+ * 打开客户信息选择弹窗
+ * @returns {Promise} JSON 字符串，返回用户选择的客户信息
  */
-var getCustomer = function getCustomer() {
+function getCustomer() {
     return instance.getCustomer();
-};
+}
 /**
  * 关闭当前 WebView 窗口
- * @param n - 直接关闭，或者关闭并返回首页
+ * @param type 关闭类型（可选），默认为仅关闭 WebView 窗口
+ * * `CloseType`.`CLOSE_AND_HOME` 关闭 WebView 窗口，并回到 APP 首页
+ * * `CloseType`.`CLOSE` 关闭 WebView 窗口，停留在 APP 的当前页面
  */
-var closeWebview = function closeWebview(n) {
-    return instance.closeWebview(n);
-};
-var goNativeHome = function goNativeHome() {
+function closeWebview(type) {
+    return instance.closeWebview(type);
+}
+/**
+ * 关闭当前 WebView 窗口，并且回到 APP 首页
+ */
+function goNativeHome() {
     return instance.goNativeHome();
-};
+}
 /**
- * 拍照（多张照片）
- * @param count - 照片数量
+ * 打开原生相机，拍摄多张照片
+ * @param count 照片数量
+ * @returns {Promise} JSON 字符串，返回拍摄的照片
  */
-var takeUserImageMultiple = function takeUserImageMultiple(count) {
+function takeUserImageMultiple(count) {
     return instance.takeUserImageMultiple(count);
-};
+}
 /**
- * 拍照（多张照片）
- * @param count - 照片数量
+ * 打开原生相机，拍摄多张照片，与 takeUserImageMultiple(count: number) 方法相同
+ * @param count 照片数量
+ * @returns {Promise} JSON 字符串，返回拍摄的照片
  */
 var callCameraMultiple = function callCameraMultiple(count) {
     return instance.callCameraMultiple(count);
 };
 /**
- * 指定显示右上角的分享按钮 无法实现
- * @param type - 分享类型，详情参见 ShareType 枚举类型
- * @param url - 分享链接
- * @param imageUrl - 分享图片
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享后的回调方法名
+ * 代码直接调用分享功能，不弹出提示
+ * @param type 分享类型
+ * * `ShareType`.`DEFAULT` 仍然弹出提示，由用户选择分享类型
+ * * `ShareType`.`WX_FRIEND` 直接分享给微信好友
+ * * `ShareType`.`WX_TIMELINE` 直接分享到朋友
+ * * `ShareType`.`QQ_FRIEND` 直接分享到 QQ 好友
+ * * `ShareType`.`QQ_ZONE` 直接分享到 QQ 空间
+ * * `ShareType`.`WEIBO` 直接分享到微博
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+ * @param callback 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+ * @returns {Promise} JSON 字符串，返回用户分享结果，即：分享成功、分享失败、用户取消
  */
-var showShare = function showShare(type, url, imageUrl, title, desc, callback) {
+function showShare(type, url, imageUrl, title, desc, callback) {
     return instance.showShare(type, url, imageUrl, title, desc, callback);
-};
+}
 /**
  * 微信小程序分享
- * @param webPageUrl - 兼容低版本的网页链接
- * @param path - 小程序页面路径
- * @param imageUrl - 图片地址
- * @param title - 标题
- * @param desc - 描述
- * @param callback - 分享后的回调方法名
+ * @param webPageUrl 兼容低版本的网页链接
+ * @param path 小程序页面路径
+ * @param imageUrl 图片地址
+ * @param title 标题
+ * @param desc 描述
+ * @param callback 分享后的回调方法名
  */
-var wechatShare = function wechatShare(webPageUrl, path, imageUrl, title, desc, callback) {
+function wechatShare(webPageUrl, path, imageUrl, title, desc, callback) {
     return instance.wechatShare(webPageUrl, path, imageUrl, title, desc, callback);
-};
+}
 /**
- * 右上角显示分享图标，并完成分享操作
- * @param type - 分享类型，详情参见 ShareType 枚举类型
- * @param url - 分享链接
- * @param imageUrl - 分享图片
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享后的回调方法名
+ * 显示分享按钮，用户点击弹出分享提示
+ * @param type 分享类型，本接口固定使用 ShareType.DEFAULT
+ * * `ShareType`.`DEFAULT` 仍然弹出提示，由用户选择分享类型
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+ * @param callback 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+ * @returns {Promise} JSON 字符串，返回用户分享结果，即：分享成功、分享失败、用户取消
  */
-var showShareBtn = function showShareBtn(type, url, imageUrl, title, desc, callback) {
+function showShareBtn(type, url, imageUrl, title, desc, callback) {
     return instance.showShareBtn(type, url, imageUrl, title, desc, callback);
-};
+}
 /**
- * 在右上角显示分享和搜索两个图标；
- * 图标,是根据 title 上的文字对应显示的，
- * 如：搜索、分享
- * @param javascript - 搜索的回调传null则无搜索
- * @param url - 分享的地址
- * @param imageUrl - 图标图片的地址
- * @param title - 对应图标的文字
- * @param desc - 分享描述文字
+ * 显示搜索和分享两个按钮，用户点击弹出分享提示
+ * @param javascript 回调函数名，用户点击搜索将调用此全局函数
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
  */
-var showShareArr = function showShareArr(javascript, url, imageUrl, title, desc) {
+function showShareArr(javascript, url, imageUrl, title, desc) {
     return instance.showShareArr(javascript, url, imageUrl, title, desc);
-};
+}
 /**
- * 右上角设置两个图标
- * 类型为base64，大小限定50*50
- * @param baseImg 图1
- * @param fun1
- * @param baseImg2 图2
- * @param fun2
- * 执行函数，无返回值无mock有回调
+ * 在标题栏右侧，显示多个图标按钮，要求图标大小 50 X 50
+ * @param icon 第一个图标，以 base64 编码
+ * @param callback 第一个图标的回调函数名称
+ * @param secondIcon 第二个图标，以 base64 编码
+ * @param secondCallback 第二个图标的回调函数名称
  */
-var showRiskArr = function showRiskArr(icon1, callback1, icon2, callback2) {
-    return instance.showRiskArr(icon1, callback1, icon2, callback2);
-};
-var clearRiskArr = function clearRiskArr() {
+function showRiskArr(icon, callback, secondIcon, secondCallback) {
+    return instance.showRiskArr(icon, callback, secondIcon, secondCallback);
+}
+/**
+ * 清空标题栏右侧的图标按钮
+ */
+function clearRiskArr() {
     return instance.clearRiskArr();
-};
+}
 /**
  * 打开海报详情界面,点击显示大图数组可分享
  * 调用该方法,将海报url列表和要展示的海报的索引作为参数传入；
@@ -326,43 +347,43 @@ var clearRiskArr = function clearRiskArr() {
  * @param param - 海报 url 列表, type、subType、adId 均为 “1”
  * @param index - 海报索引
  */
-var showPosterDetail = function showPosterDetail(param, index) {
+function showPosterDetail(param, index) {
     return instance.showPosterDetail(param, index);
-};
+}
 /**
- * 发短信 打开短信编辑界面
- * @param telNum - 电话号码
- * @param content - 发送的内容
+ * 打开原生的短信编辑页面
+ * @param telephones 电话号码列表
+ * @param content - 短信内容
  */
-var sendSms = function sendSms(telephones, content) {
+function sendSms(telephones, content) {
     return instance.sendSms(telephones, content);
-};
+}
 /**
- * 设置分享数据，内部调用,设置分享数据的
- * @param type - 分享类型
- * @param url - 分享地址
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享完成后的回调方法名
+ * 查询数据字典
+ * @param type 字典类型
+ * @returns {Promise} JSON 字符串，返回数据字典的值
  */
-var shareShareEntry = function shareShareEntry(type, url, title, desc, callback) {
-    return instance.shareShareEntry(type, url, title, desc, callback);
-};
-var findDictTable = function findDictTable(type) {
+function findDictTable(type) {
     return instance.findDictTable(type);
-};
+}
+/**
+ * 用于接收来自 native 的通知，当 native 环境准备好之后，会调用此方法
+ */
 function onReady() {
     instance.onReady();
 }
+/**
+ * 用于接收来自 native 的通知，当 native 返回结果时，回调此方法
+ */
 function onDataResult(eventType, eventData) {
     instance.onDataResult(eventType, eventData);
 }
+/**
+ * 用于接收来自 native 的通知，暂时没用
+ */
 function notifyCommandFromNative() {
     instance.notifyCommandFromNative();
 }
-// const goBack = function(pathName: string): void {
-//   return instance.goBack(pathName);
-// }
 var functions = {
     MenuPosition: _bridge.MenuPosition,
     CloseType: _bridge.CloseType,
@@ -382,7 +403,6 @@ var functions = {
     tailorCamera: tailorCamera,
     callAddress: callAddress,
     idCardScan: idCardScan,
-    //saveImage,
     getBank: getBank,
     caSign: caSign,
     getJob: getJob,
@@ -399,7 +419,6 @@ var functions = {
     clearRiskArr: clearRiskArr,
     showPosterDetail: showPosterDetail,
     sendSms: sendSms,
-    shareShareEntry: shareShareEntry,
     findDictTable: findDictTable,
     onReady: onReady,
     onDataResult: onDataResult,
@@ -465,7 +484,6 @@ exports.showRiskArr = showRiskArr;
 exports.clearRiskArr = clearRiskArr;
 exports.showPosterDetail = showPosterDetail;
 exports.sendSms = sendSms;
-exports.shareShareEntry = shareShareEntry;
 exports.findDictTable = findDictTable;
 exports.onReady = onReady;
 exports.onDataResult = onDataResult;

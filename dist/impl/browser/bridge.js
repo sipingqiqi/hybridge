@@ -358,9 +358,6 @@ var BrowserBridge = function () {
         key: 'sendSms',
         value: function sendSms(telNum, content) {}
     }, {
-        key: 'shareShareEntry',
-        value: function shareShareEntry(type, url, title, desc, callback) {}
-    }, {
         key: 'findDictTable',
         value: function findDictTable(type) {
             return new _promise2.default(function (resolve) {

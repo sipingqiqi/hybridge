@@ -308,8 +308,6 @@ export default class BrowserBridge implements Bridge {
 
   sendSms(telNum: Array<string>, content: string): void { }
 
-  shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void { }
-
   findDictTable(type: string): Promise<string> {
     return new Promise<string>(resolve => {
       resolve('{}');

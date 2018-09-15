@@ -386,50 +386,48 @@ function clearRiskArr(): void {
  * @param param - 海报 url 列表, type、subType、adId 均为 “1”
  * @param index - 海报索引
  */
-const showPosterDetail = function (param: Array<PosterDetail>, index: number): void {
+function showPosterDetail(param: Array<PosterDetail>, index: number): void {
   return instance.showPosterDetail(param, index);
 }
 
 /**
- * 发短信 打开短信编辑界面
- * @param telNum - 电话号码
- * @param content - 发送的内容
+ * 打开原生的短信编辑页面
+ * @param telephones 电话号码列表
+ * @param content - 短信内容
  */
-const sendSms = function (telephones: Array<string>, content: string): void {
+function sendSms(telephones: Array<string>, content: string): void {
   return instance.sendSms(telephones, content);
 }
 
 /**
- * 设置分享数据，内部调用,设置分享数据的
- * @param type - 分享类型
- * @param url - 分享地址
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享完成后的回调方法名
+ * 查询数据字典
+ * @param type 字典类型
+ * @returns {Promise} JSON 字符串，返回数据字典的值
  */
-const shareShareEntry = function (type: ShareType, url: string, title: string, desc: string, callback: string): void {
-  return instance.shareShareEntry(type, url, title, desc, callback);
-}
-
-const findDictTable = function (type: string): Promise<string> {
+function findDictTable(type: string): Promise<string> {
   return instance.findDictTable(type);
 }
 
+/**
+ * 用于接收来自 native 的通知，当 native 环境准备好之后，会调用此方法
+ */
 function onReady(): void {
   instance.onReady();
 }
 
+/**
+ * 用于接收来自 native 的通知，当 native 返回结果时，回调此方法
+ */
 function onDataResult(eventType: string, eventData: string): void {
   instance.onDataResult(eventType, eventData);
 }
 
+/**
+ * 用于接收来自 native 的通知，暂时没用
+ */
 function notifyCommandFromNative(): void { 
   instance.notifyCommandFromNative();
 }
-
-// const goBack = function(pathName: string): void {
-//   return instance.goBack(pathName);
-// }
 
 const functions = {
   MenuPosition,
@@ -451,7 +449,6 @@ const functions = {
   tailorCamera,
   callAddress,
   idCardScan,
-  //saveImage,
   getBank,
   caSign,
   getJob,
@@ -468,7 +465,6 @@ const functions = {
   clearRiskArr,
   showPosterDetail,
   sendSms,
-  shareShareEntry,
   findDictTable,
 
   onReady,
@@ -530,7 +526,6 @@ export {
   tailorCamera,
   callAddress,
   idCardScan,
-  //saveImage,
   getBank,
   caSign,
   getJob,
@@ -547,7 +542,6 @@ export {
   clearRiskArr,
   showPosterDetail,
   sendSms,
-  shareShareEntry,
   findDictTable,
 
   onReady,

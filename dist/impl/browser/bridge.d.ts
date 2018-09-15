@@ -34,7 +34,6 @@ export default class BrowserBridge implements Bridge {
     nativeAjax(url: string, data: any, method: string): void;
     showPosterDetail(param: Array<PosterDetail>, index: number): void;
     sendSms(telNum: Array<string>, content: string): void;
-    shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void;
     findDictTable(type: string): Promise<string>;
     goBack(pathName: string): void;
     onReady(): void;

@@ -29,7 +29,6 @@ export default class IOSBridge implements Bridge {
     callCameraMultiple(count?: number): Promise<string>;
     showPosterDetail(param: Array<PosterDetail>, index: number): void;
     sendSms(telephones: Array<string>, content: string): void;
-    shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void;
     findDictTable(type: string): Promise<string>;
     onReady(): void;
     onDataResult(eventType: string, eventData: string): void;

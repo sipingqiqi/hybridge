@@ -368,11 +368,6 @@ var IOSBridge = function () {
             call('sendSms', [(0, _stringify2.default)(telephones), content]);
         }
     }, {
-        key: 'shareShareEntry',
-        value: function shareShareEntry(type, url, title, desc, callback) {
-            call('setAppLocalShareData', [type, url, title, desc, callback]);
-        }
-    }, {
         key: 'findDictTable',
         value: function findDictTable(type) {
             return new _promise2.default(function (resolve, reject) {

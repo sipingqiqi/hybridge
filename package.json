@@ -1,6 +1,6 @@
 {
   "name": "@wangweiqi/hybridge",
-  "version": "1.0.38",
+  "version": "1.0.40",
   "description": "A bridge for hybrid development.",
   "main": "./dist/index.js",
   "scripts": {

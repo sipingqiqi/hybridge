@@ -46,7 +46,6 @@ async function execute<T>(method: string, params: string | number | boolean, nam
   console.log(`HyBridge Execute: ${method}, ${params}, ${name}, ${noReturned}`);
   return new Promise<T>(resolve => {
     if (noReturned) {
-      //window.HQAppJSInterface[method](...params);
       if (window.webkit && window.webkit.messageHandlers) {
         const handler = window.webkit.messageHandlers[method];
         handler && handler.postMessage && handler.postMessage(params);
@@ -60,7 +59,6 @@ async function execute<T>(method: string, params: string | number | boolean, nam
     d.value = '';
     d.status = false;
 
-    //window.HQAppJSInterface[method](...params);
     if (window.webkit && window.webkit.messageHandlers) {
       const handler = window.webkit.messageHandlers[method];
       handler && handler.postMessage && handler.postMessage(params);
@@ -237,11 +235,6 @@ export default class IOSBridge implements Bridge {
     call<any>('sendSms', JSON.stringify({ mobiles: telephones, message: content }));
   }
 
-  shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void {
-    call<any>('setAppLocalShareData',
-      JSON.stringify({ type, url, title, desc, callback }));
-  }
-
   findDictTable(type: string): Promise<string> {
     return new Promise<string>(resolve => {
       resolve('{}');
@@ -275,4 +268,3 @@ export default class IOSBridge implements Bridge {
 
   notifyCommandFromNative(): void { }
 }
-

@@ -17,7 +17,7 @@ export default class IOSBridge implements Bridge {
     getCustomer(): Promise<string>;
     closeWebview(n?: CloseType): void;
     goNativeHome(): void;
-    showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string>;
+    showShare(type: ShareType, url: string, imageUrl: string, title: string, desc?: string, callback?: string): Promise<string>;
     wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void;
     showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc?: string, callback?: string): void;
     showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void;
@@ -29,7 +29,6 @@ export default class IOSBridge implements Bridge {
     callCameraMultiple(count?: number): Promise<string>;
     showPosterDetail(param: Array<PosterDetail>, index: number): void;
     sendSms(telephones: Array<string>, content: string): void;
-    shareShareEntry(type: ShareType, url: string, title: string, desc: string, callback: string): void;
     findDictTable(type: string): Promise<string>;
     onReady(): void;
     onDataResult(eventType: string, eventData: string): void;

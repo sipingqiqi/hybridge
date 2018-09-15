@@ -62,131 +62,159 @@ declare function toggleMenu(option: MenuPosition, show: boolean): void;
  */
 declare function rightMenu(option: MenuExOption): void;
 /**
- * 查看 PDF 文档，同 viewPdf 方法
- * @param url - 打开的地址
- * @param title - 数据的标题
- * @param btnTxt - 按钮上的文字
+ * 打开 PDF 文件
+ * @param url - PDF 文件的 URL 地址
+ * @param title - 阅读窗体的标题文字
+ * @param btnTxt - 按钮文字
  */
-declare const articleDetail: (url: string, title: string, btnTxt: string) => void;
+declare function articleDetail(url: string, title: string, btnTxt: string): void;
 /**
  * 查看 PDF 文档
- * @param url - 打开的地址,主要有图片、PDF、视频三类数据
- * @param title - 数据的标题
- * @param btnTxt - 按钮上的文字
+ * @param url 打开的地址,主要有图片、PDF、视频三类数据
+ * @param title 数据的标题
+ * @param btnTxt 按钮上的文字
+ * @returns {Promise} JSON 字符串，标识文章的已读信息
  */
-declare const viewPdf: (url: string, title: string, btnTxt: string) => Promise<string>;
+declare function viewPdf(url: string, title: string, btnTxt: string): Promise<string>;
 /**
- * 启动录音功能
- * @param isShow - 显示隐藏, true:显示; false:隐藏
+ * 启动录音
+ * @param show 显示隐藏, true:显示; false:隐藏
+ * @returns {Promise} JSON 字符串，音频文件信息
  */
-declare const startAudioRec: (isShow: boolean) => Promise<string>;
+declare function startAudioRec(show: boolean): Promise<string>;
 /**
- * 拍照
+ * 调用原生拍照
+ * @returns {Promise} JSON 字符串，以 base64 编码的照片内容
  */
-declare const callCamera: () => Promise<string>;
+declare function callCamera(): Promise<string>;
 /**
- * 拍照并裁剪
- * @param n
- * @param bool
- * @param width
- * @param height
+ * 调用原生拍照，并按固定大小裁剪
+ * @param isCut 是否需要裁剪
+ * @param width 宽度
+ * @param height 高度
+ * @returns {Promise} JSON 字符串，以 base64 编码的照片内容
  */
-declare const tailorCamera: (isCut: boolean, width: number, height: number) => Promise<string>;
+declare function tailorCamera(isCut: boolean, width: number, height: number): Promise<string>;
 /**
- * 打开地址选择窗口
+ * 打开地址选择弹窗，可以选择“省”、“市”、“区”等
+ * @returns {Promise} JSON 字符串，返回用户选择的省市区信息
  */
-declare const callAddress: () => Promise<string>;
+declare function callAddress(): Promise<string>;
 /**
- * 打开身份证件扫描窗口
+ * 打开身份证扫描弹窗，可以获取姓名、证件号码等信息
+ * @returns {Promise} JSON 字符串，返回身份证上的所有文字信息
  */
-declare const idCardScan: () => Promise<string>;
+declare function idCardScan(): Promise<string>;
 /**
- * 打开银行卡扫描窗口
+ * 打开银行卡扫描弹窗，可以获得银行名称、卡号、卡片种类等信息
+ * @returns {Promise} JSON 字符串，返回银行卡面上的所有文字信息
  */
-declare const getBank: () => Promise<string>;
+declare function getBank(): Promise<string>;
 /**
- * 打开 CA 手写签名窗口
- * @param name
- * @param type
- * @param serialized
+ * 打开手写签名或人脸识别弹窗
+ * @param name 签名人的姓名
+ * @param type 功能类型
+ * * `SignType`.`WRITTEN` 手写签名
+ * * `SignType`.`PHOTO` 拍照上传签名
+ * * `SignType`.`FACE` 人脸识别
+ * * `SignType`.`COMMENT` 批注
+ * @param serialized 其它信息，要求使用 JSON 字符串形式传入
+ * @returns {Promise} JSON 字符串，返回签名的保存状态
  */
-declare const caSign: (name: string, type: SignType, serialized: string) => Promise<string>;
+declare function caSign(name: string, type: SignType, serialized: string): Promise<string>;
 /**
- * 选择并导入职业信息
+ * 打开职业选择弹窗
+ * @returns {Promise} JSON 字符串，返回用户选择职业信息
  */
-declare const getJob: () => Promise<string>;
+declare function getJob(): Promise<string>;
 /**
- * 选择并导入客户信息
+ * 打开客户信息选择弹窗
+ * @returns {Promise} JSON 字符串，返回用户选择的客户信息
  */
-declare const getCustomer: () => Promise<string>;
+declare function getCustomer(): Promise<string>;
 /**
  * 关闭当前 WebView 窗口
- * @param n - 直接关闭，或者关闭并返回首页
+ * @param type 关闭类型（可选），默认为仅关闭 WebView 窗口
+ * * `CloseType`.`CLOSE_AND_HOME` 关闭 WebView 窗口，并回到 APP 首页
+ * * `CloseType`.`CLOSE` 关闭 WebView 窗口，停留在 APP 的当前页面
  */
-declare const closeWebview: (n: CloseType) => void;
-declare const goNativeHome: () => void;
+declare function closeWebview(type: CloseType): void;
 /**
- * 拍照（多张照片）
- * @param count - 照片数量
+ * 关闭当前 WebView 窗口，并且回到 APP 首页
  */
-declare const takeUserImageMultiple: (count: number) => Promise<string>;
+declare function goNativeHome(): void;
 /**
- * 拍照（多张照片）
- * @param count - 照片数量
+ * 打开原生相机，拍摄多张照片
+ * @param count 照片数量
+ * @returns {Promise} JSON 字符串，返回拍摄的照片
+ */
+declare function takeUserImageMultiple(count: number): Promise<string>;
+/**
+ * 打开原生相机，拍摄多张照片，与 takeUserImageMultiple(count: number) 方法相同
+ * @param count 照片数量
+ * @returns {Promise} JSON 字符串，返回拍摄的照片
  */
 declare const callCameraMultiple: (count: number) => Promise<string>;
 /**
- * 指定显示右上角的分享按钮 无法实现
- * @param type - 分享类型，详情参见 ShareType 枚举类型
- * @param url - 分享链接
- * @param imageUrl - 分享图片
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享后的回调方法名
+ * 代码直接调用分享功能，不弹出提示
+ * @param type 分享类型
+ * * `ShareType`.`DEFAULT` 仍然弹出提示，由用户选择分享类型
+ * * `ShareType`.`WX_FRIEND` 直接分享给微信好友
+ * * `ShareType`.`WX_TIMELINE` 直接分享到朋友
+ * * `ShareType`.`QQ_FRIEND` 直接分享到 QQ 好友
+ * * `ShareType`.`QQ_ZONE` 直接分享到 QQ 空间
+ * * `ShareType`.`WEIBO` 直接分享到微博
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+ * @param callback 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+ * @returns {Promise} JSON 字符串，返回用户分享结果，即：分享成功、分享失败、用户取消
  */
-declare const showShare: (type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string) => Promise<string>;
+declare function showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): Promise<string>;
 /**
  * 微信小程序分享
- * @param webPageUrl - 兼容低版本的网页链接
- * @param path - 小程序页面路径
- * @param imageUrl - 图片地址
- * @param title - 标题
- * @param desc - 描述
- * @param callback - 分享后的回调方法名
+ * @param webPageUrl 兼容低版本的网页链接
+ * @param path 小程序页面路径
+ * @param imageUrl 图片地址
+ * @param title 标题
+ * @param desc 描述
+ * @param callback 分享后的回调方法名
  */
-declare const wechatShare: (webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string) => void;
+declare function wechatShare(webPageUrl: string, path: string, imageUrl: string, title: string, desc: string, callback: string): void;
 /**
- * 右上角显示分享图标，并完成分享操作
- * @param type - 分享类型，详情参见 ShareType 枚举类型
- * @param url - 分享链接
- * @param imageUrl - 分享图片
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享后的回调方法名
+ * 显示分享按钮，用户点击弹出分享提示
+ * @param type 分享类型，本接口固定使用 ShareType.DEFAULT
+ * * `ShareType`.`DEFAULT` 仍然弹出提示，由用户选择分享类型
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
+ * @param callback 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
+ * @returns {Promise} JSON 字符串，返回用户分享结果，即：分享成功、分享失败、用户取消
  */
-declare const showShareBtn: (type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string) => void;
+declare function showShareBtn(type: ShareType, url: string, imageUrl: string, title: string, desc: string, callback: string): void;
 /**
- * 在右上角显示分享和搜索两个图标；
- * 图标,是根据 title 上的文字对应显示的，
- * 如：搜索、分享
- * @param javascript - 搜索的回调传null则无搜索
- * @param url - 分享的地址
- * @param imageUrl - 图标图片的地址
- * @param title - 对应图标的文字
- * @param desc - 分享描述文字
+ * 显示搜索和分享两个按钮，用户点击弹出分享提示
+ * @param javascript 回调函数名，用户点击搜索将调用此全局函数
+ * @param url 分享内容的链接地址，要求以 http(s):// 开头的完整 URL 地址
+ * @param imageUrl 分享预览小图标地址，要求以 http(s):// 开头的完整 URL 地址，图标不大于 30KB
+ * @param title 分享预览标题
+ * @param desc 分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
  */
-declare const showShareArr: (javascript: string, url: string, imageUrl: string, title: string, desc: string) => void;
+declare function showShareArr(javascript: string, url: string, imageUrl: string, title: string, desc: string): void;
 /**
- * 右上角设置两个图标
- * 类型为base64，大小限定50*50
- * @param baseImg 图1
- * @param fun1
- * @param baseImg2 图2
- * @param fun2
- * 执行函数，无返回值无mock有回调
+ * 在标题栏右侧，显示多个图标按钮，要求图标大小 50 X 50
+ * @param icon 第一个图标，以 base64 编码
+ * @param callback 第一个图标的回调函数名称
+ * @param secondIcon 第二个图标，以 base64 编码
+ * @param secondCallback 第二个图标的回调函数名称
  */
-declare const showRiskArr: (icon1: string, callback1: string, icon2: string, callback2: string) => void;
-declare const clearRiskArr: () => void;
+declare function showRiskArr(icon: string, callback: string, secondIcon: string, secondCallback: string): void;
+/**
+ * 清空标题栏右侧的图标按钮
+ */
+declare function clearRiskArr(): void;
 /**
  * 打开海报详情界面,点击显示大图数组可分享
  * 调用该方法,将海报url列表和要展示的海报的索引作为参数传入；
@@ -194,29 +222,34 @@ declare const clearRiskArr: () => void;
  * @param param - 海报 url 列表, type、subType、adId 均为 “1”
  * @param index - 海报索引
  */
-declare const showPosterDetail: (param: PosterDetail[], index: number) => void;
+declare function showPosterDetail(param: Array<PosterDetail>, index: number): void;
 /**
- * 发短信 打开短信编辑界面
- * @param telNum - 电话号码
- * @param content - 发送的内容
+ * 打开原生的短信编辑页面
+ * @param telephones 电话号码列表
+ * @param content - 短信内容
  */
-declare const sendSms: (telephones: string[], content: string) => void;
+declare function sendSms(telephones: Array<string>, content: string): void;
 /**
- * 设置分享数据，内部调用,设置分享数据的
- * @param type - 分享类型
- * @param url - 分享地址
- * @param title - 分享标题
- * @param desc - 分享描述
- * @param callback - 分享完成后的回调方法名
+ * 查询数据字典
+ * @param type 字典类型
+ * @returns {Promise} JSON 字符串，返回数据字典的值
  */
-declare const shareShareEntry: (type: ShareType, url: string, title: string, desc: string, callback: string) => void;
-declare const findDictTable: (type: string) => Promise<string>;
+declare function findDictTable(type: string): Promise<string>;
+/**
+ * 用于接收来自 native 的通知，当 native 环境准备好之后，会调用此方法
+ */
 declare function onReady(): void;
+/**
+ * 用于接收来自 native 的通知，当 native 返回结果时，回调此方法
+ */
 declare function onDataResult(eventType: string, eventData: string): void;
+/**
+ * 用于接收来自 native 的通知，暂时没用
+ */
 declare function notifyCommandFromNative(): void;
 declare const install: (Vue: any, options: any) => void;
 declare enum OS {
     IOS = "ios",
     ANDROID = "android"
 }
-export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, SearchResult, MenuOption, PosterDetail, MenuPosition, CloseType, ShareType, SignType, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, getBank, caSign, getJob, getCustomer, closeWebview, goNativeHome, takeUserImageMultiple, callCameraMultiple, showShare, wechatShare, showShareBtn, showShareArr, showRiskArr, clearRiskArr, showPosterDetail, sendSms, shareShareEntry, findDictTable, onReady, onDataResult, notifyCommandFromNative, };
+export { Browser as BROWSER, iOS as IOS, Android as ANDROID, OS, install, mount, SearchResult, MenuOption, PosterDetail, MenuPosition, CloseType, ShareType, SignType, gobackbtn, openSearch, toggleSearch, SetH5Header, leftMenu, toggleMenu, rightMenu, articleDetail, viewPdf, startAudioRec, callCamera, tailorCamera, callAddress, idCardScan, getBank, caSign, getJob, getCustomer, closeWebview, goNativeHome, takeUserImageMultiple, callCameraMultiple, showShare, wechatShare, showShareBtn, showShareArr, showRiskArr, clearRiskArr, showPosterDetail, sendSms, findDictTable, onReady, onDataResult, notifyCommandFromNative, };
