@@ -76,13 +76,38 @@ SetH5Header(title: string): void
 
 
 
-#### 设置标题栏左侧按钮
+#### 设置标题栏左按钮
 ```typescript
 leftMenu(option: MenuOption): void
 ```
 * `option` - 按钮选项
 * `MenuOption` - `javascript` - 全局方法名称
 * `MenuOption` - `title` - 按钮文字
+
+
+
+#### 设置标题栏右按钮
+```typescript
+rightMenu(option: MenuExOption): void
+```
+ * `option` - 按钮选项
+ * `MenuExOption`.`title` - 按钮文字
+ * `MenuExOption`.`javascript` - 回调方法的名称
+ * `MenuExOption`.`type` -
+ * `MenuExOption`.`url` -
+ * `MenuExOption`.`params` -
+
+ 
+
+#### 控制标题栏上按钮的显示
+```typescript
+ toggleMenu(option: MenuPosition, show: boolean): void
+```
+* `option` - 指定要操作的按钮
+* `MenuPosition`.`LEFT` - 左按钮
+* `MenuPosition`.`RIGHT` - 右按钮
+* `MenuPosition`.`BOTH` - 两侧按钮
+* `show` - 指定显示或者隐藏，为 `true` 显示，为 `false` 隐藏
 
 
 
@@ -131,6 +156,28 @@ showShare(type: ShareType, url: string, imageUrl: string, title: string, desc: s
 * `desc` - 可选，分享内容的描述文字，只有分享到好友才会显示，分享到朋友圈不显示
 * `callback` - 可选，分享完成时的回调函数名，要求为全局函数，入参表明用户是否成功完成分享操作
 * `Promise<string>` - 返回 JSON 字符串，标识用户分享结果，即：分享成功、分享失败、用户取消
+
+
+
+### 三、PDF 文件
+#### 查看 PDF 文件
+```typescript
+articleDetail(url: string, title: string, btnTxt: string): void
+```
+* `url` - PDF 文件的 URL 地址
+* `title` - 阅读窗体的标题文字
+* `btnTxt` - 按钮文字
+
+
+
+####  查看 PDF 文件 (有返回值)
+```typescript
+viewPdf(url: string, title: string, btnTxt: string): Promise<string>
+```
+* `url` - PDF 文件的 URL 地址
+* `title` - 阅读窗体的标题文字
+* `btnTxt` - 按钮文字
+* 返回 JSON 字符串，标识文章的已读信息
 
 
 
