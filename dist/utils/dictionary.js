@@ -38,8 +38,10 @@ function setDictionary(type) {
         if (window.findDictTable) {
             window.findDictTable(type).then(function (json) {
                 var dict = JSON.parse(json);
-                dictionary[dict.name] = dict.item ? KVtoNV(dict.item) : [];
-                resolve(dict);
+                if (dict.name && dict.item) {
+                    dictionary[dict.name] = dict.item ? KVtoNV(dict.item) : [];
+                    resolve(dict);
+                }
             });
         } else {
             reject('Cannot find function: window.findDictTable()');
@@ -56,7 +58,9 @@ function setAllDictionary() {
         types.map(function (type) {
             window.findDictTable(type).then(function (json) {
                 var dict = JSON.parse(json);
-                dictionary[dict.name] = KVtoNV(dict.item);
+                if (dict.name && dict.item) {
+                    dictionary[dict.name] = KVtoNV(dict.item);
+                }
             });
         });
     }
