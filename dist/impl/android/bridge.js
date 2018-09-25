@@ -211,7 +211,7 @@ var IOSBridge = function () {
     }, {
         key: 'toggleMenu',
         value: function toggleMenu(position, show) {
-            call('showActionBarPanel', [(0, _stringify2.default)({ type: position.toString(), show: show })]);
+            call('showActionBarPanel', [position, show]);
         }
     }, {
         key: 'rightMenu',

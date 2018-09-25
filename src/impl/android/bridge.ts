@@ -96,7 +96,7 @@ export default class IOSBridge implements Bridge {
   }
 
   toggleMenu(position: MenuPosition, show: boolean): void {
-    call<any>('showActionBarPanel', [JSON.stringify({ type: position.toString(), show})]);
+    call<any>('showActionBarPanel', [position, show]);
   }
 
   rightMenu(option: MenuExOption): void {
