@@ -123,8 +123,8 @@ export default class IOSBridge implements Bridge {
     return call<any>('popUpAddressChooseView', [], 'address', false);
   }
 
-  idCardScan(): Promise<string> {
-    return call<any>('requestScanCertificateCard', [], 'idCard', false);
+  idCardScan(isOCR: boolean = false): Promise<string> {
+    return call<any>('requestScanCertificateCard', [isOCR], 'idCard', false);
   }
 
   getBank(): Promise<string> {

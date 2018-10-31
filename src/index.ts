@@ -223,8 +223,8 @@ function callAddress(): Promise<string> {
  * 打开身份证扫描弹窗，可以获取姓名、证件号码等信息
  * @returns {Promise} JSON 字符串，返回身份证上的所有文字信息
  */
-function idCardScan(): Promise<string> {
-  return instance.idCardScan();
+function idCardScan(isOCR: boolean): Promise<string> {
+  return instance.idCardScan(isOCR);
 }
 
 /**

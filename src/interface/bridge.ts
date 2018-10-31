@@ -79,7 +79,7 @@ export interface Bridge {
   callCamera(): Promise<string>,
   tailorCamera(isCut: boolean, width: number, height: number): Promise<string>,
   callAddress(): Promise<string>,
-  idCardScan(): Promise<string>,
+  idCardScan(isOCR: boolean): Promise<string>,
   getBank(): Promise<string>
   caSign(name: string, type: SignType, serialized: string): Promise<string>,
   getJob(): Promise<string>,

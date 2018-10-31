@@ -250,7 +250,9 @@ var IOSBridge = function () {
     }, {
         key: 'idCardScan',
         value: function idCardScan() {
-            return call('requestScanCertificateCard', [], 'idCard', false);
+            var isOCR = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+            return call('requestScanCertificateCard', [isOCR], 'idCard', false);
         }
     }, {
         key: 'getBank',

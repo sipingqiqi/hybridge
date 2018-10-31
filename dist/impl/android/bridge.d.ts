@@ -10,7 +10,7 @@ export default class IOSBridge implements Bridge {
     viewPdf(url: string, title?: string, buttonTitle?: string): Promise<string>;
     startAudioRec(show: boolean): Promise<string>;
     callAddress(): Promise<string>;
-    idCardScan(): Promise<string>;
+    idCardScan(isOCR?: boolean): Promise<string>;
     getBank(): Promise<string>;
     caSign(name: string, type: SignType, serialized: string): Promise<string>;
     getJob(): Promise<string>;

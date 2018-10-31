@@ -104,7 +104,7 @@ declare function callAddress(): Promise<string>;
  * 打开身份证扫描弹窗，可以获取姓名、证件号码等信息
  * @returns {Promise} JSON 字符串，返回身份证上的所有文字信息
  */
-declare function idCardScan(): Promise<string>;
+declare function idCardScan(isOCR: boolean): Promise<string>;
 /**
  * 打开银行卡扫描弹窗，可以获得银行名称、卡号、卡片种类等信息
  * @returns {Promise} JSON 字符串，返回银行卡面上的所有文字信息
