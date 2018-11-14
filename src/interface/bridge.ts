@@ -23,6 +23,11 @@ export interface MenuExOption {
   params: any,
 }
 
+export interface IdCardScanOption {
+  isOCR: boolean,
+  isHideMessage: boolean
+}
+
 /**
 * 海报详情
 */
@@ -79,7 +84,7 @@ export interface Bridge {
   callCamera(): Promise<string>,
   tailorCamera(isCut: boolean, width: number, height: number): Promise<string>,
   callAddress(): Promise<string>,
-  idCardScan(isOCR: boolean): Promise<string>,
+  idCardScan(option: IdCardScanOption): Promise<string>,
   getBank(): Promise<string>
   caSign(name: string, type: SignType, serialized: string): Promise<string>,
   getJob(): Promise<string>,

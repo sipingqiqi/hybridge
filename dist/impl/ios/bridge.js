@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
 var _typeof3 = _interopRequireDefault(_typeof2);
@@ -243,10 +247,12 @@ var IOSBridge = function () {
         }
     }, {
         key: 'idCardScan',
-        value: function idCardScan() {
-            var isOCR = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-            return call('requestScanCertificateCard', isOCR, 'idCard', false);
+        value: function idCardScan(option) {
+            var obj = (0, _assign2.default)({ isOCR: false, isHideMessage: false }, option);
+            return call('requestScanCertificateCard', (0, _stringify2.default)({
+                isOCR: obj.isOCR,
+                hiddenMessage: obj.isHideMessage
+            }), 'idCard', false);
         }
     }, {
         key: 'getBank',

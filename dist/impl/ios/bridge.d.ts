@@ -1,4 +1,4 @@
-import { Bridge, SearchResult, MenuOption, MenuExOption, MenuPosition, CloseType, ShareType, PosterDetail, SignType } from '../../interface/bridge';
+import { Bridge, SearchResult, MenuOption, MenuExOption, MenuPosition, CloseType, ShareType, PosterDetail, SignType, IdCardScanOption } from '../../interface/bridge';
 export default class IOSBridge implements Bridge {
     openSearch(type: string, hint: string, message: string): SearchResult;
     toggleSearch(isHide: boolean): void;
@@ -10,7 +10,7 @@ export default class IOSBridge implements Bridge {
     viewPdf(url: string, title?: string, buttonTitle?: string): Promise<string>;
     startAudioRec(show: boolean): Promise<string>;
     callAddress(): Promise<string>;
-    idCardScan(isOCR?: boolean): Promise<string>;
+    idCardScan(option: IdCardScanOption): Promise<string>;
     getBank(): Promise<string>;
     caSign(name: string, type: SignType, serialized: string): Promise<string>;
     getJob(): Promise<string>;

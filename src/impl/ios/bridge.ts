@@ -1,5 +1,19 @@
-import { Bridge, SearchResult, MenuOption, MenuExOption, MenuPosition, CloseType, ShareType, PosterDetail, SignType } from '../../interface/bridge';
-import { data } from '../../data/data';
+import { 
+  Bridge, 
+  SearchResult, 
+  MenuOption, 
+  MenuExOption, 
+  MenuPosition, 
+  CloseType, 
+  ShareType, 
+  PosterDetail, 
+  SignType,
+  IdCardScanOption
+} from '../../interface/bridge';
+
+import { 
+  data 
+} from '../../data/data';
 
 const sleep = 100;
 
@@ -125,8 +139,12 @@ export default class IOSBridge implements Bridge {
     return call<any>('popUpAddressChooseView', '', 'address', false);
   }
 
-  idCardScan(isOCR: boolean = false): Promise<string> {
-    return call<any>('requestScanCertificateCard', isOCR, 'idCard', false);
+  idCardScan(option: IdCardScanOption): Promise<string> {
+    const obj = Object.assign({ isOCR: false, isHideMessage: false }, option);
+    return call<any>('requestScanCertificateCard', JSON.stringify({
+      isOCR: obj.isOCR,
+      hiddenMessage: obj.isHideMessage
+    }), 'idCard', false);
   }
 
   getBank(): Promise<string> {

@@ -8,6 +8,7 @@ import {
   ShareType,
   Bridge,
   SignType,
+  IdCardScanOption,
 } from './interface/bridge';
 
 import Browser from './impl/browser/bridge';
@@ -223,8 +224,8 @@ function callAddress(): Promise<string> {
  * 打开身份证扫描弹窗，可以获取姓名、证件号码等信息
  * @returns {Promise} JSON 字符串，返回身份证上的所有文字信息
  */
-function idCardScan(isOCR: boolean): Promise<string> {
-  return instance.idCardScan(isOCR);
+function idCardScan(option: IdCardScanOption): Promise<string> {
+  return instance.idCardScan(option);
 }
 
 /**
