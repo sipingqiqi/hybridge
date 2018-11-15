@@ -43,7 +43,9 @@ async function ready(): Promise<string> {
 }
 
 async function execute<T>(method: string, params: Array<any>, name: string, noReturned: boolean): Promise<T> {
-  console.log(`HyBridge Execute: ${method}, ${params}, ${name}, ${noReturned}`);
+  console.log(`HyBridge Executed: window.HQAppJSInterface['${method}'](${JSON.stringify(params)})`);
+  noReturned ? console.log(`HyBridge Callback: ${name}`) : console.log(`HyBridge Callback: none`);
+
   return new Promise<T>(resolve => {
     if (noReturned) {
       if (window.HQAppJSInterface && window.HQAppJSInterface[method]) {
@@ -72,7 +74,6 @@ async function execute<T>(method: string, params: Array<any>, name: string, noRe
 }
 
 async function call<T>(method: string, params: Array<any>, name: string = '', noReturned: boolean = true): Promise<T> {
-  console.log(`HyBridge Call: ${method}, ${params}, ${name}, ${noReturned}`);
   await ready();
   return await execute<T>(method, params, name, noReturned);
 }
@@ -125,10 +126,7 @@ export default class IOSBridge implements Bridge {
 
   idCardScan(option: IdCardScanOption): Promise<string> {
     const obj = Object.assign({ isOCR: false, isHideMessage: false }, option);
-    return call<any>('requestScanCertificateCard', [JSON.stringify({
-      isOCR: obj.isOCR,
-      hiddenMessage: obj.isHideMessage
-    })], 'idCard', false);
+    return call<any>('requestScanCertificateCard', [ obj.isOCR, obj.isHideMessage ], 'idCard', false);
   }
 
   getBank(): Promise<string> {

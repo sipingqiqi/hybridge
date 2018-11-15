@@ -12,10 +12,6 @@ var _typeof2 = require('babel-runtime/helpers/typeof');
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -27,6 +23,10 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -121,7 +121,8 @@ function execute(method, params, name, noReturned) {
             while (1) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
-                        console.log('HyBridge Execute: ' + method + ', ' + params + ', ' + name + ', ' + noReturned);
+                        console.log('HyBridge Executed: window.HQAppJSInterface[\'' + method + '\'](' + (0, _stringify2.default)(params) + ')');
+                        noReturned ? console.log('HyBridge Callback: ' + name) : console.log('HyBridge Callback: none');
                         return _context2.abrupt('return', new _promise2.default(function (resolve) {
                             if (noReturned) {
                                 if (window.HQAppJSInterface && window.HQAppJSInterface[method]) {
@@ -149,7 +150,7 @@ function execute(method, params, name, noReturned) {
                             }, sleep);
                         }));
 
-                    case 2:
+                    case 3:
                     case 'end':
                         return _context2.stop();
                 }
@@ -166,18 +167,17 @@ function call(method, params) {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
-                        console.log('HyBridge Call: ' + method + ', ' + params + ', ' + name + ', ' + noReturned);
-                        _context3.next = 3;
+                        _context3.next = 2;
                         return ready();
 
-                    case 3:
-                        _context3.next = 5;
+                    case 2:
+                        _context3.next = 4;
                         return execute(method, params, name, noReturned);
 
-                    case 5:
+                    case 4:
                         return _context3.abrupt('return', _context3.sent);
 
-                    case 6:
+                    case 5:
                     case 'end':
                         return _context3.stop();
                 }
@@ -255,10 +255,7 @@ var IOSBridge = function () {
         key: 'idCardScan',
         value: function idCardScan(option) {
             var obj = (0, _assign2.default)({ isOCR: false, isHideMessage: false }, option);
-            return call('requestScanCertificateCard', [(0, _stringify2.default)({
-                isOCR: obj.isOCR,
-                hiddenMessage: obj.isHideMessage
-            })], 'idCard', false);
+            return call('requestScanCertificateCard', [obj.isOCR, obj.isHideMessage], 'idCard', false);
         }
     }, {
         key: 'getBank',

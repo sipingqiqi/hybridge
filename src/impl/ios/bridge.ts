@@ -57,7 +57,9 @@ async function ready(): Promise<string> {
 }
 
 async function execute<T>(method: string, params: string | number | boolean, name: string, noReturned: boolean): Promise<T> {
-  console.log(`HyBridge Execute: ${method}, ${params}, ${name}, ${noReturned}`);
+  console.log(`HyBridge Execute: ${method}, ${params}`);
+  noReturned ? console.log(`Hybridge Callback: ${name}`) : console.log('Hybridge Callback: none');
+
   return new Promise<T>(resolve => {
     if (noReturned) {
       if (window.webkit && window.webkit.messageHandlers) {
@@ -88,7 +90,6 @@ async function execute<T>(method: string, params: string | number | boolean, nam
 }
 
 async function call<T>(method: string, params: string | number | boolean, name: string = '', noReturned: boolean = true): Promise<T> {
-  console.log(`HyBridge Call: ${method}, ${params}, ${name}, ${noReturned}`);
   await ready();
   return await execute<T>(method, params, name, noReturned);
 }

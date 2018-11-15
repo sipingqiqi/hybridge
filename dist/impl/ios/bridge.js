@@ -117,7 +117,8 @@ function execute(method, params, name, noReturned) {
             while (1) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
-                        console.log('HyBridge Execute: ' + method + ', ' + params + ', ' + name + ', ' + noReturned);
+                        console.log('HyBridge Execute: ' + method + ', ' + params);
+                        noReturned ? console.log('Hybridge Callback: ' + name) : console.log('Hybridge Callback: none');
                         return _context2.abrupt('return', new _promise2.default(function (resolve) {
                             if (noReturned) {
                                 if (window.webkit && window.webkit.messageHandlers) {
@@ -143,7 +144,7 @@ function execute(method, params, name, noReturned) {
                             }, sleep);
                         }));
 
-                    case 2:
+                    case 3:
                     case 'end':
                         return _context2.stop();
                 }
@@ -160,18 +161,17 @@ function call(method, params) {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
-                        console.log('HyBridge Call: ' + method + ', ' + params + ', ' + name + ', ' + noReturned);
-                        _context3.next = 3;
+                        _context3.next = 2;
                         return ready();
 
-                    case 3:
-                        _context3.next = 5;
+                    case 2:
+                        _context3.next = 4;
                         return execute(method, params, name, noReturned);
 
-                    case 5:
+                    case 4:
                         return _context3.abrupt('return', _context3.sent);
 
-                    case 6:
+                    case 5:
                     case 'end':
                         return _context3.stop();
                 }
