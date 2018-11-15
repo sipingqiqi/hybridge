@@ -118,7 +118,7 @@ function execute(method, params, name, noReturned) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
                         console.log('HyBridge Execute: ' + method + ', ' + params);
-                        noReturned ? console.log('Hybridge Callback: ' + name) : console.log('Hybridge Callback: none');
+                        noReturned ? console.log('Hybridge Callback: none') : console.log('Hybridge Callback: ' + name);
                         return _context2.abrupt('return', new _promise2.default(function (resolve) {
                             if (noReturned) {
                                 if (window.webkit && window.webkit.messageHandlers) {

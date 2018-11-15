@@ -44,7 +44,7 @@ async function ready(): Promise<string> {
 
 async function execute<T>(method: string, params: Array<any>, name: string, noReturned: boolean): Promise<T> {
   console.log(`HyBridge Executed: window.HQAppJSInterface['${method}'](${JSON.stringify(params)})`);
-  noReturned ? console.log(`HyBridge Callback: ${name}`) : console.log(`HyBridge Callback: none`);
+  noReturned ? console.log(`HyBridge Callback: none`) : console.log(`HyBridge Callback: ${name}`);
 
   return new Promise<T>(resolve => {
     if (noReturned) {

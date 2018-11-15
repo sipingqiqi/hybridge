@@ -58,7 +58,7 @@ async function ready(): Promise<string> {
 
 async function execute<T>(method: string, params: string | number | boolean, name: string, noReturned: boolean): Promise<T> {
   console.log(`HyBridge Execute: ${method}, ${params}`);
-  noReturned ? console.log(`Hybridge Callback: ${name}`) : console.log('Hybridge Callback: none');
+  noReturned ? console.log('Hybridge Callback: none') : console.log(`Hybridge Callback: ${name}`);
 
   return new Promise<T>(resolve => {
     if (noReturned) {

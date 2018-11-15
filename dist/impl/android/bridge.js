@@ -122,7 +122,7 @@ function execute(method, params, name, noReturned) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
                         console.log('HyBridge Executed: window.HQAppJSInterface[\'' + method + '\'](' + (0, _stringify2.default)(params) + ')');
-                        noReturned ? console.log('HyBridge Callback: ' + name) : console.log('HyBridge Callback: none');
+                        noReturned ? console.log('HyBridge Callback: none') : console.log('HyBridge Callback: ' + name);
                         return _context2.abrupt('return', new _promise2.default(function (resolve) {
                             if (noReturned) {
                                 if (window.HQAppJSInterface && window.HQAppJSInterface[method]) {
