@@ -64,6 +64,7 @@ var __awaiter = undefined && undefined.__awaiter || function (thisArg, _argument
 };
 
 var sleep = 100;
+var tid = 0;
 var events = {
     'takeUserImage': 'camera',
     'popUpAddressChooseView': 'address',
@@ -128,7 +129,9 @@ function execute(method, params, name, noReturned) {
                                 resolve(null);
                                 return;
                             }
-                            var tid = 0;
+                            // 若有上一次未返回结果的情况，则清除等待状态
+                            tid && clearInterval(tid);
+                            tid = 0;
                             var d = _data.data.status[name];
                             d.value = '';
                             d.status = false;
