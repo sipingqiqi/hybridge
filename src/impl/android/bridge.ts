@@ -3,6 +3,8 @@ import { data } from '../../data/data';
 
 const sleep = 100;
 
+let tid = 0;
+
 const events = {
   'takeUserImage': 'camera',
   'popUpAddressChooseView': 'address',
@@ -55,7 +57,10 @@ async function execute<T>(method: string, params: Array<any>, name: string, noRe
       return;
     }
 
-    let tid = 0;
+    // 若有上一次未返回结果的情况，则清除等待状态
+    tid && clearInterval(tid);
+    tid = 0;
+
     const d = data.status[name];
     d.value = '';
     d.status = false;
